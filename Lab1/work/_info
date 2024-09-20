@@ -1,0 +1,117 @@
+m255
+K4
+z2
+Z0 !s12c _opt
+Z1 !s99 nomlopt
+R0
+R1
+R0
+R1
+R0
+R1
+!s11e vcom 2023.3 2023.07, Jul 17 2023
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z2 d/home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0
+T_opt
+!s110 1726510806
+VemaZL@e@VQLGzQ279O06E1
+04 14 10 work bit_counter_tb behavioral 1
+=1-000ae431a4f1-66e876d6-945f6-1926
+R1
+!s12b OEM100
+!s124 OEM10U2 
+o-quiet -auto_acc_if_foreign -work work +acc
+tCvgOpt 0
+n@_opt
+OL;O;2023.3;77
+Ebit_counter
+Z3 w1726276573
+Z4 DPx4 ieee 11 numeric_std 0 22 F8@]:i<mFK7<TjIzKcTGi0
+Z5 DPx3 std 6 textio 0 22 LS[?81n5ZHWBI9JkBZTV<2
+Z6 DPx4 ieee 14 std_logic_1164 0 22 6<US`=mgl_dFdCEFF7J=m1
+!i122 6
+R2
+Z7 8/home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0/bit_counter.vhd
+Z8 F/home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0/bit_counter.vhd
+l0
+L5 1
+Vc=8n4J^JAXl4[P[_nin[Y3
+!s100 ^8P:X`22Mk@IIzI5jlFQ^0
+Z9 OL;C;2023.3;77
+32
+Z10 !s110 1726510796
+!i10b 1
+Z11 !s108 1726510796.000000
+Z12 !s90 -reportprogress|300|-work|work|/home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0/bit_counter.vhd|
+Z13 !s107 /home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0/bit_counter.vhd|
+!i113 0
+Z14 o-work work
+Z15 tExplicit 1 CvgOpt 0
+Abehavioral
+R4
+R5
+R6
+DEx4 work 11 bit_counter 0 22 c=8n4J^JAXl4[P[_nin[Y3
+!i122 6
+l22
+L17 25
+VeS@a[aAY[?[BKRoof45fk0
+!s100 njRdgkIChRH_`H9h]mF341
+R9
+32
+R10
+!i10b 1
+R11
+R12
+R13
+!i113 0
+R14
+R15
+Ebit_counter_tb
+Z16 w1726510786
+R4
+R5
+R6
+!i122 7
+R2
+Z17 8/home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0/bit_counter_TB.vhd
+Z18 F/home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0/bit_counter_TB.vhd
+l0
+L5 1
+VVQ27X?Fk>M]TYBFFmO9=`3
+!s100 a10L;lF<EjaYK_]MOn[2W0
+R9
+32
+R10
+!i10b 1
+R11
+Z19 !s90 -reportprogress|300|-work|work|/home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0/bit_counter_TB.vhd|
+Z20 !s107 /home/ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Lab0/bit_counter_TB.vhd|
+!i113 0
+R14
+R15
+Abehavioral
+R4
+R5
+R6
+DEx4 work 14 bit_counter_tb 0 22 VQ27X?Fk>M]TYBFFmO9=`3
+!i122 7
+l28
+L8 57
+V6TgScNX2S@i_cn<VU`o@i1
+!s100 NF8Y:4eF:hcfki=l6@ljo1
+R9
+32
+R10
+!i10b 1
+R11
+R19
+R20
+!i113 0
+R14
+R15
