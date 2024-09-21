@@ -23,8 +23,7 @@ architecture behavioral of stopwatch_TB is
 			HEX2: out std_logic_vector(7 downto 0);
 			HEX3: out std_logic_vector(7 downto 0);
 			HEX4: out std_logic_vector(7 downto 0);
-			HEX5: out std_logic_vector(7 downto 0);
-			HEX6: out std_logic_vector(7 downto 0)
+			HEX5: out std_logic_vector(7 downto 0)
 		);
 	end component;
 
@@ -36,7 +35,6 @@ architecture behavioral of stopwatch_TB is
 	signal HEX3 : std_logic_vector(7 downto 0);
 	signal HEX4 : std_logic_vector(7 downto 0);
 	signal HEX5 : std_logic_vector(7 downto 0);
-	signal HEX6 : std_logic_vector(7 downto 0);
 
 	constant CLK_PERIOD : time := 10 ns;
 	
@@ -49,12 +47,11 @@ begin
 			ADC_CLK_10 => ADC_CLK_10,
 			KEY => KEY,
 			HEX0 => HEX0,
-			HEX1 => HEX0,
-			HEX2 => HEX0,
-			HEX3 => HEX0,
-			HEX4 => HEX0,
-			HEX5 => HEX0,
-			HEX6 => HEX0
+			HEX1 => HEX1,
+			HEX2 => HEX2,
+			HEX3 => HEX3,
+			HEX4 => HEX4,
+			HEX5 => HEX5
 
 		);
 
