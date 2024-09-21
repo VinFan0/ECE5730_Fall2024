@@ -32,7 +32,6 @@ end entity stopwatch;
 architecture behavioral of stopwatch is
 
 	signal count : integer;
-	signal start : integer;
 
 begin
 
@@ -42,12 +41,12 @@ begin
 			count <= 0;
 			start <= 0;
 		elsif KEY(1) = '0' then -- Start pressed
-			start <= 1; -- RB you had this nested in another if KEY(1) = '1', which wouldn't do anything
-		elsif start = 1 and rising_edge(ADC_CLK_10) then -- If timing
-			if count < T then
-				count <= count + 1; -- Increment count
-			else 
-				count <= 0; -- Reset after reaching T value
+			if rising_edge(ADC_CLK_10) then
+				if count < T then
+					count <= count + 1; -- Increment count
+				else 
+					count <= 0; -- Reset after reaching T value
+				end if;
 			end if;
 		end if;
 	end process;
