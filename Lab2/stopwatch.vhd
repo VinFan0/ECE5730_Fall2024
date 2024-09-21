@@ -32,7 +32,6 @@ end entity stopwatch;
 architecture behavioral of stopwatch is
 
 	signal count : integer;
-	signal start : integer;
 
 	type 7SEG is array (0 to 9) of std_logic_vector(7 downto 0);
 	constant table : 7SEG := (X"C0", X"F9", X"A4", X"B0", X"99",  -- 0, 1, 2, 3, 4
@@ -47,12 +46,12 @@ begin
 			count <= 0;
 			start <= 0;
 		elsif KEY(1) = '0' then -- Start pressed
-			start <= 1; -- RB you had this nested in another if KEY(1) = '1', which wouldn't do anything
-		elsif start = 1 and rising_edge(ADC_CLK_10) then -- If timing
-			if count < T then
-				count <= count + 1; -- Increment count
-			else 
-				count <= 0; -- Reset after reaching T value
+			if rising_edge(ADC_CLK_10) then
+				if count < T then
+					count <= count + 1; -- Increment count
+				else 
+					count <= 0; -- Reset after reaching T value
+				end if;
 			end if;
 		end if;
 	end process;
