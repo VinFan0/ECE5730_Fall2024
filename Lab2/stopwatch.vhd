@@ -4,6 +4,10 @@ use ieee.numeric_std.all;
 
 entity stopwatch is
 	
+	generic(
+		T : integer := 100_000
+	);
+	
 	port (
 		-- CLK input
 		ADC_CLK_10 : in std_logic;		-- 10 MHz
@@ -25,6 +29,26 @@ end entity stopwatch5
 
 architecture behavioral of stopwatch is
 
+	signal count : integer;
+	signal start : integer;
+
 begin
+
+	process (ADC_CLK_10, KEY)
+	begin
+		if KEY(0) = '0' then
+			count <= 0;
+			start <= 0;
+		elsif KEY(1) = '0' then
+			if KEY(1) = '1' then
+				start <= 1;
+			end if;
+		elsif start = 1 && rising_edge(ADC_CLK_10) then
+			if count < T then
+				count <= count + 1;
+			else 
+				count <= 0;
+			end if;
+		end if;
 
 end architecture behavioral;
