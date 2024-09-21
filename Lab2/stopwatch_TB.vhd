@@ -39,7 +39,7 @@ architecture behavioral of stopwatch_TB is
 	signal HEX6 : std_logic_vector(7 downto 0);
 
 	constant CLK_PERIOD : time := 10 ns;
-
+	
 begin
 	uut : stopwatch
 		generic map (
@@ -55,6 +55,7 @@ begin
 			HEX4 => HEX0,
 			HEX5 => HEX0,
 			HEX6 => HEX0
+
 		);
 
 		clk_process : process
@@ -75,8 +76,6 @@ begin
 			KEY(0) <= '1';
 			wait for CLK_PERIOD * 5;
 			KEY(1) <= '0';			-- Toggle START
-			wait for CLK_PERIOD * 5;
-			KEY(1) <= '1';
 			wait;
 		end process;
 end architecture behavioral;		
