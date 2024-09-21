@@ -34,6 +34,11 @@ architecture behavioral of stopwatch is
 	signal count : integer;
 	signal start : integer;
 
+	type 7SEG is array (0 to 9) of std_logic_vector(7 downto 0);
+	constant table : 7SEG := (X"C0", X"F9", X"A4", X"B0", X"99",  -- 0, 1, 2, 3, 4
+       				  X"92", X"82", X"F8", X"80", X"90"); -- 5, 6, 7, 8, 9
+	constant DEC : std_logic_vector (7 downto 0) := X"7F"				  
+
 begin
 
 	process (ADC_CLK_10, KEY)
