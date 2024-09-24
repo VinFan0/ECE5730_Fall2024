@@ -1,0 +1,390 @@
+Analysis & Synthesis report for Stopwatch
+Sun Sep 22 21:07:44 2024
+Quartus Prime Version 23.1std.0 Build 991 11/28/2023 SC Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. User-Specified and Inferred Latches
+  9. Registers Removed During Synthesis
+ 10. General Register Statistics
+ 11. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 12. Parameter Settings for User Entity Instance: Top-level Entity: |Stopwatch
+ 13. Post-Synthesis Netlist Statistics for Top Partition
+ 14. Elapsed Time Per Partition
+ 15. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2023  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+
+
+
++-------------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                        ;
++------------------------------------+------------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Sun Sep 22 21:07:44 2024          ;
+; Quartus Prime Version              ; 23.1std.0 Build 991 11/28/2023 SC Lite Edition ;
+; Revision Name                      ; Stopwatch                                      ;
+; Top-level Entity Name              ; stopwatch                                      ;
+; Family                             ; MAX 10                                         ;
+; Total logic elements               ; 356                                            ;
+;     Total combinational functions  ; 356                                            ;
+;     Dedicated logic registers      ; 225                                            ;
+; Total registers                    ; 225                                            ;
+; Total pins                         ; 51                                             ;
+; Total virtual pins                 ; 0                                              ;
+; Total memory bits                  ; 0                                              ;
+; Embedded Multiplier 9-bit elements ; 0                                              ;
+; Total PLLs                         ; 0                                              ;
+; UFM blocks                         ; 0                                              ;
+; ADC blocks                         ; 0                                              ;
++------------------------------------+------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                              ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                           ; Setting            ; Default Value      ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                           ; 10M50DAF484C7G     ;                    ;
+; Top-level entity name                                            ; Stopwatch          ; Stopwatch          ;
+; Family name                                                      ; MAX 10 FPGA        ; Cyclone V          ;
+; Use smart compilation                                            ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                      ; Off                ; Off                ;
+; Restructure Multiplexers                                         ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                              ; Off                ; Off                ;
+; Preserve fewer node names                                        ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                    ; Enable             ; Enable             ;
+; Verilog Version                                                  ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                     ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                         ; Auto               ; Auto               ;
+; Safe State Machine                                               ; Off                ; Off                ;
+; Extract Verilog State Machines                                   ; On                 ; On                 ;
+; Extract VHDL State Machines                                      ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                       ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                   ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                          ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                        ; On                 ; On                 ;
+; Parallel Synthesis                                               ; On                 ; On                 ;
+; DSP Block Balancing                                              ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                               ; On                 ; On                 ;
+; Power-Up Don't Care                                              ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                     ; Off                ; Off                ;
+; Remove Duplicate Registers                                       ; On                 ; On                 ;
+; Ignore CARRY Buffers                                             ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                           ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                            ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                        ; Off                ; Off                ;
+; Ignore LCELL Buffers                                             ; Off                ; Off                ;
+; Ignore SOFT Buffers                                              ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                   ; Off                ; Off                ;
+; Optimization Technique                                           ; Balanced           ; Balanced           ;
+; Carry Chain Length                                               ; 70                 ; 70                 ;
+; Auto Carry Chains                                                ; On                 ; On                 ;
+; Auto Open-Drain Pins                                             ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                            ; Off                ; Off                ;
+; Auto ROM Replacement                                             ; On                 ; On                 ;
+; Auto RAM Replacement                                             ; On                 ; On                 ;
+; Auto DSP Block Replacement                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                  ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                  ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                    ; On                 ; On                 ;
+; Strict RAM Replacement                                           ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                           ; Off                ; Off                ;
+; Auto RAM Block Balancing                                         ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                                ; Off                ; Off                ;
+; Auto Resource Sharing                                            ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                    ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing              ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                ; Off                ; Off                ;
+; Timing-Driven Synthesis                                          ; On                 ; On                 ;
+; Report Parameter Settings                                        ; On                 ; On                 ;
+; Report Source Assignments                                        ; On                 ; On                 ;
+; Report Connectivity Checks                                       ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                               ; Off                ; Off                ;
+; Synchronization Register Chain Length                            ; 2                  ; 2                  ;
+; Power Optimization During Synthesis                              ; Normal compilation ; Normal compilation ;
+; HDL message level                                                ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                  ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report         ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report               ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report        ; 100                ; 100                ;
+; Clock MUX Protection                                             ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                      ; Off                ; Off                ;
+; Block Design Naming                                              ; Auto               ; Auto               ;
+; SDC constraint protection                                        ; Off                ; Off                ;
+; Synthesis Effort                                                 ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                             ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                               ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                      ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                           ; On                 ; On                 ;
++------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 16          ;
+; Maximum allowed            ; 16          ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 16          ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-16        ;   0.0%      ;
++----------------------------+-------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                              ;
++----------------------------------+-----------------+-----------------------+------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type             ; File Name with Absolute Path                                                 ; Library ;
++----------------------------------+-----------------+-----------------------+------------------------------------------------------------------------------+---------+
+; stopwatch.vhd                    ; yes             ; Auto-Found VHDL File  ; C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd ;         ;
++----------------------------------+-----------------+-----------------------+------------------------------------------------------------------------------+---------+
+
+
++----------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                    ;
++---------------------------------------------+------------------+
+; Resource                                    ; Usage            ;
++---------------------------------------------+------------------+
+; Estimated Total logic elements              ; 356              ;
+;                                             ;                  ;
+; Total combinational functions               ; 356              ;
+; Logic element usage by number of LUT inputs ;                  ;
+;     -- 4 input functions                    ; 95               ;
+;     -- 3 input functions                    ; 25               ;
+;     -- <=2 input functions                  ; 236              ;
+;                                             ;                  ;
+; Logic elements by mode                      ;                  ;
+;     -- normal mode                          ; 139              ;
+;     -- arithmetic mode                      ; 217              ;
+;                                             ;                  ;
+; Total registers                             ; 225              ;
+;     -- Dedicated logic registers            ; 225              ;
+;     -- I/O registers                        ; 0                ;
+;                                             ;                  ;
+; I/O pins                                    ; 51               ;
+;                                             ;                  ;
+; Embedded Multiplier 9-bit elements          ; 0                ;
+;                                             ;                  ;
+; Maximum fan-out node                        ; ADC_CLK_10~input ;
+; Maximum fan-out                             ; 225              ;
+; Total fan-out                               ; 1945             ;
+; Average fan-out                             ; 2.85             ;
++---------------------------------------------+------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                ;
++----------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------+-------------+--------------+
+; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; UFM Blocks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; ADC blocks ; Full Hierarchy Name ; Entity Name ; Library Name ;
++----------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------+-------------+--------------+
+; |stopwatch                 ; 356 (356)           ; 225 (225)                 ; 0           ; 0          ; 0            ; 0       ; 0         ; 51   ; 0            ; 0          ; |stopwatch          ; stopwatch   ; work         ;
++----------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------+-------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++---------------------------------------------------------------------------------------------------+
+; User-Specified and Inferred Latches                                                               ;
++----------------------------------------------------+---------------------+------------------------+
+; Latch Name                                         ; Latch Enable Signal ; Free of Timing Hazards ;
++----------------------------------------------------+---------------------+------------------------+
+; rst[0]                                             ; GND                 ; yes                    ;
+; Number of user-specified and inferred latches = 1  ;                     ;                        ;
++----------------------------------------------------+---------------------+------------------------+
+Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
+
+
++---------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                              ;
++----------------------------------------+----------------------------------------+
+; Register name                          ; Reason for Removal                     ;
++----------------------------------------+----------------------------------------+
+; tick[1..31]                            ; Stuck at GND due to stuck port data_in ;
+; Total Number of Removed Registers = 31 ;                                        ;
++----------------------------------------+----------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 225   ;
+; Number of registers using Synchronous Clear  ; 224   ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 33    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 225   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |stopwatch|Hundredths[27]  ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |stopwatch|Tenths[31]      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |stopwatch|S_Ones[19]      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |stopwatch|S_Tens[7]       ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |stopwatch|M_Ones[4]       ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |stopwatch|M_Tens[31]      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: Top-level Entity: |Stopwatch ;
++----------------+--------+-------------------------------------------------+
+; Parameter Name ; Value  ; Type                                            ;
++----------------+--------+-------------------------------------------------+
+; T              ; 100000 ; Signed Integer                                  ;
++----------------+--------+-------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; boundary_port         ; 51                          ;
+; cycloneiii_ff         ; 225                         ;
+;     ENA CLR           ; 1                           ;
+;     ENA CLR SCLR      ; 32                          ;
+;     ENA SCLR          ; 192                         ;
+; cycloneiii_lcell_comb ; 364                         ;
+;     arith             ; 217                         ;
+;         2 data inputs ; 217                         ;
+;     normal            ; 147                         ;
+;         0 data inputs ; 2                           ;
+;         1 data inputs ; 13                          ;
+;         2 data inputs ; 12                          ;
+;         3 data inputs ; 25                          ;
+;         4 data inputs ; 95                          ;
+;                       ;                             ;
+; Max LUT depth         ; 5.00                        ;
+; Average LUT depth     ; 3.50                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:01     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 23.1std.0 Build 991 11/28/2023 SC Lite Edition
+    Info: Processing started: Sun Sep 22 21:07:24 2024
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Stopwatch -c Stopwatch
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
+Warning (12125): Using design file stopwatch.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
+    Info (12022): Found design unit 1: stopwatch-behavioral File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 31
+    Info (12023): Found entity 1: stopwatch File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 5
+Info (12127): Elaborating entity "Stopwatch" for the top level hierarchy
+Warning (10631): VHDL Process Statement warning at stopwatch.vhd(54): inferring latch(es) for signal or variable "rst", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Warning (10492): VHDL Process Statement warning at stopwatch.vhd(129): signal "Hundredths" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 129
+Warning (10492): VHDL Process Statement warning at stopwatch.vhd(130): signal "Tenths" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 130
+Warning (10492): VHDL Process Statement warning at stopwatch.vhd(131): signal "S_Ones" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 131
+Warning (10492): VHDL Process Statement warning at stopwatch.vhd(132): signal "S_Tens" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 132
+Warning (10492): VHDL Process Statement warning at stopwatch.vhd(133): signal "M_Ones" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 133
+Warning (10492): VHDL Process Statement warning at stopwatch.vhd(134): signal "M_Tens" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 134
+Info (10041): Inferred latch for "rst[0]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[1]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[2]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[3]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[4]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[5]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[6]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[7]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[8]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[9]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[10]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[11]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[12]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[13]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[14]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[15]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[16]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[17]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[18]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[19]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[20]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[21]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[22]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[23]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[24]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[25]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[26]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[27]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[28]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[29]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[30]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Info (10041): Inferred latch for "rst[31]" at stopwatch.vhd(54) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 54
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "HEX0[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 22
+    Warning (13410): Pin "HEX1[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 23
+    Warning (13410): Pin "HEX2[7]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 24
+    Warning (13410): Pin "HEX3[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 25
+    Warning (13410): Pin "HEX4[7]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 26
+    Warning (13410): Pin "HEX5[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 27
+Info (286030): Timing-Driven Synthesis is running
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 408 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 3 input pins
+    Info (21059): Implemented 48 output pins
+    Info (21061): Implemented 357 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 16 warnings
+    Info: Peak virtual memory: 4878 megabytes
+    Info: Processing ended: Sun Sep 22 21:07:44 2024
+    Info: Elapsed time: 00:00:20
+    Info: Total CPU time (on all processors): 00:00:12
+
+
