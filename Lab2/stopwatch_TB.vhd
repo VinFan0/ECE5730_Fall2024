@@ -73,6 +73,14 @@ begin
 			KEY(0) <= '1';
 			wait for CLK_PERIOD * 5;
 			KEY(1) <= '0';			-- Toggle START
+			wait for CLK_PERIOD * 10;
+			KEY(0) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(0) <= '1';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(0) <= '1';
 			wait;
 		end process;
 end architecture behavioral;		
