@@ -49,7 +49,7 @@ begin
 			-- Reset behavior --
 			HEX0 <= table(16#B#);
 			HEX1 <= table(8);
-		elsif KEY(1) = '1' then
+		elsif KEY(1) = '0' then
 			
 			-- Normal behavior --
 
