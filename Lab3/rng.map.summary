@@ -1,13 +1,13 @@
-Analysis & Synthesis Status : Successful - Sat Sep 28 22:13:42 2024
+Analysis & Synthesis Status : Successful - Sun Sep 29 00:07:57 2024
 Quartus Prime Version : 23.1std.0 Build 991 11/28/2023 SC Lite Edition
 Revision Name : rng
 Top-level Entity Name : rng
 Family : MAX 10
-Total logic elements : 25
-    Total combinational functions : 25
+Total logic elements : 0
+    Total combinational functions : 0
     Dedicated logic registers : 0
 Total registers : 0
-Total pins : 59
+Total pins : 51
 Total virtual pins : 0
 Total memory bits : 0
 Embedded Multiplier 9-bit elements : 0

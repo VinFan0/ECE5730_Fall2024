@@ -37,15 +37,15 @@ end entity rng;
 architecture behavioral of rng is
 
 	signal lfsr : STD_LOGIC_VECTOR(15 downto 0) := "1010010110001011";	-- LFSR defaults to A58B
-   	signal bit1  : STD_LOGIC;
+   signal bit1  : STD_LOGIC;
 	signal place1 : integer;
 	signal place2 : integer;
-	signal start : integer := 0;
+	signal ready : integer := 0;
 	
 	type SEVEN_SEG is array (0 to 15) of std_logic_vector(7 downto 0); -- Define new type for lookup table
 	constant table : SEVEN_SEG := (	
 					X"C0", X"F9", X"A4", X"B0",  -- 0, 1, 2, 3
-       					X"99", X"92", X"82", X"F8",  -- 4, 5, 6, 7
+       			X"99", X"92", X"82", X"F8",  -- 4, 5, 6, 7
 					X"80", X"90", X"88", X"83",  -- 8, 9, A, B
 					X"C6", X"A1", X"86", X"8E"); -- C, D, E, F
 
@@ -55,9 +55,9 @@ begin
 	begin
 		if KEY(0) = '0' then
 			-- Reset behavior --
-			ready <= '1';
+			ready <= 1;
 			place1 <= X"B";
-			place2 <= X"8";
+			place2 <= x"8";
 			HEX0 <= table(place1); 	--Display seed value
 			HEX1 <= table(place2); 	--Display seed value
 			lfsr <= seed; --lfsr equals seed value
@@ -66,10 +66,10 @@ begin
 			if ready = 1 then
 				HEX0 <= table(place1); -- update first digit display
 				HEX1 <= table(place2); -- upadate second digit display
-				ready <= '0';	
-			end if
+				ready <= 0;	
+			end if;
 		else
-			ready <= '1';
+			ready <= 1;
 		end if;
 		-- Update LFSR constantly to assist in randomness --
 
