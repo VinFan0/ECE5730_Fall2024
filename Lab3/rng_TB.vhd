@@ -8,7 +8,7 @@ end entity rng_TB;
 architecture behavioral of rng_TB is
 
 	-- Instantiate component(s) to test --
-	component rng is
+	component rng 
 		generic (
 			-- Provide generic values --
 			seed : std_logic_vector(15 downto 0) := X"A58B"
@@ -96,6 +96,20 @@ begin
 			KEY(0) <= '0';            -- Initial RESET --
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 2;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 3;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 2;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 3;
+			KEY(0) <= '0';
+			wait for CLK_PERIOD * 2;
+			KEY(0) <= '1';
+
+			wait;
 
 		end process; 
 
