@@ -40,6 +40,7 @@ architecture behavioral of rng is
 	signal place1 : integer;
 	signal place2 : integer;
 	signal ready : integer := 0;
+	signal start : integer := 1;
 	
 	type SEVEN_SEG is array (0 to 15) of std_logic_vector(7 downto 0); -- Define new type for lookup table
 	constant table : SEVEN_SEG := (	
@@ -66,6 +67,10 @@ begin
 					HEX1 <= table(place2); -- upadate second digit display
 					ready <= 0;	
 				end if;
+			elsif start = 1 then
+				HEX0 <= table(11); -- Display seed value 
+				HEX1 <= table(8);
+				start <= 0;
 			else
 				ready <= 1;
 			
