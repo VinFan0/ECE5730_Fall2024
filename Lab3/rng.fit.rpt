@@ -1,5 +1,5 @@
 Fitter report for rng
-Sat Sep 28 21:37:30 2024
+Sat Sep 28 22:13:55 2024
 Quartus Prime Version 23.1std.0 Build 991 11/28/2023 SC Lite Edition
 
 
@@ -67,7 +67,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------------+
 ; Fitter Summary                                                                      ;
 +------------------------------------+------------------------------------------------+
-; Fitter Status                      ; Successful - Sat Sep 28 21:37:30 2024          ;
+; Fitter Status                      ; Successful - Sat Sep 28 22:13:55 2024          ;
 ; Quartus Prime Version              ; 23.1std.0 Build 991 11/28/2023 SC Lite Edition ;
 ; Revision Name                      ; rng                                            ;
 ; Top-level Entity Name              ; rng                                            ;
@@ -156,7 +156,7 @@ https://fpgasoftware.intel.com/eula.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-16        ;   0.3%      ;
+;     Processors 2-16        ;   0.2%      ;
 +----------------------------+-------------+
 
 
@@ -1100,7 +1100,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +---------------------+-------------------+---------+
 ; ADK_CLK_10          ;                   ;         ;
 ; KEY[1]              ;                   ;         ;
-;      - bit1~1       ; 1                 ; 0       ;
+;      - start[10]~0  ; 1                 ; 0       ;
 ;      - lfsr[0]      ; 1                 ; 0       ;
 ;      - lfsr[1]      ; 1                 ; 0       ;
 ;      - lfsr[2]      ; 1                 ; 0       ;
@@ -1110,7 +1110,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ;      - lfsr[6]      ; 1                 ; 0       ;
 ;      - lfsr[7]      ; 1                 ; 0       ;
 ; KEY[0]              ;                   ;         ;
-;      - bit1~1       ; 0                 ; 6       ;
+;      - start[10]~0  ; 0                 ; 6       ;
 ;      - lfsr[0]      ; 0                 ; 6       ;
 ;      - lfsr[1]      ; 0                 ; 6       ;
 ;      - lfsr[2]      ; 0                 ; 6       ;
@@ -1122,14 +1122,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +---------------------+-------------------+---------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------+
-; Control Signals                                                                                                                     ;
-+--------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
-; Name   ; Location           ; Fan-Out ; Usage        ; Global ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
-+--------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
-; KEY[1] ; PIN_A7             ; 9       ; Latch enable ; no     ; --                   ; --               ; --                        ;
-; bit1~1 ; LCCOMB_X49_Y50_N24 ; 1       ; Latch enable ; no     ; --                   ; --               ; --                        ;
-+--------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------+
+; Control Signals                                                                                                                          ;
++-------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
+; Name        ; Location           ; Fan-Out ; Usage        ; Global ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
++-------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
+; KEY[1]      ; PIN_A7             ; 9       ; Latch enable ; no     ; --                   ; --               ; --                        ;
+; start[10]~0 ; LCCOMB_X49_Y50_N24 ; 1       ; Latch enable ; no     ; --                   ; --               ; --                        ;
++-------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
 
 
 +------------------------------------------------+
@@ -1506,7 +1506,7 @@ Info (170195): Router estimated average interconnect usage is 0% of the availabl
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
 Info (170194): Fitter routing operations ending: elapsed time is 00:00:01
-Info (11888): Total time spent on timing analysis during the Fitter is 0.37 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 0.53 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
@@ -1518,9 +1518,9 @@ Warning (169177): 2 pins must meet Intel FPGA requirements for 3.3-, 3.0-, and 2
     Info (169178): Pin KEY[0] uses I/O standard 3.3 V Schmitt Trigger at B8 File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 24
 Info (144001): Generated suppressed messages file C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 17 warnings
-    Info: Peak virtual memory: 6609 megabytes
-    Info: Processing ended: Sat Sep 28 21:37:31 2024
-    Info: Elapsed time: 00:00:09
+    Info: Peak virtual memory: 6601 megabytes
+    Info: Processing ended: Sat Sep 28 22:13:55 2024
+    Info: Elapsed time: 00:00:12
     Info: Total CPU time (on all processors): 00:00:10
 
 
