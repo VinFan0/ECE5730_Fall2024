@@ -15,7 +15,7 @@ entity MODULE_NAME is
 		-- NAME : DIRECTION TYPE (separated by ; ) --
 		
 		-- CLK input --
-		ADK_CLK_10	: in std_logic; -- 10 MHz
+		ADC_CLK_10	: in std_logic; -- 10 MHz
 		MAX10_CLK1_50 	: in std_logic; -- 50 MHz 1
 		MAX10_CLK2_50 	: in std_logic; -- 50 MHz 2
 
