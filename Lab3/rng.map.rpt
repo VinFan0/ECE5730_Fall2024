@@ -1,5 +1,5 @@
 Analysis & Synthesis report for rng
-Sat Sep 28 21:29:32 2024
+Sat Sep 28 21:37:21 2024
 Quartus Prime Version 23.1std.0 Build 991 11/28/2023 SC Lite Edition
 
 
@@ -45,13 +45,13 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                        ;
 +------------------------------------+------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sat Sep 28 21:29:32 2024          ;
+; Analysis & Synthesis Status        ; Successful - Sat Sep 28 21:37:21 2024          ;
 ; Quartus Prime Version              ; 23.1std.0 Build 991 11/28/2023 SC Lite Edition ;
 ; Revision Name                      ; rng                                            ;
 ; Top-level Entity Name              ; rng                                            ;
 ; Family                             ; MAX 10                                         ;
-; Total logic elements               ; 48                                             ;
-;     Total combinational functions  ; 48                                             ;
+; Total logic elements               ; 25                                             ;
+;     Total combinational functions  ; 25                                             ;
 ;     Dedicated logic registers      ; 0                                              ;
 ; Total registers                    ; 0                                              ;
 ; Total pins                         ; 59                                             ;
@@ -176,36 +176,36 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------+-----------------+-----------------------+------------------------------------------------------------------------+---------+
 
 
-+---------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary             ;
-+---------------------------------------------+-----------+
-; Resource                                    ; Usage     ;
-+---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 48        ;
-;                                             ;           ;
-; Total combinational functions               ; 48        ;
-; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 23        ;
-;     -- 3 input functions                    ; 23        ;
-;     -- <=2 input functions                  ; 2         ;
-;                                             ;           ;
-; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 48        ;
-;     -- arithmetic mode                      ; 0         ;
-;                                             ;           ;
-; Total registers                             ; 0         ;
-;     -- Dedicated logic registers            ; 0         ;
-;     -- I/O registers                        ; 0         ;
-;                                             ;           ;
-; I/O pins                                    ; 59        ;
-;                                             ;           ;
-; Embedded Multiplier 9-bit elements          ; 0         ;
-;                                             ;           ;
-; Maximum fan-out node                        ; HEX0[7]~0 ;
-; Maximum fan-out                             ; 22        ;
-; Total fan-out                               ; 238       ;
-; Average fan-out                             ; 1.43      ;
-+---------------------------------------------+-----------+
++-------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary           ;
++---------------------------------------------+---------+
+; Resource                                    ; Usage   ;
++---------------------------------------------+---------+
+; Estimated Total logic elements              ; 25      ;
+;                                             ;         ;
+; Total combinational functions               ; 25      ;
+; Logic element usage by number of LUT inputs ;         ;
+;     -- 4 input functions                    ; 23      ;
+;     -- 3 input functions                    ; 1       ;
+;     -- <=2 input functions                  ; 1       ;
+;                                             ;         ;
+; Logic elements by mode                      ;         ;
+;     -- normal mode                          ; 25      ;
+;     -- arithmetic mode                      ; 0       ;
+;                                             ;         ;
+; Total registers                             ; 0       ;
+;     -- Dedicated logic registers            ; 0       ;
+;     -- I/O registers                        ; 0       ;
+;                                             ;         ;
+; I/O pins                                    ; 59      ;
+;                                             ;         ;
+; Embedded Multiplier 9-bit elements          ; 0       ;
+;                                             ;         ;
+; Maximum fan-out node                        ; lfsr[0] ;
+; Maximum fan-out                             ; 10      ;
+; Total fan-out                               ; 170     ;
+; Average fan-out                             ; 1.19    ;
++---------------------------------------------+---------+
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -213,49 +213,27 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------+-------------+--------------+
 ; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; UFM Blocks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; ADC blocks ; Full Hierarchy Name ; Entity Name ; Library Name ;
 +----------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------+-------------+--------------+
-; |rng                       ; 48 (48)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 59   ; 0            ; 0          ; |rng                ; rng         ; work         ;
+; |rng                       ; 25 (25)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 59   ; 0            ; 0          ; |rng                ; rng         ; work         ;
 +----------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------+-------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+----------------------------------------------------------------------------------------------------+
-; User-Specified and Inferred Latches                                                                ;
-+-----------------------------------------------------+---------------------+------------------------+
-; Latch Name                                          ; Latch Enable Signal ; Free of Timing Hazards ;
-+-----------------------------------------------------+---------------------+------------------------+
-; HEX0[0]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX0[1]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX0[2]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX0[3]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX0[4]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX0[5]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX0[6]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX1[0]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX1[1]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX1[2]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX1[3]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX1[4]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX1[5]$latch                                       ; HEX0[7]             ; yes                    ;
-; HEX1[6]$latch                                       ; HEX0[7]             ; yes                    ;
-; place1[0]                                           ; HEX0[7]             ; yes                    ;
-; place1[1]                                           ; HEX0[7]             ; yes                    ;
-; place1[2]                                           ; HEX0[7]             ; yes                    ;
-; place1[3]                                           ; HEX0[7]             ; yes                    ;
-; place2[0]                                           ; HEX0[7]             ; yes                    ;
-; place2[1]                                           ; HEX0[7]             ; yes                    ;
-; place2[2]                                           ; HEX0[7]             ; yes                    ;
-; place2[3]                                           ; HEX0[7]             ; yes                    ;
-; lfsr[0]                                             ; KEY[1]              ; yes                    ;
-; lfsr[1]                                             ; KEY[1]              ; yes                    ;
-; lfsr[2]                                             ; KEY[1]              ; yes                    ;
-; lfsr[3]                                             ; KEY[1]              ; yes                    ;
-; lfsr[4]                                             ; KEY[1]              ; yes                    ;
-; lfsr[5]                                             ; KEY[1]              ; yes                    ;
-; lfsr[6]                                             ; KEY[1]              ; yes                    ;
-; lfsr[7]                                             ; KEY[1]              ; yes                    ;
-; bit1                                                ; start[28]           ; yes                    ;
-; Number of user-specified and inferred latches = 31  ;                     ;                        ;
-+-----------------------------------------------------+---------------------+------------------------+
++---------------------------------------------------------------------------------------------------+
+; User-Specified and Inferred Latches                                                               ;
++----------------------------------------------------+---------------------+------------------------+
+; Latch Name                                         ; Latch Enable Signal ; Free of Timing Hazards ;
++----------------------------------------------------+---------------------+------------------------+
+; lfsr[0]                                            ; KEY[1]              ; yes                    ;
+; lfsr[1]                                            ; KEY[1]              ; yes                    ;
+; lfsr[2]                                            ; KEY[1]              ; yes                    ;
+; lfsr[3]                                            ; KEY[1]              ; yes                    ;
+; lfsr[4]                                            ; KEY[1]              ; yes                    ;
+; lfsr[5]                                            ; KEY[1]              ; yes                    ;
+; lfsr[6]                                            ; KEY[1]              ; yes                    ;
+; lfsr[7]                                            ; KEY[1]              ; yes                    ;
+; bit1                                               ; bit1                ; yes                    ;
+; Number of user-specified and inferred latches = 9  ;                     ;                        ;
++----------------------------------------------------+---------------------+------------------------+
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
@@ -290,15 +268,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 59                          ;
-; cycloneiii_lcell_comb ; 50                          ;
-;     normal            ; 50                          ;
+; cycloneiii_lcell_comb ; 29                          ;
+;     normal            ; 29                          ;
 ;         0 data inputs ; 2                           ;
-;         2 data inputs ; 2                           ;
-;         3 data inputs ; 23                          ;
+;         1 data inputs ; 2                           ;
+;         2 data inputs ; 1                           ;
+;         3 data inputs ; 1                           ;
 ;         4 data inputs ; 23                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 2.00                        ;
-; Average LUT depth     ; 1.63                        ;
+; Average LUT depth     ; 1.38                        ;
 +-----------------------+-----------------------------+
 
 
@@ -317,7 +296,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.0 Build 991 11/28/2023 SC Lite Edition
-    Info: Processing started: Sat Sep 28 21:29:23 2024
+    Info: Processing started: Sat Sep 28 21:37:12 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off rng -c rng
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
@@ -326,11 +305,10 @@ Warning (12125): Using design file rng.vhd, which is not specified as a design f
     Info (12023): Found entity 1: rng File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 7
 Info (12127): Elaborating entity "rng" for the top level hierarchy
 Warning (10541): VHDL Signal Declaration warning at rng.vhd(33): used implicit default value for signal "HEX6" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 33
-Warning (10492): VHDL Process Statement warning at rng.vhd(55): signal "start" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 55
-Warning (10492): VHDL Process Statement warning at rng.vhd(58): signal "lfsr" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 58
-Warning (10492): VHDL Process Statement warning at rng.vhd(59): signal "lfsr" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 59
-Warning (10492): VHDL Process Statement warning at rng.vhd(60): signal "place1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 60
-Warning (10492): VHDL Process Statement warning at rng.vhd(61): signal "place2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 61
+Warning (10492): VHDL Process Statement warning at rng.vhd(55): signal "lfsr" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 55
+Warning (10492): VHDL Process Statement warning at rng.vhd(56): signal "lfsr" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 56
+Warning (10492): VHDL Process Statement warning at rng.vhd(57): signal "place1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 57
+Warning (10492): VHDL Process Statement warning at rng.vhd(58): signal "place2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 58
 Warning (10492): VHDL Process Statement warning at rng.vhd(64): signal "lfsr" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 64
 Warning (10492): VHDL Process Statement warning at rng.vhd(65): signal "lfsr" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 65
 Warning (10492): VHDL Process Statement warning at rng.vhd(65): signal "bit1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 65
@@ -339,69 +317,8 @@ Warning (10492): VHDL Process Statement warning at rng.vhd(67): signal "lfsr" is
 Warning (10492): VHDL Process Statement warning at rng.vhd(68): signal "place1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 68
 Warning (10492): VHDL Process Statement warning at rng.vhd(69): signal "place2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 69
 Warning (10631): VHDL Process Statement warning at rng.vhd(53): inferring latch(es) for signal or variable "lfsr", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Warning (10631): VHDL Process Statement warning at rng.vhd(53): inferring latch(es) for signal or variable "place1", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Warning (10631): VHDL Process Statement warning at rng.vhd(53): inferring latch(es) for signal or variable "place2", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Warning (10631): VHDL Process Statement warning at rng.vhd(53): inferring latch(es) for signal or variable "HEX0", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Warning (10631): VHDL Process Statement warning at rng.vhd(53): inferring latch(es) for signal or variable "HEX1", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Warning (10631): VHDL Process Statement warning at rng.vhd(53): inferring latch(es) for signal or variable "start", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
 Warning (10631): VHDL Process Statement warning at rng.vhd(53): inferring latch(es) for signal or variable "bit1", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
 Info (10041): Inferred latch for "bit1" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[0]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[1]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[2]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[3]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[4]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[5]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[6]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[7]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[8]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[9]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[10]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[11]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[12]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[13]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[14]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[15]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[16]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[17]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[18]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[19]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[20]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[21]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[22]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[23]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[24]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[25]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[26]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[27]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[28]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[29]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[30]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "start[31]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX1[0]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX1[1]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX1[2]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX1[3]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX1[4]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX1[5]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX1[6]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX1[7]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX0[0]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX0[1]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX0[2]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX0[3]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX0[4]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX0[5]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX0[6]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "HEX0[7]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "place2[0]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "place2[1]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "place2[2]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "place2[3]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "place1[0]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "place1[1]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "place1[2]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-Info (10041): Inferred latch for "place1[3]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
 Info (10041): Inferred latch for "lfsr[0]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
 Info (10041): Inferred latch for "lfsr[1]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
 Info (10041): Inferred latch for "lfsr[2]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
@@ -411,8 +328,8 @@ Info (10041): Inferred latch for "lfsr[5]" at rng.vhd(53) File: C:/Users/jhamb/O
 Info (10041): Inferred latch for "lfsr[6]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
 Info (10041): Inferred latch for "lfsr[7]" at rng.vhd(53) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "HEX0[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
-    Warning (13410): Pin "HEX1[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 53
+    Warning (13410): Pin "HEX0[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 27
+    Warning (13410): Pin "HEX1[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 28
     Warning (13410): Pin "HEX2[0]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 29
     Warning (13410): Pin "HEX2[1]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 29
     Warning (13410): Pin "HEX2[2]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 29
@@ -458,13 +375,13 @@ Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 1 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "ADK_CLK_10" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab3/rng.vhd Line: 19
-Info (21057): Implemented 107 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 84 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 3 input pins
     Info (21059): Implemented 56 output pins
-    Info (21061): Implemented 48 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 67 warnings
-    Info: Peak virtual memory: 4869 megabytes
-    Info: Processing ended: Sat Sep 28 21:29:32 2024
+    Info (21061): Implemented 25 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 61 warnings
+    Info: Peak virtual memory: 4870 megabytes
+    Info: Processing ended: Sat Sep 28 21:37:21 2024
     Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:13
 

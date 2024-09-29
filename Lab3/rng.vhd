@@ -37,7 +37,7 @@ end entity rng;
 
 architecture behavioral of rng is
 
-	signal lfsr : STD_LOGIC_VECTOR(15 downto 0);
+	signal lfsr : STD_LOGIC_VECTOR(15 downto 0) := "1010010110001011";
    signal bit1  : STD_LOGIC;
 	signal place1 : integer;
 	signal place2 : integer;
@@ -52,15 +52,15 @@ begin
 	-- Define module behavior here --
 	process (ADK_CLK_10, KEY) -- Sensitivity list goes in ()
 	begin
-		if KEY(0) = '0' or start = 0 then
+		place1 <= to_integer(unsigned(lfsr(3 downto 0))); --converting last 4 bits of lfsr to integer
+		place2 <= to_integer(unsigned(lfsr(7 downto 4))); --converting bits 4-7 of lfsr to integer
+		HEX0 <= table(place1);--Display seed value
+		HEX1 <= table(place2);--Display seed value
+		if KEY(0) = '0' then
 			-- Reset behavior --
 			lfsr <= seed; --lfsr equals seed value
-			place1 <= to_integer(unsigned(lfsr(3 downto 0))); --converting last 4 bits of lfsr to integer
-			place2 <= to_integer(unsigned(lfsr(7 downto 4))); --converting bits 4-7 of lfsr to integer
-			HEX0 <= table(place1);--Display seed value
-			HEX1 <= table(place2);--Display seed value
+			
 		elsif KEY(1) = '0' then
-			start <= 1;
 			bit1 <= (lfsr(0) xor lfsr(2) xor lfsr(3) xor lfsr(5)) and '1';
 			lfsr <= lfsr(14 downto 0) & bit1;
 			place1 <= to_integer(unsigned(lfsr(3 downto 0)));
