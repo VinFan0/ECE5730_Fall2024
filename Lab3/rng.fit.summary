@@ -1,12 +1,12 @@
-Fitter Status : Successful - Sat Sep 28 19:43:36 2024
+Fitter Status : Successful - Sat Sep 28 21:25:57 2024
 Quartus Prime Version : 23.1std.0 Build 991 11/28/2023 SC Lite Edition
 Revision Name : rng
 Top-level Entity Name : rng
 Family : MAX 10
 Device : 10M50DAF484C7G
 Timing Models : Final
-Total logic elements : 41 / 49,760 ( < 1 % )
-    Total combinational functions : 41 / 49,760 ( < 1 % )
+Total logic elements : 1 / 49,760 ( < 1 % )
+    Total combinational functions : 1 / 49,760 ( < 1 % )
     Dedicated logic registers : 0 / 49,760 ( 0 % )
 Total registers : 0
 Total pins : 59 / 360 ( 16 % )
