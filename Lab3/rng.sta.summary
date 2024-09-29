@@ -2,4 +2,100 @@
 Timing Analyzer Summary
 ------------------------------------------------------------
 
+Type  : Slow 1200mV 85C Model Setup 'KEY[1]'
+Slack : -4.667
+TNS   : -76.355
+
+Type  : Slow 1200mV 85C Model Setup 'KEY[0]'
+Slack : -2.175
+TNS   : -18.051
+
+Type  : Slow 1200mV 85C Model Hold 'KEY[0]'
+Slack : 0.519
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'KEY[1]'
+Slack : 0.519
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Recovery 'KEY[1]'
+Slack : -2.318
+TNS   : -29.830
+
+Type  : Slow 1200mV 85C Model Removal 'KEY[1]'
+Slack : 0.938
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'KEY[0]'
+Slack : -3.000
+TNS   : -3.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'KEY[1]'
+Slack : -3.000
+TNS   : -3.000
+
+Type  : Slow 1200mV 0C Model Setup 'KEY[1]'
+Slack : -4.146
+TNS   : -67.202
+
+Type  : Slow 1200mV 0C Model Setup 'KEY[0]'
+Slack : -1.999
+TNS   : -16.786
+
+Type  : Slow 1200mV 0C Model Hold 'KEY[0]'
+Slack : 0.465
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'KEY[1]'
+Slack : 0.465
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Recovery 'KEY[1]'
+Slack : -1.999
+TNS   : -25.539
+
+Type  : Slow 1200mV 0C Model Removal 'KEY[1]'
+Slack : 0.869
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'KEY[0]'
+Slack : -3.000
+TNS   : -3.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'KEY[1]'
+Slack : -3.000
+TNS   : -3.000
+
+Type  : Fast 1200mV 0C Model Setup 'KEY[1]'
+Slack : -2.356
+TNS   : -39.038
+
+Type  : Fast 1200mV 0C Model Setup 'KEY[0]'
+Slack : -0.195
+TNS   : -0.504
+
+Type  : Fast 1200mV 0C Model Hold 'KEY[0]'
+Slack : 0.224
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'KEY[1]'
+Slack : 0.224
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Recovery 'KEY[1]'
+Slack : -1.246
+TNS   : -16.331
+
+Type  : Fast 1200mV 0C Model Removal 'KEY[1]'
+Slack : 0.392
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'KEY[0]'
+Slack : -3.000
+TNS   : -4.366
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'KEY[1]'
+Slack : -3.000
+TNS   : -3.429
+
 ------------------------------------------------------------
