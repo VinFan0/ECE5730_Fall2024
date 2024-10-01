@@ -1,5 +1,5 @@
 Flow report for Stopwatch
-Sun Sep 22 21:08:03 2024
+Sun Sep 29 21:06:51 2024
 Quartus Prime Version 23.1std.0 Build 991 11/28/2023 SC Lite Edition
 
 
@@ -41,7 +41,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------------+
 ; Flow Summary                                                                        ;
 +------------------------------------+------------------------------------------------+
-; Flow Status                        ; Successful - Sun Sep 22 21:07:59 2024          ;
+; Flow Status                        ; Successful - Sun Sep 29 21:06:47 2024          ;
 ; Quartus Prime Version              ; 23.1std.0 Build 991 11/28/2023 SC Lite Edition ;
 ; Revision Name                      ; Stopwatch                                      ;
 ; Top-level Entity Name              ; stopwatch                                      ;
@@ -67,22 +67,23 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 09/22/2024 21:07:26 ;
+; Start date & time ; 09/29/2024 21:06:21 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Stopwatch           ;
 +-------------------+---------------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                        ;
-+-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
-+-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 1095293576070.172706084622460          ; --            ; --          ; --         ;
-; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; --          ; Top        ;
-; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; --          ; Top        ;
-; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; --          ; Top        ;
-+-------------------------------------+----------------------------------------+---------------+-------------+------------+
++-----------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                            ;
++-------------------------------------+----------------------------------------+---------------+-------------+----------------+
+; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
++-------------------------------------+----------------------------------------+---------------+-------------+----------------+
+; COMPILER_SIGNATURE_ID               ; 1095293576070.172766558135940          ; --            ; --          ; --             ;
+; EDA_OUTPUT_DATA_FORMAT              ; None                                   ; --            ; --          ; eda_simulation ;
+; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
+; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
++-------------------------------------+----------------------------------------+---------------+-------------+----------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------+
@@ -90,11 +91,11 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:20     ; 1.0                     ; 4878 MB             ; 00:00:12                           ;
-; Fitter               ; 00:00:10     ; 1.1                     ; 6617 MB             ; 00:00:09                           ;
+; Analysis & Synthesis ; 00:00:11     ; 1.0                     ; 4878 MB             ; 00:00:13                           ;
+; Fitter               ; 00:00:10     ; 1.1                     ; 6655 MB             ; 00:00:09                           ;
 ; Assembler            ; 00:00:02     ; 1.0                     ; 4719 MB             ; 00:00:02                           ;
-; Timing Analyzer      ; 00:00:03     ; 1.2                     ; 4940 MB             ; 00:00:02                           ;
-; Total                ; 00:00:35     ; --                      ; --                  ; 00:00:25                           ;
+; Timing Analyzer      ; 00:00:03     ; 1.2                     ; 4943 MB             ; 00:00:03                           ;
+; Total                ; 00:00:26     ; --                      ; --                  ; 00:00:27                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
