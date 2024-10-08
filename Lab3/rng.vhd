@@ -76,7 +76,8 @@ begin
 			
 				-- Update LFSR constantly to assist in randomness --  
 				-- Tabs: 16, 14, 13, 11
-				bit1 <= std_logic_vector(unsigned(lfsr) srl 0) xor std_logic_vector(unsigned(lfsr) srl 2) xor std_logic_vector(unsigned(lfsr) srl 3) xor std_logic_vector(unsigned(lfsr) srl 5);
+				bit1 <= std_logic_vector(unsigned(lfsr) srl 0) xor std_logic_vector(unsigned(lfsr) srl 2) 
+				xor std_logic_vector(unsigned(lfsr) srl 3) xor std_logic_vector(unsigned(lfsr) srl 5);
 				lfsr <= std_logic_vector(unsigned(lfsr) srl 1) or std_logic_vector(unsigned(bit1) sll 15); -- update lfsr with generated number
 				place1 <= to_integer(unsigned(lfsr(3 downto 0))); --converting bits 3-0 of lfsr to integer
 				place2 <= to_integer(unsigned(lfsr(7 downto 4))); --converting bits 4-7 of lfsr to integer
