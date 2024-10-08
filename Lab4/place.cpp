@@ -17,8 +17,9 @@
 #define STOP_THRESHOLD 001
 
 void printEdges(std::vector<std::vector<bool>> * graph);	// Prints edges of provided graph(1 for edge, 0 no edge)
+void printNodes(std::vector<int> x_pos, std::vector<int> y_pos);	// Prints (x,y) coords of each node 
 
-int nodes;
+int nodes, num_rows, num_cols;
 std::vector<int> x_pos;			// x_pos[n] = x coord for node n
 std::vector<int> y_pos;			// y_pox[n] = y coord for node n
 std::vector<std::vector<bool>> edges;	// 2D vector for edge graph
@@ -47,8 +48,6 @@ int main(int argc, char *argv[]) {
 	file.close();
 
 	char ch; // For switching on first char of line
-	int num_rows; // Height of grid
-	int num_cols; // Width of grid
 	int row;      // tracking row for edge graph
 	int col;      // tracking col for edge graph
 	
@@ -99,6 +98,9 @@ int main(int argc, char *argv[]) {
 		y_pos.push_back(i);
 	}
 
+	//std::cout << x_pos[1] << std::endl;
+	printNodes(x_pos, y_pos);
+
 	return 0;
 }
 
@@ -111,6 +113,15 @@ void printEdges(std::vector<std::vector<bool>> * graph) {
 		std::cout << std::endl;
 	}
 }
+
+void printNodes(std::vector<int> x_pos, std::vector<int> y_pos) {
+	printf("TEST: %d\n", x_pos[0]);
+	for(int i=0; i<nodes; i++) {
+		printf("Node %d placed at (%d, %d)\n",i, x_pos[i], y_pos[i]);
+	}
+}
+
+
 /*
 void anneal(int *current)
 {
