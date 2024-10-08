@@ -7,67 +7,89 @@
  */
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
 
-class Grid {
-	private:
-	    int rows;
-	    int cols;
-	    std::vector<std::vector<char>> grid;
-	public:
-	    Grid(int rows, int cols) : rows(rows), cols(cols), grid(rows,std::vector<char>(cols,'-')) {}
+#define INITIAL_TEMPERATURE 10000
+#define COOLING_RATE 0.9999
+#define STOP_THRESHOLD 001
 
-
-	    void setValue(int i, int j, char value) {
-	        if (i >= 0 && i < rows && j >= 0 && j < cols) 
-		    grid[i][j] = value;
-		else
-		    std::cout << "Index out of bounds!" << std::endl;
-	    }
-
-	    int getValue(int i, int j) const {
-	        if (i >= 0 && i < rows && j >= 0 && j < cols) {
-		    return grid[i][j];
-		} else {
-		    std::cout << "Index out fo bounds!" << std::endl;
-		    return -1;
-		}
-	    }
-
-	    void printGrid() {
-		for(int i=0; i<rows; ++i) {
-		    for(int j=0; j<cols; ++j) {
-		        std::cout << grid[i][j] << " " ;
-		    }
-		    std::cout << std::endl;
-		}
-		std::cout << std::endl;
-	    }
-};
+int nodes;
 
 int main(int argc, char *argv[]) {
-	int rows = 5;
-	int cols  = 5;
-	int nodes = 5;
-	if(argc > 1) {
-	    std::cout << "Updating node count to " << argv[1] << std::endl;
-	    nodes = atoi(argv[1]);
+	/*************************************
+	 * READ INPUT CONTENTS
+	 *************************************/
+	// Open file
+	std::ifstream file(argv[1]);
+	if (!file.is_open()) {
+		std::cerr << "Failed to open the file.\n";
+		return 1;
 	}
-	else {
-	    std::cout << "Placing 5 nodes" << std::endl;
+
+	// Variables for input parsing
+	std::vector<std::string> lines;
+	std::string line;
+
+	// Enter each line as string into lines vector
+	while (std::getline(file,line)) {
+		lines.push_back(line);
 	}
-	Grid myGrid(rows,cols);
-	myGrid.printGrid();
+
+	// Close file
+	file.close();
+
+	char ch; // For switching on first char of line
+	int rows; // Height of grid
+	int cols; // Width of grid
 	
-	int row,col,val;
-	
-	for(int count=0;count<nodes;++count) {
-	    std::cout << "What row? ";
-	    std::cin >> row;
-	    std::cout << "What col? ";
-	    std::cin >> col;
-	    myGrid.setValue(row-1,col-1, char(count+48));
-	    myGrid.printGrid();
+	// Iterate through lines vector
+	for (const auto& l : lines) {
+		// Grab first char of line
+		ch = l[0];
+
+		switch(ch) {
+			// If initializing grid
+			case 'g': {
+				rows = l[2];
+				cols = l[4];
+				break;
+			}
+			// Determine node count
+			case 'v': {
+				nodes = l[2]-48;
+				std::cout << "nodes: " << nodes << std::endl;
+				break;
+			}
+			// Create edges
+			case 'e': {
+				break;
+			}
+			default: {
+				std::cout << "Invalid line! ch: " << ch << std::endl;
+				std::cout << "--> " << l << std::endl;
+				break;
+			}
+		}
+	}
+	// END READ INPUT CONTENTS
+
+	// X coord array (x_pos[n] = x coord of node n)
+	std::vector<int> x_pos;
+	// X coord array (x_pos[n] = x coord of node n)
+	std::vector<int> y_pos;
+	// Populate x and y pos vectors with initial positions
+	for (int i=0; i<nodes; i++) {
+		x_pos.push_back(i);
+		y_pos.push_back(i);
+	}
+
+	for(int i=0;i<sizeof(x_pos);i++) {
+		std::cout << i << std::endl;
 	}
 
 	return 0;
 }
+
+
