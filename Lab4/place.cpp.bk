@@ -31,7 +31,7 @@ class Grid {
 	        if (i >= 0 && i < rows && j >= 0 && j < cols) {
 		    return grid[i][j];
 		} else {
-		    std::cout << "Index out of bounds!" << std::endl;
+		    std::cout << "Index out fo bounds!" << std::endl;
 		    return -1;
 		}
 	    }

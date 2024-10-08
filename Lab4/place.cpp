@@ -10,19 +10,17 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+
 #include "place.h"
 
 #define INITIAL_TEMPERATURE 10000
 #define COOLING_RATE 0.9999
 #define STOP_THRESHOLD 001
 
-void printEdges(std::vector<std::vector<bool>> * graph);	// Prints edges of provided graph(1 for edge, 0 no edge)
-void printNodes(std::vector<int> x_pos, std::vector<int> y_pos);	// Prints (x,y) coords of each node 
-
 int nodes, num_rows, num_cols;
-std::vector<int> x_pos;			// x_pos[n] = x coord for node n
-std::vector<int> y_pos;			// y_pox[n] = y coord for node n
-std::vector<std::vector<bool>> edges;	// 2D vector for edge graph
+std::vector<int> x_pos;	// x_pos[n] = x coord for node n
+std::vector<int> y_pos;	// y_pox[n] = y coord for node n
+std::vector<std::vector<bool>> edges; // 2D vector for edge graph
 
 int main(int argc, char *argv[]) {
 	/*************************************
@@ -93,16 +91,19 @@ int main(int argc, char *argv[]) {
 	printEdges(&edges);
 
 	// Populate x and y pos vectors with initial positions
-	for (int i=0; i<nodes; i++) {
-		x_pos.push_back(i);
-		y_pos.push_back(i);
-	}
+	std::cout << "Placing Nodes" << std::endl;
+	placeNodes(&x_pos,&y_pos);
 
-	//std::cout << x_pos[1] << std::endl;
+	// Print Node locations
+	std::cout << "Printing Nodes" << std::endl;
 	printNodes(x_pos, y_pos);
+
+        // By this point, we have two int vectors with node coords, and an edge map
+        //  We can now begin the annealing process
 
 	return 0;
 }
+
 
 void printEdges(std::vector<std::vector<bool>> * graph) {
 	printf("Edges of provided graph\n");
@@ -111,6 +112,13 @@ void printEdges(std::vector<std::vector<bool>> * graph) {
 			std::cout << edges[i][j] << " ";
 		}
 		std::cout << std::endl;
+	}
+}
+
+void placeNodes(std::vector<int> *x_pos, std::vector<int> *y_pos) {
+	for(int i=0; i<nodes; i++) {
+		x_pos->push_back(i);
+		y_pos->push_back(i);
 	}
 }
 
