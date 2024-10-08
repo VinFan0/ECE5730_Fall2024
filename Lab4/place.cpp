@@ -186,7 +186,7 @@ void accept(int *current_val, int next_val, int *current, int *next, float tempe
 	}
 }
 
-float adjustTemperature()
+float cooling()
 {
 	static float temperature = INITIAL_TEMPERATURE;
 	temperature *= COOLING_RATE;
