@@ -10,6 +10,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <math.h>
 
 #include "place.h"
 
@@ -75,7 +76,6 @@ int main(int argc, char *argv[]) {
 				// Select edge in graph
 				row = l[2]-48;
 				col = l[4]-48;
-
 				// Set edge
 				edges[row][col] = true;
 				break;
@@ -100,6 +100,8 @@ int main(int argc, char *argv[]) {
 
         // By this point, we have two int vectors with node coords, and an edge map
         //  We can now begin the annealing process
+		
+	anneal(&x_pos, &y_pos);
 
 	return 0;
 }
@@ -126,6 +128,111 @@ void printNodes(std::vector<int> x_pos, std::vector<int> y_pos) {
 	printf("TEST: %d\n", x_pos[0]);
 	for(int i=0; i<nodes; i++) {
 		printf("Node %d placed at (%d, %d)\n",i, x_pos[i], y_pos[i]);
+	}
+}
+
+void anneal(std::vector<int> *current_x_pos, std::vector<int> *current_y_pos){
+	double temperature = INITIAL_TEMPERATURE;
+	int current_val, next_val;
+	std::vector<int> next_x_pos;
+	std::vector<int> next_y_pos;
+	
+	current_val = evaluate(current_x_pos, current_y_pos);
+	printf("\nInitial score: %d\n", current_val);
+	
+	while (temperature > STOP_THRESHOLD)
+	{
+		copy(current_x_pos, current_y_pos, next_x_pos, next_y_pos);
+		alter(next_x_pos, next_y_pos);
+		next_val = evaluate(next_x_pos, next_y_pos);
+		accept(&current_val, next_val, current_x_pos, current_y_pos,
+			   next_x_pos, next_y_pos, temperature);
+		temperature = cooling();
+		i++;
+	}
+	printf("\nExplored %d solutions\n", i);
+	printf("Final score: %d\n" current_val);
+	
+	
+}
+
+double cooling()
+{
+	static double temperature = INITIAL_TEMPERATURE;
+	temperature *= COOLING_RATE;
+	return temperature;
+}
+
+void copy(std::vector<int> *current_x_pos, std::vector<int> *current_y_pos, 
+		  std::vector<int> next_x_pos, std::vector<int> next_y_pos)
+{
+				int i; 
+				for (i = 0; i < nodes; i++){
+					next_x_pos[i] = current_x_pos[i];
+					next_y_pos[i] = current_y_pos[i];
+				}
+}
+
+void alter(std::vector<int> *next_x_pos, std::vector<int> *next_y_pos)
+{
+	int a, b, temp;
+	
+	do{
+		a = rand() % nodes;
+		b = rand() % nodes;
+	}
+	while (a == b);
+	temp = next_x_pos[a];
+	next_x_pos[a] = next_x_pos[b];
+	next_x_pos[b] = temp;
+	
+	temp = next_y_pos[a];
+	next_y_pos[a] = next_y_pos[b];
+	next_y_pos[b] = temp;
+}
+
+int evaluate (std::vector<int> *next_x_pos, std::vector<int> *next_y_pos)
+{
+	int distance, i, j;
+	
+	distance = 0;
+	for (i = 0; i < num_rows; i++){
+		for(j = 0; j < num_cols; j++){
+			if (edges[i][j]){
+				distance += abs(next_x_pos[i] - next_x_pos[j]) +
+							abs(next_y_pos[i] - next_y_pos[j]);
+			}
+		}
+	}
+	return distance;
+}
+
+void accept(int *current_val, int next_val, std::vector<int> *current_x_pos, 
+			std::vector<int> *current_y_pos, std::vector<int> next_x_pos, 
+			std::vector<int> next_y_pos, temperature)
+{
+	int delta_e, i;
+	double p, r;
+	
+	delta_e = next_val - *current_val;
+	if (delta_e <= 0){
+		for (i = 0; i < nodes; i++){
+			current_x_pos[i] = next_x_pos[i];
+			current_y_pos[i] = next_y_pos[i];
+		}
+		*current_val = next_val;
+	}
+	else{
+		p = exp(-((double)delta_e)/temperature);
+		r = (double)rand() / RAND_MAX;
+		if (r < p){
+			for (i = 0; i < nodes; i++){
+				current_x_pos[i] = next_x_pos[i];
+				current_y_pos[i] = next_y_pos[i];
+
+			}
+			*current_val = next_val;
+		}
 	}
 }
 
@@ -224,9 +331,4 @@ void accept(int *current_val, int next_val, int *current, int *next, float tempe
 	}
 }
 
-float cooling()
-{
-	static float temperature = INITIAL_TEMPERATURE;
-	temperature *= COOLING_RATE;
-	return temperature;
-}*/
+*/
