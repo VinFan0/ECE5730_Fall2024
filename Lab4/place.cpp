@@ -99,9 +99,10 @@ int main(int argc, char *argv[]) {
 	printNodes(x_pos, y_pos);
 
         // By this point, we have two int vectors with node coords, and an edge map
-        //  We can now begin the annealing process
-		
-	anneal(&x_pos, &y_pos);
+        //  We can now begin the annealing process		
+	anneal(&x_pos[0], &y_pos[0]);
+	
+	// Print results to console and table
 
 	return 0;
 }
@@ -131,28 +132,39 @@ void printNodes(std::vector<int> x_pos, std::vector<int> y_pos) {
 	}
 }
 
-void anneal(std::vector<int> *current_x_pos, std::vector<int> *current_y_pos){
+void anneal(int *current_x_pos, int *current_y_pos){
 	double temperature = INITIAL_TEMPERATURE;
-	int current_val, next_val;
+	int current_val, next_val, i;
 	std::vector<int> next_x_pos;
 	std::vector<int> next_y_pos;
 	
-	current_val = evaluate(current_x_pos, current_y_pos);
+	current_val = evaluate(&current_x_pos[0], &current_y_pos[0]);
 	printf("\nInitial score: %d\n", current_val);
 	
 	while (temperature > STOP_THRESHOLD)
 	{
-		copy(current_x_pos, current_y_pos, next_x_pos, next_y_pos);
-		alter(next_x_pos, next_y_pos);
-		next_val = evaluate(next_x_pos, next_y_pos);
+		std::cout << "Starting Copy" << std::endl;
+		copy(current_x_pos, current_y_pos, &next_x_pos[0], &next_y_pos[0]);
+		//std::cout << "Finished copy" << std::endl;
+	/*	
+		alter(&next_x_pos[0], &next_y_pos[0]);
+		std::cout << "Finished alter" << std::endl;
+		
+		next_val = evaluate(&next_x_pos[0], &next_y_pos[0]);
+		std::cout << "Finished evaluate" << std::endl;
+		
 		accept(&current_val, next_val, current_x_pos, current_y_pos,
-			   next_x_pos, next_y_pos, temperature);
+			   &next_x_pos[0], &next_y_pos[0], temperature);
+		std::cout << "Finished accept" << std::endl;
+	*/	
 		temperature = cooling();
+		std::cout << "Finished cooling" << std::endl;
+		
 		i++;
 	}
-	printf("\nExplored %d solutions\n", i);
-	printf("Final score: %d\n" current_val);
-	
+//	printf("\nExplored %d solutions\n", i);
+//	printf("Final score: %d\n", current_val);
+	std::cout << "Finished" << std::endl;	
 	
 }
 
@@ -163,17 +175,17 @@ double cooling()
 	return temperature;
 }
 
-void copy(std::vector<int> *current_x_pos, std::vector<int> *current_y_pos, 
-		  std::vector<int> next_x_pos, std::vector<int> next_y_pos)
+void copy(int *current_x_pos, int *current_y_pos, int *next_x_pos, int *next_y_pos)
 {
-				int i; 
-				for (i = 0; i < nodes; i++){
-					next_x_pos[i] = current_x_pos[i];
-					next_y_pos[i] = current_y_pos[i];
-				}
+	int i;
+	printf("current_x_pos[0]: %d", current_x_pos[0]);
+	for (i = 0; i < nodes; i++){
+		next_x_pos[i] = current_x_pos[i];
+		next_y_pos[i] = current_y_pos[i];
+	}
 }
 
-void alter(std::vector<int> *next_x_pos, std::vector<int> *next_y_pos)
+void alter(int *next_x_pos, int *next_y_pos)
 {
 	int a, b, temp;
 	
@@ -191,7 +203,7 @@ void alter(std::vector<int> *next_x_pos, std::vector<int> *next_y_pos)
 	next_y_pos[b] = temp;
 }
 
-int evaluate (std::vector<int> *next_x_pos, std::vector<int> *next_y_pos)
+int evaluate (int *next_x_pos, int *next_y_pos)
 {
 	int distance, i, j;
 	
@@ -207,9 +219,7 @@ int evaluate (std::vector<int> *next_x_pos, std::vector<int> *next_y_pos)
 	return distance;
 }
 
-void accept(int *current_val, int next_val, std::vector<int> *current_x_pos, 
-			std::vector<int> *current_y_pos, std::vector<int> next_x_pos, 
-			std::vector<int> next_y_pos, temperature)
+void accept(int *current_val, int next_val, int *current_x_pos, int *current_y_pos, int *next_x_pos, int *next_y_pos, int temperature)
 {
 	int delta_e, i;
 	double p, r;
@@ -235,100 +245,3 @@ void accept(int *current_val, int next_val, std::vector<int> *current_x_pos,
 		}
 	}
 }
-
-
-/*
-void anneal(int *current)
-{
-	float temperature;
-	int current_val, next_val;
-	//int next[NUM_CITIES];
-	int i=0;
-	
-	temperature = INITIAL_TEMPERATURE;
-	current_val = evaluate(current);
-	printf("\nInitial score: %d\n", current_val);
-	while (temperature > STOP_THRESHOLD)
-	{
-		//copy(current, next);
-		//alter(next);
-		//next_val = evaluate(next);
-		//accept(&current_val, next_val, current, next, temperature);
-		//temperature = adjustTemperature();
-		i++;
-	}
-	printf("\nExplored %d solutions\n", i);
-	printf("Final score: %d\n", current_val);
-}
-
-void copy(int *current, int *next)
-{
-	int i;
-	//for (i=0; i<NUM_CITIES; i++)
-	//{
-	//	next[i] = current[i];
-	//}
-}
-
-void alter(int *next)
-{
-	int a, b, temp;
-	do
-	{
-	//	a = rand() % NUM_CITIES;
-	//	b = rand() % NUM_CITIES;
-	}
-	while (a == b);
-	temp = next[a];
-	next[a] = next[b];
-	next[b] = temp;
-}
-
-int evaluate (int *next)
-{
-	// x_pos[n] = x coord for node n
-	//const int x_pos[NUM_CITIES] = {27, 32, 91, 60, 36, 64, 32, 9, 7, 64, 2, 28, 41, 4, 38, 33, 79, 65, 45, 57};
-	// y_pos[n] = y coord for node n
-	//const int y_pos[NUM_CITIES] = {20, 17, 98, 83, 35, 77, 41, 61, 0, 55, 17, 70, 4, 92, 25, 59, 16, 66, 39, 73};
-	int distance, i;
-	
-	distance = 0;
-	//for (i=0; i<NUM_CITIES-1; i++)
-	//{
-	//	distance += abs(x_pos[next[i]] - x_pos[next[i+1]]) +
-	//				abs(y_pos[next[i]] - y_pos[next[i+1]]);
-	//}
-	
-	return distance;
-}
-
-void accept(int *current_val, int next_val, int *current, int *next, float temperature)
-{
-	int delta_e, i;
-	float p, r;
-
-	delta_e = next_val - *current_val;
-	if (delta_e <= 0)
-	{
-		//for (i=0; i<NUM_CITIES; i++)
-		//{
-		//	current[i] = next[i];
-		//}
-		*current_val = next_val;
-	}
-	else
-	{
-		//p = exp(-((float)delta_e)/temperature);
-		r = (float)rand() / RAND_MAX;
-		if (r < p)
-		{
-			//for (i=0; i<NUM_CITIES; i++)
-			//{
-			//	current[i] = next[i];
-			//}
-			*current_val = next_val;
-		}
-	}
-}
-
-*/
