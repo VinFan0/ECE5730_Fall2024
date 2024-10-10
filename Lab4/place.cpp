@@ -234,7 +234,9 @@ int evaluate(std::vector<int> &next_x_pos, std::vector<int> &next_y_pos)
 	return distance;
 }
 
-void accept(int &current_val, int next_val, std::vector<int> &current_x_pos, std::vector<int> &current_y_pos, std::vector<int> &next_x_pos, std::vector<int> &next_y_pos, int temperature)
+void accept(int &current_val, int next_val, std::vector<int> &current_x_pos, 
+			std::vector<int> &current_y_pos, std::vector<int> &next_x_pos, 
+			std::vector<int> &next_y_pos, int temperature)
 {
 	int delta_e, i;
 	double p, r;
