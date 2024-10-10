@@ -12,7 +12,7 @@ void placeNodes(std::vector<int> &x_pos, std::vector<int> &y_pos); // Place node
 /*****************************************
 * Annealing functions
 ******************************************/
-void anneal(std::vector<int> &current_x_pos, std::vector<int> &current_y_pos)
+void anneal(std::vector<int> &current_x_pos, std::vector<int> &current_y_pos);
 
 void copy(std::vector<int> &current_x_pos, std::vector<int> &current_y_pos,
 		  std::vector<int> &next_x_pos,    std::vector<int> &next_y_pos);
