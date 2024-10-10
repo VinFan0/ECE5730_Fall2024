@@ -125,6 +125,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
+	fclose(outputFile);
 	return 0;
 }
 
