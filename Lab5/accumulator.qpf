@@ -1,0 +1,6 @@
+DATE = "10:24:09 October 11, 2024"
+QUARTUS_VERSION = "16.0.0"
+
+# Revisions
+
+PROJECT_REVISION = "accumulator"
