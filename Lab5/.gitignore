@@ -1,6 +1,6 @@
-/work/
 /db/
 /incremental_db/
+/work/
 *.rpt
 *.cdf
 *.done
@@ -12,4 +12,4 @@
 *.qws
 *.sld
 *.sof
-*.qdf
+*.swp
