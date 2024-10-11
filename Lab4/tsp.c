@@ -41,7 +41,6 @@ int main()
 }
 
 void anneal(int *current)
-{
 	float temperature;
 	int current_val, next_val;
 	int next[NUM_CITIES];

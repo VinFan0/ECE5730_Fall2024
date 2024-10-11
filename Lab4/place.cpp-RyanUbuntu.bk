@@ -1,0 +1,123 @@
+/*
+ * ECE 5730
+ * Lab4 - Simulated Annealing
+ * 10/10/24
+ * Ryan Beck, Jared Bronson
+ *
+ */
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+
+class Grid {
+	private:
+	    int rows;
+	    int cols;
+	    std::vector<std::vector<char>> grid;
+	public:
+	    Grid(int rows, int cols) : rows(rows), cols(cols), grid(rows,std::vector<char>(cols,'-')) {}
+
+
+	    void setValue(int i, int j, char value) {
+	        if (i >= 0 && i < rows && j >= 0 && j < cols) 
+		    grid[i][j] = value;
+		else
+		    std::cout << "Index out of bounds!" << std::endl;
+	    }
+
+	    int getValue(int i, int j) const {
+	        if (i >= 0 && i < rows && j >= 0 && j < cols) {
+		    return grid[i][j];
+		} else {
+		    std::cout << "Index out fo bounds!" << std::endl;
+		    return -1;
+		}
+	    }
+
+	    void printGrid() {
+		for(int i=0; i<rows; ++i) {
+		    for(int j=0; j<cols; ++j) {
+		        std::cout << grid[i][j] << " " ;
+		    }
+		    std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	    }
+};
+
+
+#define INITIAL_TEMPERATURE 10000
+#define COOLING_RATE 0.9999
+#define STOP_THRESHOLD 001
+
+int main(int argc, char *argv[]) {
+	// Open file
+	std::ifstream file(argv[1]);
+	if (!file.is_open()) {
+		std::cerr << "Failed to open the file.\n";
+		return 1;
+	}
+
+	// Variables for input parsing
+	std::vector<std::string> lines;
+	std::string line;
+
+	// Enter each line as string into lines vector
+	while (std::getline(file,line)) {
+		lines.push_back(line);
+	}
+
+	// Close file
+	file.close();
+
+	char ch; // For switching on first char of line
+	int rows; // Height of grid
+	int cols; // Width of grid
+	int nodes; // Number of nodes
+
+	// Iterate through lines vector
+	for (const auto& l : lines) {
+		// Grab first char of line
+		ch = l[0];
+
+		switch(ch) {
+			// If initializing grid
+			case 'g': {
+				// Get dimensions
+				rows = l[2] - '0';
+				cols = l[4] - '0';
+
+				// Generate grid
+				Grid board(rows, cols);
+				std::cout << "Grid: " << rows << "x" << cols << std::endl;
+				std::cout << "Initial board: " << std::endl;
+				board.printGrid();
+				break;
+			}
+			// Determine node count
+			case 'v': {
+				nodes = l[2] - '0';
+				int edges[nodes][nodes] = {0};
+				std::cout << "Node count: " << nodes << std::endl;
+				break;
+			}
+			// Create edges
+			case 'e': {
+				std::cout << "Creating edge: " << l << std::endl;
+				break;
+			}
+			default: {
+				std::cout << "Invalid line!" << std::endl;
+				break;
+			}
+		}
+	}
+
+		
+
+	return 0;
+}
+
+
