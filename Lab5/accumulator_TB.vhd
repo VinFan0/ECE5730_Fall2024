@@ -2,13 +2,13 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity TB_NAME is
-end entity TB_NAME;
+entity accumulator_TB is
+end entity accumulator_TB;
 
-architecture behavioral of TB_NAME is
+architecture behavioral of accumulator_TB is
 
 	-- Instantiate component(s) to test --
-	component MODULE is
+	component accumulator is
 		generic (
 			-- Provide generic values --
 
@@ -16,28 +16,60 @@ architecture behavioral of TB_NAME is
 		port (
 			-- Declare ports --
 
-			-- Inputs --
 			-- Clocks --
-			ADC_CLK_10 	: in std_logic;
+			-- ADC_CLK_10 	: in std_logic;
 			MAX10_CLK1_50 	: in std_logic;
-			MAX10_CLK2_50 	: in std_logic;
+			-- MAX10_CLK2_50 	: in std_logic;
 
-			-- Buttons --
+			-- Button inputs --
 			KEY : in std_logic_vector(1 downto 0);
 
-			-- Outputs --
-			-- LEDs --
+			-- 7-Segment output --
+			HEX0: out std_logic_vector(7 downto 0);
+			HEX1: out std_logic_vector(7 downto 0);
+			HEX2: out std_logic_vector(7 downto 0);
+			HEX3: out std_logic_vector(7 downto 0);
+			HEX4: out std_logic_vector(7 downto 0);
+			HEX5: out std_logic_vector(7 downto 0);
+
+			-- Switch inputs --
+			SW : in std_logic_vector(9 downto 0);
+
+			-- LED outputs --
 			LEDR : out std_logic_vector(9 downto 0);
 		);
+
 	end component;
 
 	-- Define internal signals/values
+
+	-- Include CLK signal and all I/O
+	-- ADC_CLK_10 	: in std_logic;
+	MAX10_CLK1_50 	: in std_logic;
+	-- MAX10_CLK2_50 	: in std_logic;
+
+	-- Button inputs --
+	KEY : in std_logic_vector(1 downto 0);
+
+	-- 7-Segment output --
+	HEX0: out std_logic_vector(7 downto 0);
+	HEX1: out std_logic_vector(7 downto 0);
+	HEX2: out std_logic_vector(7 downto 0);
+	HEX3: out std_logic_vector(7 downto 0);
+	HEX4: out std_logic_vector(7 downto 0);
+	HEX5: out std_logic_vector(7 downto 0);
+
+	-- Switch inputs --
+	SW : in std_logic_vector(9 downto 0);
+
+	-- LED outputs --
+	LEDR : out std_logic_vector(9 downto 0);
 
 	constant CLK_PERIOD : time := 10 ns;
 begin
 
 	-- Define unit under test --
-	uut : MODULE
+	uut : accumulator
 		generic map (
 			-- Map generic values (separated by , )--
 			-- NAME => value --
@@ -46,6 +78,16 @@ begin
 		port map (
 			-- Map port connections --
 			-- NAME => NAME (separated by , ) --
+			MAX10_CLK1_50 => ADC_CLK_10,
+			KEY => KEY,
+			HEX0 => HEX0,
+			HEX1 => HEX0,
+			HEX2 => HEX0,
+			HEX3 => HEX0,
+			HEX4 => HEX0,
+			HEX5 => HEX5,
+			SW => SW,
+			LEDR => LEDR
 		);
 
 		-- Define processes --
@@ -69,6 +111,8 @@ begin
 			KEY(0) <= '0';            -- Initial RESET --
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
+			
+			wait;
 
 		end process; 
 
