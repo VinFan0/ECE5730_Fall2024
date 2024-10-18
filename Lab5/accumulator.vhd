@@ -90,12 +90,12 @@ begin
 				end if;
 			when WAITING =>
 				-- Update 7-Segment --
-				HEX0 <= table(to_integer(sum(3 downto 0)));
-				HEX1 <= table(to_integer(sum(7 downto 4)));
-				HEX2 <= table(to_integer(sum(11 downto 8)));
-				HEX3 <= table(to_integer(sum(15 downto 12)));
-				HEX4 <= table(to_integer(sum(19 downto 16)));
-				HEX5 <= table(to_integer(sum(23 downto 20)));
+--				HEX0 <= table(to_integer(sum(3 downto 0)));
+--				HEX1 <= table(to_integer(sum(7 downto 4)));
+--				HEX2 <= table(to_integer(sum(11 downto 8)));
+--				HEX3 <= table(to_integer(sum(15 downto 12)));
+--				HEX4 <= table(to_integer(sum(19 downto 16)));
+--				HEX5 <= table(to_integer(sum(23 downto 20)));
 								
 				if KEY(0) = '0' then
 					next_state <= CLEAR;
@@ -104,20 +104,34 @@ begin
 				end if;
 				-- Update LEDR with SW input
 				LEDR <= SW;
+				-- Capture Switch input for addition
+				add <= unsigned(SW);
 
 			when DEBOUNCE =>
 				if KEY(1) = '1' then
+					-- Update state
 					next_state <= ACCUMULATE;
-					-- Capture Switch input for addition
-					add <= unsigned(SW);
+					-- Update sum
+					sum <= sum + add;
 				end if;
-			
-			when ACCUMULATE =>
 				-- Update LEDR with SW input
 				LEDR <= SW;
+		
+			when ACCUMULATE =>
+				-- Update LEDR with SW input
+--				LEDR <= SW;
 				-- Increase sum
-				sum <= sum + add;
+--				sum <= sum + add;
+	
 				next_state <= WAITING;
+				HEX0 <= table(to_integer(sum(3 downto 0)));
+				HEX1 <= table(to_integer(sum(7 downto 4)));
+				HEX2 <= table(to_integer(sum(11 downto 8)));
+				HEX3 <= table(to_integer(sum(15 downto 12)));
+				HEX4 <= table(to_integer(sum(19 downto 16)));
+				HEX5 <= table(to_integer(sum(23 downto 20)));
+
+
 		end case;
 				
 	end process;
