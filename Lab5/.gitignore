@@ -1,6 +1,7 @@
 /db/
 /incremental_db/
 /work/
+/simulation/
 *.rpt
 *.cdf
 *.done
@@ -15,3 +16,4 @@
 *.sof
 *.swp
 *.md
+*.wlf
