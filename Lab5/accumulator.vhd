@@ -31,10 +31,10 @@ entity accumulator is
 		HEX5 : out std_logic_vector(7 downto 0);
 
 		--Switches--
-		SW : in unsigned(9 downto 0);
+		SW : in std_logic_vector(9 downto 0);
 		
 		--LEDS--
-		LEDR : out unsigned(9 downto 0)
+		LEDR : out std_logic_vector(9 downto 0)
 		
 	);
 
@@ -45,7 +45,7 @@ architecture behavioral of accumulator is
 	-- Declare internal signals here -- (terminated by ; )
 	-- signal NAME : TYPE ;
 	signal add : integer;
-	signal sum : unsigned(9 downto 0);
+	signal sum : integer;
 	
 	type state_type is (CLEAR, WAITING, DEBOUNCE, ACCUMULATE);
 	signal current_state, next_state: state_type;
@@ -63,7 +63,7 @@ begin
 	process (MAX10_CLK1_50) -- Sensitivity list goes in ()
 	begin
 		if rising_edge(MAX10_CLK1_50) then
-			if KEY(0) = '1' then
+			if KEY(0) = '0' then
 				current_state <= CLEAR;
 			else
 				current_state <= next_state;
@@ -84,17 +84,17 @@ begin
 				HEX5 <= table(0); --Display 0
 				
 				add <= 0;
-				
-				next_state <= WAITING;
-				
+				if KEY(0) = '1' then
+					next_state <= WAITING;
+				end if;
 			when WAITING =>
 				if KEY(0) = '0' then
 					next_state <= CLEAR;
 				elsif KEY(1) = '0' then
 					next_state <= DEBOUNCE;
 				end if;
-				add <= (unsigned(9 downto 0)) SW;
-				LEDR <= SW + count;
+				-- Update LEDR with SW input
+				LEDR <= SW;
 
 			when DEBOUNCE =>
 				if KEY(1) = '1' then
@@ -102,8 +102,8 @@ begin
 				end if;
 			
 			when ACCUMULATE =>
-				-- add <= SW;
-				LEDR <= SW + count;
+				-- Update LEDR with SW input
+				LEDR <= SW;
 		end case;
 				
 	end process;
