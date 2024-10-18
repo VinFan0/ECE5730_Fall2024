@@ -66,6 +66,7 @@ architecture behavioral of accumulator_TB is
 	-- LED outputs --
 	signal LEDR : std_logic_vector(9 downto 0);
 
+	-- Clock signal period -- 
 	constant CLK_PERIOD : time := 10 ns;
 begin
 
@@ -81,10 +82,10 @@ begin
 			MAX10_CLK1_50 => MAX10_CLK1_50,
 			KEY => KEY,
 			HEX0 => HEX0,
-			HEX1 => HEX0,
-			HEX2 => HEX0,
-			HEX3 => HEX0,
-			HEX4 => HEX0,
+			HEX1 => HEX1,
+			HEX2 => HEX2,
+			HEX3 => HEX3,
+			HEX4 => HEX4,
 			HEX5 => HEX5,
 			SW => SW,
 			LEDR => LEDR
@@ -108,21 +109,40 @@ begin
 			KEY(0) <= '1';
 			KEY(1) <= '1';
 
+			-- Initial RESET --
 			wait for CLK_PERIOD * 10; 
-			KEY(0) <= '0';            -- Initial RESET --
+			KEY(0) <= '0';            
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
+			-- RESET again --
 			wait for CLK_PERIOD * 5; 
 			KEY(0) <= '0';
 			wait for CLK_PERIOD * 5;
 			KEY(0) <= '1';
+			-- Provide switch input --
 			SW <= (others => '0');
-			SW(0) <= '1';
+			SW(4) <= '1';
+			-- Press and release add Button --
 			wait for CLK_PERIOD * 5;
 			KEY(1) <= '0';
 			wait for CLK_Period * 5;
 			KEY(1) <= '1';
-			
+			-- Provide switch input --
+			wait for CLK_Period * 5;
+			SW <= (others => '0');
+			SW(3) <= '1';
+			SW(7) <= '1';
+			SW(9) <= '1';
+			-- Press and release add Button --
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_Period * 5;
+			KEY(1) <= '1';
+			-- RESET again --
+			wait for CLK_PERIOD * 5; 
+			KEY(0) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(0) <= '1';
 			
 			wait;
 

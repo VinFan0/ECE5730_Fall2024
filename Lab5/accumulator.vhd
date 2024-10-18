@@ -44,8 +44,8 @@ architecture behavioral of accumulator is
 
 	-- Declare internal signals here -- (terminated by ; )
 	-- signal NAME : TYPE ;
-	signal add : integer;
-	signal sum : integer;
+	signal add : unsigned(9 downto 0);
+	signal sum : unsigned(23 downto 0);
 	
 	type state_type is (CLEAR, WAITING, DEBOUNCE, ACCUMULATE);
 	signal current_state, next_state: state_type;
@@ -53,7 +53,7 @@ architecture behavioral of accumulator is
 	type SEVEN_SEG is array (0 to 15) of std_logic_vector(7 downto 0); -- Define new type for lookup table
 	constant table : SEVEN_SEG := (	
 					X"C0", X"F9", X"A4", X"B0",  -- 0, 1, 2, 3
-       			X"99", X"92", X"82", X"F8",  -- 4, 5, 6, 7
+					X"99", X"92", X"82", X"F8",  -- 4, 5, 6, 7
 					X"80", X"90", X"88", X"83",  -- 8, 9, A, B
 					X"C6", X"A1", X"86", X"8E"); -- C, D, E, F
 
@@ -83,11 +83,20 @@ begin
 				HEX4 <= table(0); --Display 0
 				HEX5 <= table(0); --Display 0
 				
-				add <= 0;
+				add <= (others => '0');
+				sum <= (others => '0');
 				if KEY(0) = '1' then
 					next_state <= WAITING;
 				end if;
 			when WAITING =>
+				-- Update 7-Segment --
+				HEX0 <= table(to_integer(sum(3 downto 0)));
+				HEX1 <= table(to_integer(sum(7 downto 4)));
+				HEX2 <= table(to_integer(sum(11 downto 8)));
+				HEX3 <= table(to_integer(sum(15 downto 12)));
+				HEX4 <= table(to_integer(sum(19 downto 16)));
+				HEX5 <= table(to_integer(sum(23 downto 20)));
+								
 				if KEY(0) = '0' then
 					next_state <= CLEAR;
 				elsif KEY(1) = '0' then
@@ -99,11 +108,16 @@ begin
 			when DEBOUNCE =>
 				if KEY(1) = '1' then
 					next_state <= ACCUMULATE;
+					-- Capture Switch input for addition
+					add <= unsigned(SW);
 				end if;
 			
 			when ACCUMULATE =>
 				-- Update LEDR with SW input
 				LEDR <= SW;
+				-- Increase sum
+				sum <= sum + add;
+				next_state <= WAITING;
 		end case;
 				
 	end process;
