@@ -17,8 +17,8 @@ architecture behavioral of accumulator_TB is
 			-- Declare ports --
 
 			-- Clocks --
-			-- ADC_CLK_10 	: in std_logic;
-			MAX10_CLK1_50 	: in std_logic;
+			ADC_CLK_10 	: in std_logic;
+			-- MAX10_CLK1_50 	: in std_logic;
 			-- MAX10_CLK2_50 	: in std_logic;
 
 			-- Button inputs --
@@ -46,7 +46,7 @@ architecture behavioral of accumulator_TB is
 
 	-- Include CLK signal and all I/O
 	-- signal ADC_CLK_10 	: in std_logic;
-	signal MAX10_CLK1_50 	: std_logic;
+	signal ADC_CLK_10 	: std_logic;
 	-- signal MAX10_CLK2_50 	: in std_logic;
 
 	-- Button inputs --
@@ -79,7 +79,7 @@ begin
 		port map (
 			-- Map port connections --
 			-- NAME => NAME (separated by , ) --
-			MAX10_CLK1_50 => MAX10_CLK1_50,
+			ADC_CLK_10 => ADC_CLK_10,
 			KEY => KEY,
 			HEX0 => HEX0,
 			HEX1 => HEX1,
@@ -95,9 +95,9 @@ begin
 		-- Clock --
 		clk_process : process
 		begin
-			MAX10_CLK1_50 <= '0';
+			ADC_CLK_10 <= '0';
 			wait for CLK_PERIOD / 2;
-			MAX10_CLK1_50 <= '1';
+			ADC_CLK_10 <= '1';
 			wait for CLK_PERIOD / 2;
 		end process;
 
@@ -108,6 +108,7 @@ begin
 			-- Initial values --
 			KEY(0) <= '1';
 			KEY(1) <= '1';
+			SW <= (others => '0');
 
 			-- Initial RESET --
 			wait for CLK_PERIOD * 10; 
@@ -115,34 +116,34 @@ begin
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
 			-- RESET again --
-			wait for CLK_PERIOD * 5; 
+			wait for CLK_PERIOD * 4; 
 			KEY(0) <= '0';
-			wait for CLK_PERIOD * 5;
+			wait for CLK_PERIOD * 4;
 			KEY(0) <= '1';
 			-- Provide switch input --
-			SW <= (others => '0');
+			wait for CLK_PERIOD * 2;
 			SW(4) <= '1';
 			-- Press and release add Button --
-			wait for CLK_PERIOD * 5;
+			wait for CLK_PERIOD * 2;
 			KEY(1) <= '0';
-			wait for CLK_Period * 5;
+			wait for CLK_Period * 4;	
 			KEY(1) <= '1';
 			-- Provide switch input --
-			wait for CLK_Period * 5;
-			SW <= (others => '0');
-			SW(3) <= '1';
-			SW(7) <= '1';
-			SW(9) <= '1';
+--			wait for CLK_Period * 5;
+--			SW(4) <= '0';
+--			SW(3) <= '1';
+--			SW(7) <= '1';
+--			SW(9) <= '1';
 			-- Press and release add Button --
-			wait for CLK_PERIOD * 5;
-			KEY(1) <= '0';
-			wait for CLK_Period * 5;
-			KEY(1) <= '1';
+--			wait for CLK_PERIOD * 5;
+--			KEY(1) <= '0';
+--			wait for CLK_Period * 5;
+--			KEY(1) <= '1';
 			-- RESET again --
-			wait for CLK_PERIOD * 5; 
-			KEY(0) <= '0';
-			wait for CLK_PERIOD * 5;
-			KEY(0) <= '1';
+--			wait for CLK_PERIOD * 5; 
+--			KEY(0) <= '0';
+--			wait for CLK_PERIOD * 5;
+--			KEY(0) <= '1';
 			
 			wait;
 

@@ -15,8 +15,8 @@ entity accumulator is
 		-- NAME : DIRECTION TYPE (separated by ; ) --
 		
 		-- CLK input --
-		--ADC_CLK_10	: in std_logic; -- 10 MHz
-		MAX10_CLK1_50 	: in std_logic; -- 50 MHz 1
+		ADC_CLK_10	: in std_logic; -- 10 MHz
+		--MAX10_CLK1_50 	: in std_logic; -- 50 MHz 1
 		--MAX10_CLK2_50 	: in std_logic; -- 50 MHz 2
 
 		-- Button input --
@@ -47,7 +47,7 @@ architecture behavioral of accumulator is
 	signal add : unsigned(9 downto 0);
 	signal sum : unsigned(23 downto 0);
 	
-	type state_type is (CLEAR, WAITING, DEBOUNCE, ACCUMULATE);
+	type state_type is (CLEAR, WAITING, DEBOUNCE, ACCUMULATE, DISPLAY);
 	signal current_state, next_state: state_type;
 	
 	type SEVEN_SEG is array (0 to 15) of std_logic_vector(7 downto 0); -- Define new type for lookup table
@@ -59,10 +59,10 @@ architecture behavioral of accumulator is
 
 begin
 
-	-- Define module behavior here --
-	process (MAX10_CLK1_50) -- Sensitivity list goes in ()
+	-- State Controller --
+	process (ADC_CLK_10)
 	begin
-		if rising_edge(MAX10_CLK1_50) then
+		if rising_edge(ADC_CLK_10) then
 			if KEY(0) = '0' then
 				current_state <= CLEAR;
 			else
@@ -71,55 +71,78 @@ begin
 		end if;
 	end process;
 	
-	process (current_state, KEY, SW)
+	-- Behavior Controller --
+	process (current_state, KEY)
 	begin
 		case current_state is
 		
 			when CLEAR =>
-				HEX0 <= table(0); --Display 0
-				HEX1 <= table(0); --Display 0
-				HEX2 <= table(0); --Display 0
-				HEX3 <= table(0); --Display 0
-				HEX4 <= table(0); --Display 0
-				HEX5 <= table(0); --Display 0
-				
+				-- Reset sum and add
 				add <= (others => '0');
 				sum <= (others => '0');
+				
+				-- If no RESET pressed
 				if KEY(0) = '1' then
+					-- Move to WAITING
 					next_state <= WAITING;
 				end if;
+				
 			when WAITING =>
-				-- Update 7-Segment --
-				HEX0 <= table(to_integer(sum(3 downto 0)));
-				HEX1 <= table(to_integer(sum(7 downto 4)));
-				HEX2 <= table(to_integer(sum(11 downto 8)));
-				HEX3 <= table(to_integer(sum(15 downto 12)));
-				HEX4 <= table(to_integer(sum(19 downto 16)));
-				HEX5 <= table(to_integer(sum(23 downto 20)));
-								
+				-- Clear add
+				add <= (others => '0');
+				
+				-- If RESET
 				if KEY(0) = '0' then
+					-- Move to CLEAR
 					next_state <= CLEAR;
+				-- Else if ADD
 				elsif KEY(1) = '0' then
+					-- Move to DEBOUNCE
 					next_state <= DEBOUNCE;
 				end if;
-				-- Update LEDR with SW input
-				LEDR <= SW;
 
 			when DEBOUNCE =>
+				-- If ADD released
 				if KEY(1) = '1' then
+					-- Move to ACCUMULATE
 					next_state <= ACCUMULATE;
 					-- Capture Switch input for addition
 					add <= unsigned(SW);
 				end if;
-			
+				
 			when ACCUMULATE =>
-				-- Update LEDR with SW input
-				LEDR <= SW;
 				-- Increase sum
 				sum <= sum + add;
+				-- Move to DISPLAY
+				next_state <= DISPLAY;
+				
+			when DISPLAY => 
+				-- Move to WAITING
 				next_state <= WAITING;
+			
+			when others =>  
+				-- DEFAULT: Move to WAITING
+				next_state <= WAITING;
+				
 		end case;
 				
+	end process;
+	
+	-- LEDR and 7-segment Controller --
+	process (ADC_CLK_10)
+	begin
+		if rising_edge(ADC_CLK_10) then
+			-- Update LEDR with SW input
+			LEDR <= SW;
+			-- Update 7-Segment --
+			HEX0 <= table(to_integer(sum(3 downto 0)));
+			HEX1 <= table(to_integer(sum(7 downto 4)));
+			HEX2 <= table(to_integer(sum(11 downto 8)));
+			HEX3 <= table(to_integer(sum(15 downto 12)));
+			HEX4 <= table(to_integer(sum(19 downto 16)));
+			HEX5 <= table(to_integer(sum(23 downto 20)));	
+			
+		end if;
 	end process;
 
 end architecture behavioral;
