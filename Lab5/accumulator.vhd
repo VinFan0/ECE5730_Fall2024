@@ -106,8 +106,8 @@ begin
 				if KEY(1) = '1' then
 					-- Move to ACCUMULATE
 					next_state <= ACCUMULATE;
-					-- Capture Switch input for addition
-					add <= unsigned(SW);
+					-- Update sum
+					sum <= sum + add;
 				end if;
 				
 			when ACCUMULATE =>
