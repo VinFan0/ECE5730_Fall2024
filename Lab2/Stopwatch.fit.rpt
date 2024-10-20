@@ -1,5 +1,5 @@
 Fitter report for Stopwatch
-Sun Sep 29 21:06:43 2024
+Fri Oct 18 17:28:32 2024
 Quartus Prime Version 23.1std.0 Build 991 11/28/2023 SC Lite Edition
 
 
@@ -67,7 +67,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------------+
 ; Fitter Summary                                                                      ;
 +------------------------------------+------------------------------------------------+
-; Fitter Status                      ; Successful - Sun Sep 29 21:06:43 2024          ;
+; Fitter Status                      ; Successful - Fri Oct 18 17:28:31 2024          ;
 ; Quartus Prime Version              ; 23.1std.0 Build 991 11/28/2023 SC Lite Edition ;
 ; Revision Name                      ; Stopwatch                                      ;
 ; Top-level Entity Name              ; stopwatch                                      ;
@@ -1539,7 +1539,7 @@ Info (176235): Finished register packing
 Warning (15705): Ignored locations or region assignments to the following nodes
     Warning (15706): Node "MAX10_CLK1_50" is assigned to location or region, but does not exist in design
     Warning (15706): Node "MAX10_CLK2_50" is assigned to location or region, but does not exist in design
-Info (171121): Fitter preparation operations ending: elapsed time is 00:00:01
+Info (171121): Fitter preparation operations ending: elapsed time is 00:00:02
 Info (14896): Fitter has disabled Advanced Physical Optimization because it is not supported for the current family.
 Info (170189): Fitter placement preparation operations beginning
 Info (170190): Fitter placement preparation operations ending: elapsed time is 00:00:00
@@ -1558,7 +1558,7 @@ Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:02
+Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:01
 Warning (171167): Found invalid Fitter assignments. See the Ignored Assignments panel in the Fitter Compilation Report for more information.
 Warning (169177): 3 pins must meet Intel FPGA requirements for 3.3-, 3.0-, and 2.5-V interfaces. For more information, refer to AN 447: Interfacing MAX 10 Devices with 3.3/3.0/2.5-V LVTTL/LVCMOS I/O Systems.
     Info (169178): Pin ADC_CLK_10 uses I/O standard 3.3-V LVTTL at N5 File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 14
@@ -1566,9 +1566,9 @@ Warning (169177): 3 pins must meet Intel FPGA requirements for 3.3-, 3.0-, and 2
     Info (169178): Pin KEY[1] uses I/O standard 3.3 V Schmitt Trigger at A7 File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/stopwatch.vhd Line: 19
 Info (144001): Generated suppressed messages file C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Lab2/Stopwatch.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 13 warnings
-    Info: Peak virtual memory: 6655 megabytes
-    Info: Processing ended: Sun Sep 29 21:06:44 2024
-    Info: Elapsed time: 00:00:11
+    Info: Peak virtual memory: 6637 megabytes
+    Info: Processing ended: Fri Oct 18 17:28:32 2024
+    Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:09
 
 
