@@ -9,18 +9,16 @@ architecture behavioral of accumulator_TB is
 
 	-- Instantiate component(s) to test --
 	component accumulator is
-		--generic (
+		generic (
 			-- Provide generic values --
-
-		--);
+			TIM_COUNT : integer := 5	-- Decreased to test debounce timer
+		);
 		port (
 			-- Declare ports --
 
 			-- Clocks --
 			ADC_CLK_10 	: in std_logic;
-			-- MAX10_CLK1_50 	: in std_logic;
-			-- MAX10_CLK2_50 	: in std_logic;
-
+			
 			-- Button inputs --
 			KEY : in std_logic_vector(1 downto 0);
 
@@ -42,13 +40,10 @@ architecture behavioral of accumulator_TB is
 	end component;
 
 	-- Define internal signals/values
-	-- signal NAME : TYPE (:= INIT_VALUE) ending in ;
 
 	-- Include CLK signal and all I/O
-	-- signal ADC_CLK_10 	: in std_logic;
 	signal ADC_CLK_10 	: std_logic;
-	-- signal MAX10_CLK2_50 	: in std_logic;
-
+	
 	-- Button inputs --
 	signal KEY : std_logic_vector(1 downto 0);
 
@@ -72,13 +67,12 @@ begin
 
 	-- Define unit under test --
 	uut : accumulator
-		-- generic map (
+		generic map (
 			-- Map generic values (separated by , )--
-			-- NAME => value --
-		-- )
+			TIM_COUNT => 5
+		)
 		port map (
 			-- Map port connections --
-			-- NAME => NAME (separated by , ) --
 			ADC_CLK_10 => ADC_CLK_10,
 			KEY => KEY,
 			HEX0 => HEX0,
@@ -115,35 +109,34 @@ begin
 			KEY(0) <= '0';            
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
+			
 			-- RESET again --
 			wait for CLK_PERIOD * 4; 
 			KEY(0) <= '0';
 			wait for CLK_PERIOD * 4;
 			KEY(0) <= '1';
+			
 			-- Provide switch input --
 			wait for CLK_PERIOD * 2;
 			SW(4) <= '1';
-			-- Press and release add Button --
+			
+			-- Unsuccessful ADD press --
+			wait for CLK_Period * 4;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 6;
+			KEY(1) <= '1';
+			
+			-- Successful ADD press --
 			wait for CLK_PERIOD * 2;
 			KEY(1) <= '0';
-			wait for CLK_Period * 4;	
+			wait for CLK_Period * 10;	
 			KEY(1) <= '1';
-			-- Provide switch input --
---			wait for CLK_Period * 5;
---			SW(4) <= '0';
---			SW(3) <= '1';
---			SW(7) <= '1';
---			SW(9) <= '1';
-			-- Press and release add Button --
---			wait for CLK_PERIOD * 5;
---			KEY(1) <= '0';
---			wait for CLK_Period * 5;
---			KEY(1) <= '1';
+			
 			-- RESET again --
---			wait for CLK_PERIOD * 5; 
---			KEY(0) <= '0';
---			wait for CLK_PERIOD * 5;
---			KEY(0) <= '1';
+			wait for CLK_PERIOD * 4; 
+			KEY(0) <= '0';
+			wait for CLK_PERIOD * 4;
+			KEY(0) <= '1';
 			
 			wait;
 

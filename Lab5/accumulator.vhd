@@ -4,11 +4,11 @@ use ieee.numeric_std.all;
 
 entity accumulator is
 
-	-- generic(
+	generic(
 		--     Add generics here     --
 		-- NAME : TYPE := DEFAULT_VALUE (separated by , ) --
-
-	-- );
+		TIM_COUNT : integer := 500000	-- Used for debounce timer (Decrease in sim)
+	);
 
 	port (
 	     	-- Declare module ports here --
@@ -44,10 +44,11 @@ architecture behavioral of accumulator is
 
 	-- Declare internal signals here -- (terminated by ; )
 	-- signal NAME : TYPE ;
-	signal add : unsigned(9 downto 0);
-	signal sum : unsigned(23 downto 0);
+	signal add 		: unsigned(9 downto 0);		-- Current input from switches
+	signal sum 		: unsigned(23 downto 0);	-- Running total
+	signal TIMER 	: integer := 0;				-- Debounce timer
 	
-	type state_type is (CLEAR, WAITING, DEBOUNCE, ACCUMULATE, DISPLAY);
+	type state_type is (CLEAR, WAITING, DEBOUNCE, PRESSED, ACCUMULATE);
 	signal current_state, next_state: state_type;
 	
 	type SEVEN_SEG is array (0 to 15) of std_logic_vector(7 downto 0); -- Define new type for lookup table
@@ -72,63 +73,78 @@ begin
 	end process;
 	
 	-- Behavior Controller --
-	process (current_state, KEY)
+	process (ADC_CLK_10)
 	begin
-		case current_state is
-		
-			when CLEAR =>
-				-- Reset sum and add
-				add <= (others => '0');
-				sum <= (others => '0');
-				
-				-- If no RESET pressed
-				if KEY(0) = '1' then
+		if rising_edge(ADC_CLK_10) then
+			case current_state is
+			
+				when CLEAR =>
+					-- Reset sum and add
+					add <= (others => '0');
+					sum <= (others => '0');
+					
+					-- If no RESET pressed
+					if KEY(0) = '1' then
+						-- Move to WAITING
+						next_state <= WAITING;
+					end if;
+					
+				when WAITING =>
+					-- Clear add
+					add <= unsigned(SW);
+					
+					-- If ADD pressed
+					if KEY(1) = '0' then
+						-- Reset debounce timer
+						TIMER <= 0;
+						-- Move to DEBOUNCE
+						next_state <= DEBOUNCE;
+					end if;
+
+				when DEBOUNCE =>			
+					-- Wait for timer finish
+					if TIMER = TIM_COUNT then
+						-- If button still pressed
+						if KEY(1) = '0' then
+							-- Move to PRESSED
+							next_state <= PRESSED;
+						else
+							-- Otherwise return to WAITING (bounced signal)
+							next_state <= WAITING;
+						end if;
+					else
+						-- Increment timer
+						TIMER <= TIMER + 1;
+					end if;
+					
+				when PRESSED =>
+					-- If ADD released, move to ACCUMULATE
+					if KEY(1) = '1' then
+						next_state <= ACCUMULATE;
+					end if;
+					
+				when ACCUMULATE =>
+					-- Compare next_state to avoid accumulating twice
+					-- Without this, sum is increased when next_state is set, as well
+					--	as when current_state updates
+					if next_state /= WAITING then
+						-- Accumulate sum
+						sum <= sum + add;
+					end if;
+					
 					-- Move to WAITING
 					next_state <= WAITING;
-				end if;
 				
-			when WAITING =>
-				-- Clear add
-				add <= (others => '0');
-				
-				-- If RESET
-				if KEY(0) = '0' then
-					-- Move to CLEAR
-					next_state <= CLEAR;
-				-- Else if ADD
-				elsif KEY(1) = '0' then
-					-- Move to DEBOUNCE
-					next_state <= DEBOUNCE;
-				end if;
-
-			when DEBOUNCE =>
-				-- If ADD released
-				if KEY(1) = '1' then
-					-- Move to ACCUMULATE
-					next_state <= ACCUMULATE;
-					-- Update sum
-					sum <= sum + add;
-				end if;
-				
-			when ACCUMULATE =>
-				-- Increase sum
-				sum <= sum + add;
-				-- Move to DISPLAY
-				next_state <= DISPLAY;
-				
-			when DISPLAY => 
-				-- Move to WAITING
-				next_state <= WAITING;
-			
-			when others =>  
-				-- DEFAULT: Move to WAITING
-				next_state <= WAITING;
-				
-		end case;
-				
+				when others =>  
+					-- DEFAULT: Move to WAITING
+					next_state <= WAITING;
+					
+			end case;
+		end if;
 	end process;
 	
 	-- LEDR and 7-segment Controller --
+	-- Continuously updating outputs to reflect internal signals and switches
 	process (ADC_CLK_10)
 	begin
 		if rising_edge(ADC_CLK_10) then
