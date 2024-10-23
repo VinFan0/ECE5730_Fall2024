@@ -127,7 +127,7 @@ begin
 			KEY(1) <= '1';
 			
 			-- Successful ADD press --
-			wait for CLK_PERIOD * 2;
+			wait for CLK_PERIOD * 6;
 			KEY(1) <= '0';
 			wait for CLK_Period * 10;	
 			KEY(1) <= '1';

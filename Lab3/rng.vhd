@@ -45,7 +45,7 @@ architecture behavioral of rng is
 	type SEVEN_SEG is array (0 to 15) of std_logic_vector(7 downto 0); -- Define new type for lookup table
 	constant table : SEVEN_SEG := (	
 					X"C0", X"F9", X"A4", X"B0",  -- 0, 1, 2, 3
-       					X"99", X"92", X"82", X"F8",  -- 4, 5, 6, 7
+       				X"99", X"92", X"82", X"F8",  -- 4, 5, 6, 7
 					X"80", X"90", X"88", X"83",  -- 8, 9, A, B
 					X"C6", X"A1", X"86", X"8E"); -- C, D, E, F
 

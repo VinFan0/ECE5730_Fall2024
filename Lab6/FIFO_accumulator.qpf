@@ -1,0 +1,6 @@
+DATE = "19:43:53 October 22, 2024"
+QUARTUS_VERSION = "16.0.0"
+
+# Revisions
+
+PROJECT_REVISION = "FIFO_accumulator"
