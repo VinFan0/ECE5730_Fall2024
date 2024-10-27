@@ -2,17 +2,18 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity FIFO_TB is
-end entity FIFO_TB;
+entity FIFO_accumulator_TB is
+end entity FIFO_accumulator_TB;
 
-architecture behavioral of FIFO_TB is
+architecture behavioral of FIFO_accumulator_TB is
 
 	-- Instantiate component(s) to test --
 	component fifo_accumulator is
 		generic (
 			-- Provide generic values --
 			-- NAME : TYPE := INITIAL_VALUE (separated by ,) --
-			D : integer := 3;
+			W : integer := 3;		-- Width of SW input
+			DELAY : integer := 5		-- Number of clock cycles for debounce
 
 		);
 		port (
@@ -21,9 +22,9 @@ architecture behavioral of FIFO_TB is
 
 			-- Inputs --
 			-- Clocks --
-			ADC_CLK_10 	: in std_logic;
+			-- ADC_CLK_10 	: in std_logic;
 			MAX10_CLK1_50 	: in std_logic;
-			MAX10_CLK2_50 	: in std_logic;
+			-- MAX10_CLK2_50 	: in std_logic;
 
 			-- Buttons --
 			KEY : in std_logic_vector(1 downto 0);
@@ -38,21 +39,25 @@ architecture behavioral of FIFO_TB is
 			HEX5: out std_logic_vector(7 downto 0);
 
 			-- Switch input --
-			SW : in std_logic_vector(9 downto 0);
+			SW : in std_logic_vector((W-1) downto 0);
 			
 			-- LED output --
-			LEDR : out std_logic_vector(9 downto 0);
+			LEDR : out std_logic_vector((W-1) downto 0)
 		);
 	end component;
 
 	-- Define internal signals/values
 	-- signal NAME : TYPE := INITIAL_VALUE (separated by ; ) --
 
-	-- Include CLK signal and all I/)
-	signal ADC_CLK_10 : std_logic;
+	-- Include CLK signal and all I/O)
+	signal MAX10_CLK1_50 : std_logic;
 	constant CLK_PERIOD : time := 10 ns;
 
-	-- Button input --
+	-- Generics --
+	signal W : integer;
+	signal DELAY : integer := 5;
+
+	-- Button input -- 
 	signal KEY : std_logic_vector(1 downto 0);
 
 	-- 7-Segment output --
@@ -64,10 +69,10 @@ architecture behavioral of FIFO_TB is
 	signal HEX5 : std_logic_vector(7 downto 0);
 
 	-- Switch input --
-	signal SW : std_logic_vector(9 downto 0);
+	signal SW : std_logic_vector((W-1) downto 0);
 
 	-- LED output --
-	signal LEDR : std_logic_vector(9 downto 0);
+	signal LEDR : std_logic_vector((W-1) downto 0);
 
 begin
 
@@ -76,13 +81,14 @@ begin
 		generic map (
 			-- Map generic values (separated by , )--
 			-- NAME => value --
-			D => D
+			W => W,
+			DELAY => DELAY
 
 		)
 		port map (
 			-- Map port connections --
 			-- NAME => NAME (separated by , ) --
-			MAX10_CL1_50 => MAX10_CLK_50,
+			MAX10_CLK1_50 => MAX10_CLK1_50,
 			KEY 	=> KEY,
 			HEX0 	=> HEX0,
 			HEX1 	=> HEX1,
@@ -98,9 +104,9 @@ begin
 		-- Clock --
 		clk_process : process
 		begin
-			CLOCK_NAME <= '0';
+			MAX10_CLK1_50 <= '0';
 			wait for CLK_PERIOD / 2;
-			CLOCK_NAME <= '1';
+			MAX10_CLK1_50 <= '1';
 			wait for CLK_PERIOD / 2;
 		end process;
 
