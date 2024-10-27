@@ -2,19 +2,22 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity TB_NAME is
-end entity TB_NAME;
+entity FIFO_TB is
+end entity FIFO_TB;
 
-architecture behavioral of TB_NAME is
+architecture behavioral of FIFO_TB is
 
 	-- Instantiate component(s) to test --
-	component MODULE is
+	component fifo_accumulator is
 		generic (
 			-- Provide generic values --
+			-- NAME : TYPE := INITIAL_VALUE (separated by ,) --
+			D : integer := 3;
 
 		);
 		port (
 			-- Declare ports --
+			-- NAME : DIRECTION TYPE --
 
 			-- Inputs --
 			-- Clocks --
@@ -43,6 +46,7 @@ architecture behavioral of TB_NAME is
 	end component;
 
 	-- Define internal signals/values
+	-- signal NAME : TYPE := INITIAL_VALUE (separated by ; ) --
 
 	-- Include CLK signal and all I/)
 	signal ADC_CLK_10 : std_logic;
@@ -68,15 +72,26 @@ architecture behavioral of TB_NAME is
 begin
 
 	-- Define unit under test --
-	uut : MODULE
+	uut : fifo_accumulator
 		generic map (
 			-- Map generic values (separated by , )--
 			-- NAME => value --
+			D => D
 
 		)
 		port map (
 			-- Map port connections --
 			-- NAME => NAME (separated by , ) --
+			MAX10_CL1_50 => MAX10_CLK_50,
+			KEY 	=> KEY,
+			HEX0 	=> HEX0,
+			HEX1 	=> HEX1,
+			HEX2 	=> HEX2,
+			HEX3 	=> HEX3,
+			HEX4 	=> HEX4,
+			HEX5 	=> HEX5,
+			SW 	=> SW,
+			LEDR 	=> LEDR
 		);
 
 		-- Define processes --
