@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all
 use ieee.numeric_std.all;
 
-entity FIFO is
+entity MODULE_NAME is
 
 	generic(
 		--     Add generics here     --
@@ -30,40 +30,14 @@ entity FIFO is
 		HEX4 : out std_logic_vector(7 downto 0);
 		HEX5 : out std_logic_vector(7 downto 0);
 		HEX6 : out std_logic_vector(7 downto 0)
-
-		-- Switches --
-		SW : in std_logic_vector(9 downto 0);
-		
-		-- LEDs --
-		LEDR : out std_logic_vector(9 downto 0)
 	);
 
-end entity FIFO;
+end entity MODULE_NAME;
 
-architecture behavioral of FIFO is
+architecture behavioral of MODULE_NAME is
 
-	--Variables 
-	signal add 	 	: unsigned(9 downto 0);
-	signal sum 	 	: unsigned(23 downto 0);
-	signal Timer 	: integer := 0;
-	signal wr_en 	: integer := 0;
-	signal rd_en 	: integer := 0;
-	signal wr_data : unsigned(9 downto 0);
-
-	--FSM States
-	type state1 is (Clear, Waiting, Debounce, Pressed, Check, Writing);
-	type state2 is (Clear, Waiting Accumulate, Display);
-	
-	signal current_state1, next_state1: state1;
-	signal current_state2, next_state2: state2;
-
-	--7-segment display
-	type SEVEN_SEG is array (0 to 15) of std_logic_vector(7 downto 0); -- Define new type for lookup table
-	constant table : SEVEN_SEG := (	
-					X"C0", X"F9", X"A4", X"B0",  -- 0, 1, 2, 3
-					X"99", X"92", X"82", X"F8",  -- 4, 5, 6, 7
-					X"80", X"90", X"88", X"83",  -- 8, 9, A, B
-					X"C6", X"A1", X"86", X"8E"); -- C, D, E, F
+	-- Declare internal signals here -- (terminated by ; )
+	-- signal NAME : TYPE ;
 
 begin
 
