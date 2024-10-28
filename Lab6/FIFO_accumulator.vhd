@@ -7,7 +7,7 @@ entity fifo_accumulator is
 	generic(
 		--     Add generics here     --
 		-- NAME : TYPE := DEFAULT_VALUE (separated by ; ) --
-		DELAY : integer := 5 	-- Number of clock cycles for debounce
+		DELAY : integer := 2500000 	-- Number of clock cycles for debounce
 
 	);
 
@@ -44,8 +44,10 @@ end entity fifo_accumulator;
 architecture behavioral of fifo_accumulator is
 
 	-- Components --
+	-- FIFO --
 	component accum_FIFO IS
-		PORT (
+		PORT
+		(
 			clock		: IN STD_LOGIC ;
 			data		: IN STD_LOGIC_VECTOR (9 DOWNTO 0);
 			rdreq		: IN STD_LOGIC ;
@@ -55,6 +57,18 @@ architecture behavioral of fifo_accumulator is
 			full		: OUT STD_LOGIC ;
 			q			: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
 			usedw		: OUT STD_LOGIC_VECTOR (7 DOWNTO 0)
+		);
+	END component;
+	
+	-- PLL --
+	component my_PLL IS
+		PORT
+		(
+			areset	: IN STD_LOGIC  := '0';
+			inclk0	: IN STD_LOGIC  := '0';
+			c0			: OUT STD_LOGIC ;
+			c1			: OUT STD_LOGIC ;
+			locked	: OUT STD_LOGIC 
 		);
 	END component;
 
@@ -86,6 +100,11 @@ architecture behavioral of fifo_accumulator is
 	
 	signal FSM1_current_state, FSM1_next_state, FSM2_current_state, FSM2_next_state: state_type;
 	
+	-- PLL Signals --
+	signal pll_Reset		: std_logic := '0';	-- Reset PLL
+	signal pll_outCLK1	: std_logic;			-- PLL output clock 1
+   signal pll_outCLK2	: std_logic;			-- PLL output clock 2
+	signal pll_locked		: std_logic;			-- PLL Locked
 	
 	-- FSM1 Signals --
 	signal wr_en 		: std_logic;					-- Enable write to FIFO
@@ -113,7 +132,17 @@ begin
 			full	=> fifo_full,
 			q	=> rd_data,
 			usedw	=> word_count
-	);	
+		);	
+	
+	-- Instantiate PLL IP --
+	my_PLL_inst : my_PLL 
+		PORT MAP (
+			areset	=> pll_Reset,
+			inclk0	=> MAX10_CLK1_50,
+			c0	 		=> pll_outCLK1,
+			c1	 		=> pll_outCLK2,
+			locked	=> pll_locked	
+		);
 
 	-- FSM1 State Controller --
 	-- Replace MAX10_CLK1_50 with output from PLL --
@@ -140,7 +169,7 @@ begin
 	process ( KEY, timer, fifo_full, MAX10_CLK1_50 )
 	begin
 		--case FSM1_current_state is
---		if rising_edge(MAX10_CLK1_50) then
+--		if rising_edge(pll_outCLK1) then
 			case FSM1_current_state is
 				when Clear =>
 					--Reset 
@@ -254,6 +283,13 @@ begin
 					--Reset 
 					sum <= (others => '0');
 					rd_en <= '0';
+					-- Clear 7 Segment
+					HEX0 <= table(2);
+					HEX1 <= table(2);
+					HEX2 <= table(2);
+					HEX3 <= table(2);
+					HEX4 <= table(2);
+					HEX5 <= table(2);
 					
 					--If reset is released
 					if KEY(0) = '1' then
@@ -279,6 +315,14 @@ begin
 					elsif word_count = "00000101" then
 						--Next state is accumulate
 						FSM2_next_state <= Accumulate;
+						-- Set read enable
+						rd_en <= '1';
+						HEX0 <= table(1);
+						HEX1 <= table(1);
+						HEX2 <= table(1);
+						HEX3 <= table(1);
+						HEX4 <= table(1);
+						HEX5 <= table(1);
 					end if;
 				
 				when Accumulate =>
@@ -286,27 +330,28 @@ begin
 					if fifo_empty = '1' then
 						--disable read
 						rd_en <= '0';
+						if MAX10_CLK1_50 = '0' then
+							--add sum with rd_data
+							sum <= sum + unsigned(rd_data);
+						end if;
 						--Next state display
 						FSM2_next_state <= Display;
 					else
-						rd_en <= '1';
-						add <= unsigned(rd_data);
-						if falling_edge(MAX10_CLK1_50) then
-							if rd_en = '0' then
-								--add sum with rd_data
-								sum <= sum + unsigned(rd_data);
-							end if;
+						if MAX10_CLK1_50 = '0' then
+							--add sum with rd_data
+							sum <= sum + unsigned(rd_data);
 						end if;
 					end if;
 				
 				when Display => 
 					-- Update 7-Segment --
-					HEX0 <= table(to_integer(sum(3 downto 0)));
-					HEX1 <= table(to_integer(sum(7 downto 4)));
-					HEX2 <= table(to_integer(sum(11 downto 8)));
-					HEX3 <= table(to_integer(sum(15 downto 12)));
-					HEX4 <= table(to_integer(sum(19 downto 16)));
-					HEX5 <= table(to_integer(sum(23 downto 20)));
+					--HEX0 <= table(to_integer(sum(3 downto 0)));
+					--HEX1 <= table(to_integer(sum(7 downto 4)));
+					--HEX2 <= table(to_integer(sum(11 downto 8)));
+					--HEX3 <= table(to_integer(sum(15 downto 12)));
+					--HEX4 <= table(to_integer(sum(19 downto 16)));
+					--HEX5 <= table(to_integer(sum(23 downto 20)));
+					FSM2_next_state <= Waiting;
 		
 				when others => 
 					--Default to Waiting

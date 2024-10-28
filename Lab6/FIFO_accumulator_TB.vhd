@@ -129,25 +129,36 @@ begin
 			KEY(1) <= '0';
 			wait for CLK_PERIOD * 10;
 			KEY(1) <= '1';
+			wait for CLK_PERIOD * 2;
+		
+			SW <= "0000000010";
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 2;
+
+			SW <= "0000010000";
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 2;
+
+			SW <= "0000000001";
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 2;
+
+			SW <= "0000000011";
+			wait for CLK_PERIOD *10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 2;
 			
-			-- Repeat 4 times --
-			wait for CLK_PERIOD * 10;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 10;
-			KEY(1) <= '1';
-			wait for CLK_PERIOD * 10;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 10;
-			KEY(1) <= '1';
-			wait for CLK_PERIOD * 10;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 10;
-			KEY(1) <= '1';
-			wait for CLK_PERIOD * 10;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 10;
-			KEY(1) <= '1';
-				
 			wait;
 
 		end process; 
