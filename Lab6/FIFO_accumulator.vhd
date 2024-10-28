@@ -111,6 +111,7 @@ begin
 	process ( KEY, timer, fifo_full )
 	begin
 		--case FSM1_current_state is
+		if 
 			
 			
 			
@@ -160,6 +161,13 @@ begin
 	begin
 		if rising_edge(MAX10_CLK1_50) then
 			LEDR <= SW;
+			-- Update 7-Segment --
+			HEX0 <= table(to_integer(sum(3 downto 0)));
+			HEX1 <= table(to_integer(sum(7 downto 4)));
+			HEX2 <= table(to_integer(sum(11 downto 8)));
+			HEX3 <= table(to_integer(sum(15 downto 12)));
+			HEX4 <= table(to_integer(sum(19 downto 16)));
+			HEX5 <= table(to_integer(sum(23 downto 20)));
 		end if;
 	end process;
 	
