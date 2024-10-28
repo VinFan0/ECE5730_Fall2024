@@ -111,11 +111,81 @@ begin
 	process ( KEY, timer, fifo_full )
 	begin
 		--case FSM1_current_state is
-		if 
-			
-			
-			
-		--end case;
+		if rising_edge(MAX10_CLK1_50) then
+			case FSM1_current_state is
+				when Clear =>
+					--Reset 
+					wr_data <= (others => '0');
+					
+					--If reset is released
+					if KEY(0) = '1' then
+						--Move to next state
+						FSM1_next_state <= Waiting;
+					end if;
+					
+				when Waiting =>
+					--If reset is pushed
+					if KEY(0) = '0' then
+						--Go to clear
+						FSM1_next_state <= Clear;
+					--If add is pressed
+					elsif KEY(1) = '0' then
+						--Reset Timer
+						timer <= 0;
+						--Next state is debounce
+						FSM1_next_state <= Debounce;
+					end if;
+				
+				when Debounce =>
+					--If timer = DELAY
+					if timer = DELAY then
+						--If add is still pressed
+						if KEY(1) = '0' then
+							--Next state is pressed
+							FSM1_next_state <= Pressed;
+						else
+							--Next state is waiting
+							FSM1_next_state <= Waiting;
+						end if;
+					else
+						--Increment timer
+						timer <= timer +1;
+					end if;
+					
+					when Pressed =>
+						--Wait for add to be released
+						if KEY(1) = '1' then
+							--Next state is check
+							FSM1_next_state <= Check;
+						end if;
+					
+				when Check =>
+					--If FIFO is full
+					if fifo_full = 1 then
+						--Next state is waiting
+						FSM1_next_state <= Waiting;
+					--If fifo is not full
+					else
+						--Enable write
+						wr_en <= 1;
+						--Next state is Writing
+						FSM1_next_state <= Writing;
+					end if;
+					
+				when Writing =>
+					--Write data to fifo
+					wr_data <= unsigned(SW);
+					--Disable wr_en
+					wr_en <= 0;
+					--Next state is waiting
+					FSM1_next_state <= Waiting;
+					
+				when others => 
+					--Default to waiting
+					FSM1_next_state <= Waiting;
+					
+			end case;
+		end if;
 	end process;
 	
 	
@@ -148,11 +218,60 @@ begin
 	-- FSM2 Behavior Controller --
 	process ( KEY, fifo_empty, fifo_full )
 	begin
-		--case FSM2_current_case is
-		
-		
-		
-		--end case;
+		if rising_edge(MAX10_CLK1_50) then
+			case FSM2_current_state is
+				when Clear =>
+					--Reset 
+					sum <= (others => '0');
+					
+					--If reset is released
+					if KEY(0) = '1' then
+						--Enable Read
+						rd_en <= 1;
+						--Move to next state
+						FSM2_next_state <= Empty;
+					end if;
+				when Empty =>
+					--If fifo is empty
+					if fifo_empty = 1 then
+						--Disable read
+						re_en <= 0;
+						--Next State is waiting
+						FSM2_next_state <= Waiting;
+					end if;
+				
+				when Waiting =>
+					--If clear is pushed
+					if KEY(0) = '0' then
+						--Next state is clear
+						FSM2_next_state <= Clear;
+					elsif fifo_full = 1 then
+						--Enable read
+						rd_en <= 1;
+						--Next state is accumulate
+						FSM2_next_state <= Accumulate;
+					end if;
+				
+				when Accumulate =>
+					--If fifo_empty
+					if fifo_empty = 1 then
+						--disable read
+						rd_en <= 0;
+						--Next state display
+						FSM2_next_state <= Display;
+					else
+						--add sum with rd_data
+						sum <= sum + rd_data;
+					end if;
+				
+				when Display
+						
+				when others => 
+					--Default to Waiting
+					FSM2_next_state <= Waiting;
+				
+			end case;
+		end if;
 	end process;
 	
 	
