@@ -12,7 +12,6 @@ architecture behavioral of FIFO_accumulator_TB is
 		generic (
 			-- Provide generic values --
 			-- NAME : TYPE := INITIAL_VALUE (separated by ,) --
-			W : integer := 3;		-- Width of SW input
 			DELAY : integer := 5		-- Number of clock cycles for debounce
 
 		);
@@ -39,10 +38,10 @@ architecture behavioral of FIFO_accumulator_TB is
 			HEX5: out std_logic_vector(7 downto 0);
 
 			-- Switch input --
-			SW : in std_logic_vector((W-1) downto 0);
+			SW : in std_logic_vector(9 downto 0);
 			
 			-- LED output --
-			LEDR : out std_logic_vector((W-1) downto 0)
+			LEDR : out std_logic_vector(9 downto 0)
 		);
 	end component;
 
@@ -54,7 +53,6 @@ architecture behavioral of FIFO_accumulator_TB is
 	constant CLK_PERIOD : time := 10 ns;
 
 	-- Generics --
-	signal W : integer;
 	signal DELAY : integer := 5;
 
 	-- Button input -- 
@@ -69,10 +67,10 @@ architecture behavioral of FIFO_accumulator_TB is
 	signal HEX5 : std_logic_vector(7 downto 0);
 
 	-- Switch input --
-	signal SW : std_logic_vector((W-1) downto 0);
+	signal SW : std_logic_vector(9 downto 0);
 
 	-- LED output --
-	signal LEDR : std_logic_vector((W-1) downto 0);
+	signal LEDR : std_logic_vector(9 downto 0);
 
 begin
 
@@ -81,7 +79,6 @@ begin
 		generic map (
 			-- Map generic values (separated by , )--
 			-- NAME => value --
-			W => W,
 			DELAY => DELAY
 
 		)
@@ -116,12 +113,42 @@ begin
 			
 			-- Initial values --
 			KEY(0) <= '1';
+			KEY(1) <= '1';
 
 			-- Initial RESET --
 			wait for CLK_PERIOD * 10; 
 			KEY(0) <= '0';            
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
+
+			-- Provide SW input --
+			SW <= "0000000101";
+
+			-- Press add button --
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+			
+			-- Repeat 4 times --
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '1';
+				
+			wait;
 
 		end process; 
 
