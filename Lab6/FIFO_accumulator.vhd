@@ -7,7 +7,7 @@ entity fifo_accumulator is
 	generic(
 		--     Add generics here     --
 		-- NAME : TYPE := DEFAULT_VALUE (separated by ; ) --
-		DELAY : integer := 2500000 	-- Number of clock cycles for debounce
+		DELAY : integer := 1000000 	-- Number of clock cycles for debounce
 
 	);
 
@@ -308,11 +308,7 @@ begin
 					end if;
 				
 				when Waiting =>
-					--If clear is pushed
-					if KEY(0) = '0' then
-						--Next state is clear
-						FSM2_next_state <= Clear;
-					elsif word_count = "00000101" then
+					if false then
 						--Next state is accumulate
 						FSM2_next_state <= Accumulate;
 						-- Set read enable
