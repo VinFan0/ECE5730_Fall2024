@@ -30,7 +30,6 @@ entity fifo_accumulator is
 		HEX3 : out std_logic_vector(7 downto 0);
 		HEX4 : out std_logic_vector(7 downto 0);
 		HEX5 : out std_logic_vector(7 downto 0);
-		HEX6 : out std_logic_vector(7 downto 0);
 
 		-- Switches --
 		SW : in std_logic_vector(9 downto 0);
@@ -169,35 +168,41 @@ begin
 	process ( KEY, timer, fifo_full, MAX10_CLK1_50 )
 	begin
 		--case FSM1_current_state is
---		if rising_edge(pll_outCLK1) then
+		if rising_edge(MAX10_CLK1_50) then
 			case FSM1_current_state is
 				when Clear =>
 					--Reset 
 					wr_data <= (others => '0');
 					wr_en <= '0';
-					
+					timer <= 0;
 					--If reset is released
 					if KEY(0) = '1' then
 						--Move to next state
 						FSM1_next_state <= Waiting;
+					else 
+						FSM1_next_state <= Clear;
 					end if;
 					
 				when Waiting =>
 					--If reset is pushed
+					wr_data <= (others => '0');
+					wr_en <= '0';
+					timer <= 0;
 					if KEY(0) = '0' then
 						--Go to clear
 						FSM1_next_state <= Clear;
 					--If add is pressed
 					elsif KEY(1) = '0' then
-						--Reset Timer
-						timer <= 0;
 						--Next state is debounce
 						FSM1_next_state <= Debounce;
 					end if;
 				
 				when Debounce =>
+					wr_data <= (others => '0');
+					wr_en <= '0';
 					--If timer = DELAY
 					if timer = DELAY then
+						timer <= 0;
 						--If add is still pressed
 						if KEY(1) = '0' then
 							--Next state is pressed
@@ -209,42 +214,58 @@ begin
 					else
 						--Increment timer
 						timer <= timer + 1;
+						FSM1_next_state <= Debounce;
 					end if;
 					
-					when Pressed =>
-						--Wait for add to be released
-						if KEY(1) = '1' then
-							--Next state is check
-							FSM1_next_state <= Check;
-							--Write data to fifo
-							wr_data <= SW;
-						end if;
+				when Pressed =>
+					timer <= 0;
+					--Wait for add to be released
+					if KEY(1) = '1' then
+						wr_en <= '0';
+						--Next state is check
+						FSM1_next_state <= Check;
+						--Write data to fifo
+						wr_data <= SW;
+					else 
+						wr_en <= '0';
+						wr_data <= (others => '0');
+						FSM1_next_state <= Pressed;
+					end if;
 					
 				when Check =>
+					timer <= 0;
 					--If FIFO is full
 					if fifo_full = '1' then
+						wr_en <= '0';
+						wr_data <= (others => '0');
 						--Next state is waiting
 						FSM1_next_state <= Waiting;
 					--If fifo is not full
 					else
 						--Enable write
+						wr_data <= SW;
 						wr_en <= '1';
 						--Next state is Writing
 						FSM1_next_state <= Writing;
 					end if;
 					
 				when Writing =>
+					timer <= 0;
 					--Disable wr_en
 					wr_en <= '0';
+					wr_data <= (others => '0');
 					--Next state is waiting
 					FSM1_next_state <= Waiting;
 					
 				when others => 
 					--Default to waiting
 					FSM1_next_state <= Waiting;
+					wr_data <= (others => '0');
+					wr_en <= '0';
+					timer <= 0;
 					
 			end case;
---		end if;
+		end if;
 	end process;
 	
 	
@@ -277,7 +298,7 @@ begin
 	-- FSM2 Behavior Controller --
 	process ( KEY, fifo_empty, fifo_full, MAX10_CLK1_50, rd_en )
 	begin
---		if rising_edge(MAX10_CLK1_50) then
+		if rising_edge(MAX10_CLK1_50) then
 			case FSM2_current_state is
 				when Clear =>
 					--Reset 
@@ -354,7 +375,7 @@ begin
 					FSM2_next_state <= Waiting;
 				
 			end case;
---		end if;
+		end if;
 	end process;
 	
 	
