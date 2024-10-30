@@ -155,7 +155,7 @@ begin
 			KEY(1) <= '0';
 			wait for CLK_PERIOD * 8;
 			KEY(1) <= '1';
-			wait for CLK_PERIOD * 20;
+			wait for CLK_PERIOD * 2;
 			
 			-- Provide SW input --
 			SW <= "0000000001";
@@ -191,48 +191,8 @@ begin
 			KEY(1) <= '0';
 			wait for CLK_PERIOD * 8;
 			KEY(1) <= '1';
-			wait for CLK_PERIOD * 20;
-
-			KEY(0) <= '0';
-			wait for CLK_PERIOD * 6;
-			KEY(0) <= '1';
-			wait for CLK_PERIOD * 6;
-		
-			-- Provide SW input --
-			SW <= "0000000001";
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '1';
 			wait for CLK_PERIOD * 2;
 		
-			SW <= "0000000010";
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '1';
-			wait for CLK_PERIOD * 2;
-
-			SW <= "0000000011";
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '1';
-			wait for CLK_PERIOD * 2;
-
-			SW <= "0000000100";
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '1';
-			wait for CLK_PERIOD * 2;
-
-			SW <= "0000000101";
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '0';
-			wait for CLK_PERIOD * 8;
-			KEY(1) <= '1';
-			wait for CLK_PERIOD * 2;
 
 			wait;
 

@@ -1,11 +1,12 @@
 accum_FIFO_inst : accum_FIFO PORT MAP (
-		clock	 => clock_sig,
+		aclr	 => aclr_sig,
 		data	 => data_sig,
+		rdclk	 => rdclk_sig,
 		rdreq	 => rdreq_sig,
-		sclr	 => sclr_sig,
+		wrclk	 => wrclk_sig,
 		wrreq	 => wrreq_sig,
-		empty	 => empty_sig,
-		full	 => full_sig,
 		q	 => q_sig,
-		usedw	 => usedw_sig
+		rdempty	 => rdempty_sig,
+		rdusedw	 => rdusedw_sig,
+		wrusedw	 => wrusedw_sig
 	);
