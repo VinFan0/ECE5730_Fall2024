@@ -109,6 +109,7 @@ architecture behavioral of fifo_accumulator is
 	signal wr_en 		: std_logic;					-- Enable write to FIFO
 	signal wr_data 	: std_logic_vector(9 downto 0);				-- Data to write to FIFO
 	signal fifo_full 	: std_logic;					-- Binary signal flag for fifo is full	(also used in FSM2)
+	signal word 		: integer := 0;
 	
 	-- FSM2 Signals --	
 	signal rd_data	 	: std_logic_vector(9 downto 0);				-- Data to read from FIFO
@@ -172,6 +173,7 @@ begin
 			case FSM1_current_state is
 				when Clear =>
 					--Reset 
+					word <= 0;
 					wr_data <= (others => '0');
 					wr_en <= '0';
 					timer <= 0;
@@ -226,6 +228,7 @@ begin
 						FSM1_next_state <= Check;
 						--Write data to fifo
 						wr_data <= SW;
+						word <= word + 1;
 					else 
 						wr_en <= '0';
 						wr_data <= (others => '0');
@@ -238,6 +241,7 @@ begin
 					if fifo_full = '1' then
 						wr_en <= '0';
 						wr_data <= (others => '0');
+						word <= 0;
 						--Next state is waiting
 						FSM1_next_state <= Waiting;
 					--If fifo is not full
@@ -318,6 +322,8 @@ begin
 						fifo_clear <= '1';
 						--Move to next state
 						FSM2_next_state <= Empty;
+					else 
+						FSM2_next_state <= Clear;
 					end if;
 				when Empty =>
 					--If fifo is empty
@@ -329,20 +335,28 @@ begin
 					end if;
 				
 				when Waiting =>
-					if false then
-						--Next state is accumulate
-						FSM2_next_state <= Accumulate;
-						-- Set read enable
-						rd_en <= '1';
 						HEX0 <= table(1);
 						HEX1 <= table(1);
 						HEX2 <= table(1);
 						HEX3 <= table(1);
 						HEX4 <= table(1);
 						HEX5 <= table(1);
-					end if;
+						if word = 5 then
+							--Next state is accumulate
+							FSM2_next_state <= Accumulate;
+							-- Set read enable
+							rd_en <= '1';
+						else
+							FSM2_next_state <= Waiting;
+						end if;
 				
 				when Accumulate =>
+						HEX0 <= table(1);
+						HEX1 <= table(2);
+						HEX2 <= table(2);
+						HEX3 <= table(2);
+						HEX4 <= table(2);
+						HEX5 <= table(3);
 					--If fifo_empty
 					if fifo_empty = '1' then
 						--disable read
@@ -357,6 +371,7 @@ begin
 						if MAX10_CLK1_50 = '0' then
 							--add sum with rd_data
 							sum <= sum + unsigned(rd_data);
+						FSM2_next_state <= Accumulate;
 						end if;
 					end if;
 				
