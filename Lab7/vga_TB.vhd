@@ -2,15 +2,23 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity TB_NAME is
-end entity TB_NAME;
+entity vga_TB is
+end entity vga_TB;
 
-architecture behavioral of TB_NAME is
+architecture behavioral of vga_TB is
 
 	-- Instantiate component(s) to test --
-	component MODULE is
+	component vga is
 		generic (
 			-- Provide generic values --
+			-- NAME : TYPE := INITIAL_VALUE (separated by ,) --
+			A_COUNT : integer;
+			B_COUNT : integer;
+			C_COUNT : integer;
+			D_COUNT : integer;
+			L_COUNT : integer;
+			F_COUNT	: integer;
+			DELAY	: integer
 
 		);
 		port (
@@ -18,74 +26,82 @@ architecture behavioral of TB_NAME is
 
 			-- Inputs --
 			-- Clocks --
-			ADC_CLK_10 	: in std_logic;
 			MAX10_CLK1_50 	: in std_logic;
-			MAX10_CLK2_50 	: in std_logic;
 
 			-- Buttons --
 			KEY : in std_logic_vector(1 downto 0);
-
-		
-			-- 7-Segment output --
-			HEX0: out std_logic_vector(7 downto 0);
-			HEX1: out std_logic_vector(7 downto 0);
-			HEX2: out std_logic_vector(7 downto 0);
-			HEX3: out std_logic_vector(7 downto 0);
-			HEX4: out std_logic_vector(7 downto 0);
-			HEX5: out std_logic_vector(7 downto 0);
-
-			-- Switch input --
-			SW : in std_logic_vector(9 downto 0);
 			
-			-- LED output --
-			LEDR : out std_logic_vector(9 downto 0);
+			-- VGA --
+			VGA_R 	: out std_logic_vector(3 downto 0);
+			VGA_G 	: out std_logic_vector(3 downto 0);
+			VGA_B 	: out std_logic_vector(3 downto 0);
+			VGA_HS	: out std_logic;
+			VGA_VS	: out std_logic
+		
 		);
 	end component;
 
 	-- Define internal signals/values
 
 	-- Include CLK signal and all I/)
-	signal ADC_CLK_10 : std_logic;
+	signal MAX10_CLK1_50 : std_logic;
 	constant CLK_PERIOD : time := 10 ns;
 
 	-- Button input --
 	signal KEY : std_logic_vector(1 downto 0);
-
-	-- 7-Segment output --
-	signal HEX0 : std_logic_vector(7 downto 0);
-	signal HEX1 : std_logic_vector(7 downto 0);
-	signal HEX2 : std_logic_vector(7 downto 0);
-	signal HEX3 : std_logic_vector(7 downto 0);
-	signal HEX4 : std_logic_vector(7 downto 0);
-	signal HEX5 : std_logic_vector(7 downto 0);
-
-	-- Switch input --
-	signal SW : std_logic_vector(9 downto 0);
-
-	-- LED output --
-	signal LEDR : std_logic_vector(9 downto 0);
-
+	
+	-- VGA output --
+	signal VGA_R 	: std_logic_vector(3 downto 0);
+	signal VGA_G 	: std_logic_vector(3 downto 0);
+	signal VGA_B 	: std_logic_vector(3 downto 0);
+	signal VGA_HS	: std_logic;
+	signal VGA_VS	: std_logic;
+	
+	-- Generics
+	signal DELAY	: integer := 2;
+	signal F_COUNT	: integer := 10;
+	signal L_COUNT	: integer := 8;
+	signal D_COUNT  : integer := 15;
+	signal C_COUNT	: integer := 15;
+	signal B_COUNT	: integer := 2;
+    signal A_COUNT	: integer := 3;
+	
 begin
 
 	-- Define unit under test --
-	uut : MODULE
+	uut : vga
 		generic map (
 			-- Map generic values (separated by , )--
 			-- NAME => value --
-
+			DELAY	=> DELAY,
+			F_COUNT	=> F_COUNT,
+			L_COUNT	=> L_COUNT,
+			D_COUNT => D_COUNT,
+			C_COUNT	=> C_COUNT,
+			B_COUNT	=> B_COUNT,
+			A_COUNT	=> A_COUNT
+			
 		)
 		port map (
 			-- Map port connections --
 			-- NAME => NAME (separated by , ) --
+			MAX10_CLK1_50	=> MAX10_CLK1_50,
+			KEY				=> KEY,
+			VGA_R 			=> VGA_R,
+			VGA_G 			=> VGA_G,
+			VGA_B 			=> VGA_G,
+			VGA_HS			=> VGA_HS,
+			VGA_VS			=> VGA_VS
+			
 		);
 
 		-- Define processes --
 		-- Clock --
 		clk_process : process
 		begin
-			CLOCK_NAME <= '0';
+			MAX10_CLK1_50 <= '0';
 			wait for CLK_PERIOD / 2;
-			CLOCK_NAME <= '1';
+			MAX10_CLK1_50 <= '1';
 			wait for CLK_PERIOD / 2;
 		end process;
 
