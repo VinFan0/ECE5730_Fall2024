@@ -58,13 +58,13 @@ architecture behavioral of vga_TB is
 	signal VGA_VS	: std_logic;
 	
 	-- Generics
-	signal DELAY	: integer := 2;
-	signal F_COUNT	: integer := 10;
-	signal L_COUNT	: integer := 8;
-	signal D_COUNT  : integer := 15;
-	signal C_COUNT	: integer := 15;
+	signal A_COUNT	: integer := 3;
 	signal B_COUNT	: integer := 2;
-    signal A_COUNT	: integer := 3;
+	signal C_COUNT	: integer := 15;
+	signal D_COUNT  : integer := 15;
+	signal L_COUNT	: integer := 8;
+	signal F_COUNT	: integer := 10;
+	signal DELAY	: integer := 2;
 	
 begin
 
@@ -111,12 +111,15 @@ begin
 			
 			-- Initial values --
 			KEY(0) <= '1';
+			KEY(1) <= '1';
 
 			-- Initial RESET --
 			wait for CLK_PERIOD * 10; 
 			KEY(0) <= '0';            
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
+			
+			wait;
 
 		end process; 
 

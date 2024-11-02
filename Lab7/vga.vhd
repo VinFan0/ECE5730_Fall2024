@@ -110,7 +110,7 @@ begin
 	
 	
 	-- Determine the future --
-	process ( pix_count, KEY, lin_count, timer, flg_count)
+	process ( current_state, pix_count, KEY, lin_count, timer, flg_count)
 	begin
 		case current_state is
 			when Clear => 
@@ -143,6 +143,8 @@ begin
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= B;
+					
+					
 				end if;
 				
 			when B => 
@@ -151,7 +153,7 @@ begin
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
-					next_state <= A;
+					next_state <= B;
 				else
 					next_pix_count <= C_COUNT;
 					next_lin_count <= lin_count;
@@ -183,15 +185,15 @@ begin
 					next_timer <= timer;
 					next_state <= D;
 				else
-					next_pix_count <= D_COUNT;
-					next_flg_count <= flg_count;
-					next_timer <= timer;
-					next_state <= A;
+					next_pix_count <= A_COUNT;
 					if lin_count = L_COUNT then
 						next_lin_count <= 0;
 					else
 						next_lin_count <= lin_count + 1;
 					end if;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
+					next_state <= A;
 				end if;
 				
 			when Debounce =>
