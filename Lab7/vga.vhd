@@ -124,68 +124,68 @@ begin
 				else				
 					-- Prep for state A
 					next_pix_count <= A_COUNT;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= A;
 				end if;
 				
 			when A => 
 				if pix_count /= 0 then
-					next_pix_count <= next_pix_count;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_pix_count <= pix_count - 1;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= A;
 				else
 					next_pix_count <= B_COUNT;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= B;
 				end if;
 				
 			when B => 
 				if pix_count /= 0 then
-					next_pix_count <= next_pix_count;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_pix_count <= pix_count - 1;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= A;
 				else
 					next_pix_count <= C_COUNT;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= C;
 				end if;
 				
 			when C => 
 				if pix_count /= 0 then
-					next_pix_count <= next_pix_count;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_pix_count <= pix_count - 1;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= C;
 				else
 					next_pix_count <= D_COUNT;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= D;
 				end if;
 				
 			when D =>
 				if pix_count /= 0 then
-					next_pix_count <= next_pix_count;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_pix_count <= pix_count - 1;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= D;
 				else
 					next_pix_count <= D_COUNT;
-					next_flg_count <= next_flg_count;
-					next_timer <= next_timer;
+					next_flg_count <= flg_count;
+					next_timer <= timer;
 					next_state <= A;
 					if lin_count = L_COUNT then
 						next_lin_count <= 0;
@@ -201,9 +201,9 @@ begin
 					if KEY(1) = '0' then
 						--Next state is pressed
 						next_pix_count <= D_COUNT;
-						next_lin_count <= next_lin_count;
-						next_flg_count <= next_flg_count;
-						next_timer <= next_timer;
+						next_lin_count <= lin_count;
+						next_flg_count <= flg_count;
+						next_timer <= timer;
 						next_state <= Debounce;
 					else
 						next_pix_count <= A_COUNT;
@@ -218,18 +218,18 @@ begin
 					end if;
 				else
 					--Increment timer
-					next_pix_count <= next_pix_count;
-					next_lin_count <= next_lin_count;
-					next_flg_count <= next_flg_count;
+					next_pix_count <= pix_count;
+					next_lin_count <= lin_count;
+					next_flg_count <= flg_count;
 					next_timer <= timer + 1;
 					next_state <= Debounce;
 				end if;
 				
 			when others =>
-				next_pix_count <= next_pix_count;
-				next_lin_count <= next_lin_count;
-				next_flg_count <= next_flg_count;
-				next_timer <= next_timer;
+				next_pix_count <= pix_count;
+				next_lin_count <= lin_count;
+				next_flg_count <= flg_count;
+				next_timer <= timer;
 				next_state <= Clear;
 			
 		end case;
