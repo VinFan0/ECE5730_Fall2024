@@ -14,6 +14,10 @@ elsif pix_count <= 213 then
 	next_next_VGA_R <= "1110";
 	next_next_VGA_G <= "0010";
 	next_next_VGA_B <= "0011";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 	
 --Flag 1-Italy
@@ -32,6 +36,10 @@ elsif pix_count <= 213 then
 	next_next_VGA_R <= "1100";
 	next_next_VGA_G <= "0010";
 	next_next_VGA_B <= "0011";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 	
 --Flag 2-Ireland
@@ -50,6 +58,10 @@ elsif pix_count <= 213 then
 	next_next_VGA_R <= "1111";
 	next_next_VGA_G <= "1000";
 	next_next_VGA_B <= "0011";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;	
 	
 --Flag 3-Belgium
@@ -68,6 +80,10 @@ elsif pix_count <= 213 then
 	next_next_VGA_R <= "1110";
 	next_next_VGA_G <= "0010";
 	next_next_VGA_B <= "0011";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 
 --Flag 4-Mali	
@@ -86,6 +102,10 @@ elsif pix_count <= 213 then
 	next_next_VGA_R <= "1100";
 	next_next_VGA_G <= "0001";
 	next_next_VGA_B <= "0010";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 
 --Flag 5-Chad	
@@ -104,6 +124,10 @@ elsif pix_count <= 213 then
 	next_VGA_R <= "1100";
 	next_VGA_G <= "0000";
 	next_VGA_B <= "0011";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 
 --Flag 6-Nigeria
@@ -122,6 +146,10 @@ elsif pix_count <= 213 then
 	next_VGA_R <= "0000";
 	next_VGA_G <= "1000";
 	next_VGA_B <= "0101";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 
 --Flag 7-Ivory Coast
@@ -140,6 +168,10 @@ elsif pix_count <= 213 then
 	next_VGA_R <= "0000";
 	next_VGA_G <= "1001";
 	next_VGA_B <= "0110";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 
 --Flag 8-Poland
@@ -153,6 +185,10 @@ elsif (lin_count > 285) and (lin_count <= 525) then
 	next_VGA_R <= "1101";
 	next_VGA_G <= "0001";
 	next_VGA_B <= "0011";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 
 --Flag 9-Germany
@@ -170,6 +206,10 @@ elsif (lin_count > 365) and (lin_count <= 525) then
 	--YELLOW = #ffce00
 	next_VGA_R <= "1111";
 	next_VGA_G <= "1100";
+	next_VGA_B <= "0000";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
 	next_VGA_B <= "0000";
 end if;
 
@@ -189,6 +229,10 @@ elsif (lin_count > 365) and (lin_count <= 525) then
 	next_VGA_R <= "1110";
 	next_VGA_G <= "0010";
 	next_VGA_B <= "0011";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 	
 --Flag 11-Republic of Congo
@@ -209,6 +253,10 @@ elsif(pix_count <= j) and (pix_count > 0) then
 	next_VGA_R <= "1101";
 	next_VGA_G <= "0010";
 	next_VGA_B <= "0001";
+else
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 end if;
 i++
 j++
