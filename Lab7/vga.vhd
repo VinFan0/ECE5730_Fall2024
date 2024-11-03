@@ -41,17 +41,23 @@ architecture behavioral of vga is
 	-- Declare internal signals here -- (terminated by ; )
 	-- signal NAME : TYPE ;
 	
-	signal pix_count 		: integer := 0;
+	signal pix_count 			: integer := 0;
 	signal next_pix_count	: integer := 0;
-	signal lin_count 		: integer := 0;
+	signal lin_count 			: integer := 0;
 	signal next_lin_count 	: integer := 0;
-	signal flg_count 		: integer := 0;
+	signal flg_count 			: integer := 0;
 	signal next_flg_count 	: integer := 0;
-	signal clk_count 		: integer := 0;
+	signal clk_count 			: integer := 0;
 	signal next_clk_count 	: integer := 0;
 	
-	signal timer 		: integer := 0;	-- Timer for debounce
-	signal next_timer 	: integer := 0;
+	signal timer 				: integer := 0;	-- Timer for debounce
+	signal next_timer 		: integer := 0;
+	
+	signal next_VGA_R  		: std_logic_vector(3 downto 0);
+	signal next_VGA_G  		: std_logic_vector(3 downto 0);
+	signal next_VGA_B  		: std_logic_vector(3 downto 0);
+	signal next_VGA_HS 		: std_logic;
+	signal next_VGA_VS 		: std_logic;
 	
 	-- FSM States
 	type state_type is (
@@ -84,6 +90,11 @@ begin
 					lin_count <= next_lin_count;
 					flg_count <= next_flg_count;
 					timer <= next_timer;
+					VGA_R  <= next_VGA_R; 
+					VGA_G  <= next_VGA_G; 
+					VGA_B  <= next_VGA_B; 
+					VGA_HS <= next_VGA_HS;
+					VGA_VS <= next_VGA_VS;
 					current_state <= Clear;
 					
 				-- If next
@@ -91,7 +102,12 @@ begin
 					pix_count <= next_pix_count;
 					lin_count <= next_lin_count;
 					flg_count <= next_flg_count;
-					timer <= next_timer;
+					timer	<= next_timer;
+					VGA_R  <= next_VGA_R; 
+					VGA_G  <= next_VGA_G; 
+					VGA_B  <= next_VGA_B; 
+					VGA_HS <= next_VGA_HS;
+					VGA_VS <= next_VGA_VS;
 					current_state <= Debounce;
 				-- Continue same flag
 				else
@@ -99,7 +115,12 @@ begin
 					pix_count <= next_pix_count;
 					lin_count <= next_lin_count;
 					flg_count <= next_flg_count;
-					timer <= next_timer;
+					timer 	 <= next_timer;
+					VGA_R  <= next_VGA_R; 
+					VGA_G  <= next_VGA_G; 
+					VGA_B  <= next_VGA_B; 
+					VGA_HS <= next_VGA_HS;
+					VGA_VS <= next_VGA_VS;
 					current_state <= next_state;
 				end if;
 			else
@@ -114,6 +135,11 @@ begin
 	begin
 		case current_state is
 			when Clear => 
+				next_VGA_R	= '0000'
+				next_VGA_G	= '0000'
+				next_VGA_B	= '0000'
+				next_VGA_HS = '1';
+				next_VGA_VS = '1';
 				if KEY(0) = '0' then
 					-- Reset counters
 					next_pix_count <= 0;
@@ -131,6 +157,11 @@ begin
 				end if;
 				
 			when A => 
+				next_VGA_R	= '0000'
+				next_VGA_G	= '0000'
+				next_VGA_B	= '0000'
+				next_VGA_HS = '1';
+				next_VGA_VS = '1';
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
@@ -148,6 +179,11 @@ begin
 				end if;
 				
 			when B => 
+				next_VGA_R	= '0000'
+				next_VGA_G	= '0000'
+				next_VGA_B	= '0000'
+				next_VGA_HS = '0';
+				next_VGA_VS = '0';
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
@@ -163,6 +199,11 @@ begin
 				end if;
 				
 			when C => 
+				next_VGA_R	= '0000'
+				next_VGA_G	= '0000'
+				next_VGA_B	= '0000'
+				next_VGA_HS = '1';
+				next_VGA_VS = '1';
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
@@ -178,12 +219,35 @@ begin
 				end if;
 				
 			when D =>
+				next_VGA_HS = '1';
+				next_VGA_VS = '1';
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= D;
+					--Flag Case
+					case flg_count is
+						when 0 =>
+							--Flag 0 - France
+							if (pix_count > 427) and (pix_count <= 640) then
+								--BLUE = #002395
+								VGA_R <= '0000';
+								VGA_G <= '0010';
+								VGA_B <= '1001';
+							elsif (pix_count > 213) and (pix_count <= 427) then
+								--White = #FFFFFF
+								VGA_R <= '1111';
+								VGA_G <= '1111';
+								VGA_B <= '1111';
+							elsif pix_count <= 213 then
+								--RED = #ed2939
+								VGA_R <= '1110';
+								VGA_G <= '0010';
+								VGA_B <= '0011';
+							end if;
+					end case;		
 				else
 					next_pix_count <= A_COUNT;
 					if lin_count = L_COUNT then
