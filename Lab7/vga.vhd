@@ -7,13 +7,21 @@ entity vga is
 	generic(
 		--     Add generics here     --
 		-- NAME : TYPE := DEFAULT_VALUE (separated by ; ) --
-		A_COUNT : integer := 16;
-		B_COUNT : integer := 96;
-		C_COUNT : integer := 48;
-		D_COUNT : integer := 640;
-		L_COUNT : integer := 525;
-		F_COUNT	: integer := 12;
-		DELAY	: integer := 2500000
+		A_COUNT_H : integer := 15;
+		B_COUNT_H : integer := 95;
+		C_COUNT_H : integer := 47;
+		D_COUNT_H : integer := 639;
+		END_A_V : integer := 9;
+		END_B_V : integer := 11;
+		END_C_V : integer := 44;
+		END_D_V : integer := 524;
+		L_COUNT : integer := 524;
+		F_COUNT	: integer := 11;
+		DELAY	: integer := 2500000;
+		-- Stripe size generics for simulating
+		START_LEFT_STRIPE : integer := 640;
+		END_LEFT_STRIPE 	: integer := 427;
+		START_RIGHT_STRIPE: integer := 213
 	);
 
 	port (
@@ -53,11 +61,17 @@ architecture behavioral of vga is
 	signal timer 				: integer := 0;	-- Timer for debounce
 	signal next_timer 		: integer := 0;
 	
-	signal next_VGA_R  		: std_logic_vector(3 downto 0);
-	signal next_VGA_G  		: std_logic_vector(3 downto 0);
-	signal next_VGA_B  		: std_logic_vector(3 downto 0);
-	signal next_VGA_HS 		: std_logic;
-	signal next_VGA_VS 		: std_logic;
+	signal next_VGA_R  		: std_logic_vector(3 downto 0) := "0000";
+	signal next_VGA_G  		: std_logic_vector(3 downto 0) := "0000";
+	signal next_VGA_B  		: std_logic_vector(3 downto 0) := "0000";
+	signal next_VGA_HS 		: std_logic := '1';
+	signal next_VGA_VS 		: std_logic := '1';
+	
+	signal current_VGA_R  		: std_logic_vector(3 downto 0) := "0000";
+	signal current_VGA_G  		: std_logic_vector(3 downto 0) := "0000";
+	signal current_VGA_B  		: std_logic_vector(3 downto 0) := "0000";
+	signal current_VGA_HS 		: std_logic := '1';
+	signal current_VGA_VS 		: std_logic := '1';
 	
 	-- FSM States
 	type state_type is (
@@ -90,11 +104,11 @@ begin
 					lin_count <= next_lin_count;
 					flg_count <= next_flg_count;
 					timer <= next_timer;
-					VGA_R  <= next_VGA_R; 
-					VGA_G  <= next_VGA_G; 
-					VGA_B  <= next_VGA_B; 
-					VGA_HS <= next_VGA_HS;
-					VGA_VS <= next_VGA_VS;
+					current_VGA_R  <= next_VGA_R; 
+					current_VGA_G  <= next_VGA_G; 
+					current_VGA_B  <= next_VGA_B; 
+					current_VGA_HS <= next_VGA_HS;
+					current_VGA_VS <= next_VGA_VS;
 					current_state <= Clear;
 					
 				-- If next
@@ -103,11 +117,11 @@ begin
 					lin_count <= next_lin_count;
 					flg_count <= next_flg_count;
 					timer	<= next_timer;
-					VGA_R  <= next_VGA_R; 
-					VGA_G  <= next_VGA_G; 
-					VGA_B  <= next_VGA_B; 
-					VGA_HS <= next_VGA_HS;
-					VGA_VS <= next_VGA_VS;
+					current_VGA_R  <= next_VGA_R; 
+					current_VGA_G  <= next_VGA_G; 
+					current_VGA_B  <= next_VGA_B; 
+					current_VGA_HS <= next_VGA_HS;
+					current_VGA_VS <= next_VGA_VS;
 					current_state <= Debounce;
 				-- Continue same flag
 				else
@@ -116,11 +130,11 @@ begin
 					lin_count <= next_lin_count;
 					flg_count <= next_flg_count;
 					timer 	 <= next_timer;
-					VGA_R  <= next_VGA_R; 
-					VGA_G  <= next_VGA_G; 
-					VGA_B  <= next_VGA_B; 
-					VGA_HS <= next_VGA_HS;
-					VGA_VS <= next_VGA_VS;
+					current_VGA_R  <= next_VGA_R; 
+					current_VGA_G  <= next_VGA_G; 
+					current_VGA_B  <= next_VGA_B; 
+					current_VGA_HS <= next_VGA_HS;
+					current_VGA_VS <= next_VGA_VS;
 					current_state <= next_state;
 				end if;
 			else
@@ -131,15 +145,18 @@ begin
 	
 	
 	-- Determine the future --
-	process ( current_state, pix_count, KEY, lin_count, timer, flg_count)
+	process ( current_state, pix_count, KEY, lin_count, timer, flg_count )
 	begin
 		case current_state is
 			when Clear => 
-				next_VGA_R	= '0000'
-				next_VGA_G	= '0000'
-				next_VGA_B	= '0000'
-				next_VGA_HS = '1';
-				next_VGA_VS = '1';
+				-- Drive data low --
+				next_VGA_R	<= "0000";
+				next_VGA_G	<= "0000";
+				next_VGA_B	<= "0000";
+				-- Sync high
+				next_VGA_HS <= '1';
+				next_VGA_VS <= '1';
+				
 				if KEY(0) = '0' then
 					-- Reset counters
 					next_pix_count <= 0;
@@ -149,7 +166,7 @@ begin
 					next_state <= Clear;
 				else				
 					-- Prep for state A
-					next_pix_count <= A_COUNT;
+					next_pix_count <= A_COUNT_H;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
@@ -157,53 +174,73 @@ begin
 				end if;
 				
 			when A => 
-				next_VGA_R	= '0000'
-				next_VGA_G	= '0000'
-				next_VGA_B	= '0000'
-				next_VGA_HS = '1';
-				next_VGA_VS = '1';
+				-- Drive data low --
+				next_VGA_R	<= "0000";
+				next_VGA_G	<= "0000";
+				next_VGA_B	<= "0000";
+				-- Sync high
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= A;
+					next_VGA_HS <= '1';
+					next_VGA_VS <= '1';
 				else
-					next_pix_count <= B_COUNT;
+					next_pix_count <= B_COUNT_H;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= B;
-					
-					
+					next_VGA_HS <= '0';
+					if (END_A_V <= lin_count) and (lin_count < END_B_V) then
+						next_VGA_VS <= '0';
+					else
+						next_VGA_VS <= current_VGA_VS;
+					end if;
 				end if;
 				
 			when B => 
-				next_VGA_R	= '0000'
-				next_VGA_G	= '0000'
-				next_VGA_B	= '0000'
-				next_VGA_HS = '0';
-				next_VGA_VS = '0';
+				-- Drive data low --
+				next_VGA_R	<= "0000";
+				next_VGA_G	<= "0000";
+				next_VGA_B	<= "0000";
+				-- Sync low
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= B;
+					next_VGA_HS <= current_VGA_HS;
+					next_VGA_VS <= current_VGA_VS;
 				else
-					next_pix_count <= C_COUNT;
+					next_pix_count <= C_COUNT_H;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= C;
+					next_VGA_HS <= '1';
+					if (END_A_V < lin_count) and (lin_count < END_B_V) then
+						next_VGA_VS <= '0';
+					else
+						next_VGA_VS <= current_VGA_VS;
+					end if;
 				end if;
 				
 			when C => 
-				next_VGA_R	= '0000'
-				next_VGA_G	= '0000'
-				next_VGA_B	= '0000'
-				next_VGA_HS = '1';
-				next_VGA_VS = '1';
+				-- Drive data low --
+				next_VGA_R	<= "0000";
+				next_VGA_G	<= "0000";
+				next_VGA_B	<= "0000";
+				-- Sync high
+				next_VGA_HS <= '1';
+				if (END_A_V < lin_count) and (lin_count < END_B_V) then
+					next_VGA_VS <= '0';
+				else
+					next_VGA_VS <= current_VGA_VS;
+				end if;
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
@@ -211,7 +248,7 @@ begin
 					next_timer <= timer;
 					next_state <= C;
 				else
-					next_pix_count <= D_COUNT;
+					next_pix_count <= D_COUNT_H;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
@@ -219,37 +256,77 @@ begin
 				end if;
 				
 			when D =>
-				next_VGA_HS = '1';
-				next_VGA_VS = '1';
+				-- Sync high
+				next_VGA_HS <= '1';
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= D;
-					--Flag Case
-					case flg_count is
-						when 0 =>
-							--Flag 0 - France
-							if (pix_count > 427) and (pix_count <= 640) then
-								--BLUE = #002395
-								VGA_R <= '0000';
-								VGA_G <= '0010';
-								VGA_B <= '1001';
-							elsif (pix_count > 213) and (pix_count <= 427) then
-								--White = #FFFFFF
-								VGA_R <= '1111';
-								VGA_G <= '1111';
-								VGA_B <= '1111';
-							elsif pix_count <= 213 then
-								--RED = #ed2939
-								VGA_R <= '1110';
-								VGA_G <= '0010';
-								VGA_B <= '0011';
-							end if;
-					end case;		
+					if (END_A_V < lin_count) and (lin_count < END_B_V) then
+						next_VGA_VS <= '0';
+					else
+						next_VGA_VS <= current_VGA_VS;
+					end if;
+					if lin_count > END_C_V then
+						--Flag Case
+						case flg_count is
+							when 0 =>
+								--Flag 0 - France
+								if (pix_count > END_LEFT_STRIPE) and (pix_count <= START_LEFT_STRIPE) then
+									--BLUE = #002395
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "1001";
+								elsif (pix_count > START_RIGHT_STRIPE) and (pix_count <= END_LEFT_STRIPE) then
+									--White = #FFFFFF
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								elsif pix_count <= START_RIGHT_STRIPE then
+									--RED = #ed2939
+									next_VGA_R <= "1110";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "0011";
+								else
+									-- Outside of data, drive 0s
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								end if;
+							when others =>
+								--Flag 0 - France
+								if (pix_count > END_LEFT_STRIPE) and (pix_count <= START_LEFT_STRIPE) then
+									--BLUE = #002395
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "1001";
+								elsif (pix_count > START_RIGHT_STRIPE) and (pix_count <= END_LEFT_STRIPE) then
+									--White = #FFFFFF
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								elsif pix_count <= START_RIGHT_STRIPE then
+									--RED = #ed2939
+									next_VGA_R <= "1110";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "0011";
+								else
+									-- Outside of data, drive 0s
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								end if;
+								
+						end case;
+					else
+						next_VGA_R <= "0000";
+						next_VGA_G <= "0000";
+						next_VGA_B <= "0000";
+					end if;
 				else
-					next_pix_count <= A_COUNT;
+					next_pix_count <= A_COUNT_H;
 					if lin_count = L_COUNT then
 						next_lin_count <= 0;
 					else
@@ -258,6 +335,15 @@ begin
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= A;
+					next_VGA_R <= "0000";
+					next_VGA_G <= "0000";
+					next_VGA_B <= "0000";
+					next_VGA_HS <= current_VGA_HS;
+					if (END_A_V <= lin_count) and (lin_count <= END_B_V) then
+							next_VGA_VS <= '0';
+						else
+							next_VGA_VS <= '1';
+						end if;
 				end if;
 				
 			when Debounce =>
@@ -266,13 +352,18 @@ begin
 					--If add is still pressed
 					if KEY(1) = '0' then
 						--Next state is pressed
-						next_pix_count <= D_COUNT;
+						next_pix_count <= D_COUNT_H;
 						next_lin_count <= lin_count;
 						next_flg_count <= flg_count;
 						next_timer <= timer;
 						next_state <= Debounce;
+						next_VGA_R 	<= current_VGA_R;
+						next_VGA_G 	<= current_VGA_G;
+						next_VGA_B 	<= current_VGA_B;
+						next_VGA_HS <= current_VGA_HS;
+						next_VGA_VS <= current_VGA_VS;
 					else
-						next_pix_count <= A_COUNT;
+						next_pix_count <= A_COUNT_H;
 						next_lin_count <= 0;
 						if flg_count = F_COUNT then
 							next_flg_count <= 0;
@@ -281,6 +372,11 @@ begin
 						end if;
 						next_timer <= 0;
 						next_state <= A;
+						next_VGA_R 	<= "0000";
+						next_VGA_G 	<= "0000";
+						next_VGA_B 	<= "0000";
+						next_VGA_HS <= '1';
+						next_VGA_VS <= '1';
 					end if;
 				else
 					--Increment timer
@@ -289,6 +385,11 @@ begin
 					next_flg_count <= flg_count;
 					next_timer <= timer + 1;
 					next_state <= Debounce;
+					next_VGA_R 	<= current_VGA_R;
+					next_VGA_G 	<= current_VGA_G;
+					next_VGA_B 	<= current_VGA_B;
+					next_VGA_HS <= current_VGA_HS;
+					next_VGA_VS <= current_VGA_VS;
 				end if;
 				
 			when others =>
@@ -296,9 +397,24 @@ begin
 				next_lin_count <= lin_count;
 				next_flg_count <= flg_count;
 				next_timer <= timer;
-				next_state <= Clear;
+				next_state  <= Clear;
+				next_VGA_R  <= current_VGA_R;
+				next_VGA_G  <= current_VGA_G;
+				next_VGA_B  <= current_VGA_B;
+				next_VGA_HS <= current_VGA_HS;
+				next_VGA_VS <= current_VGA_VS;
 			
 		end case;
+	end process;
+	
+	-- Send current_VGA data to outputs
+	process ( current_VGA_R, current_VGA_G, current_VGA_B, current_VGA_HS, current_VGA_VS )
+	begin
+		VGA_R  <= current_VGA_R;
+		VGA_G  <= current_VGA_G;
+		VGA_B  <= current_VGA_B;
+		VGA_HS <= current_VGA_HS;
+		VGA_VS <= current_VGA_VS;
 	end process;
 
 end architecture behavioral;

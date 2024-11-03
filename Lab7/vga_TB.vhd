@@ -12,13 +12,21 @@ architecture behavioral of vga_TB is
 		generic (
 			-- Provide generic values --
 			-- NAME : TYPE := INITIAL_VALUE (separated by ,) --
-			A_COUNT : integer;
-			B_COUNT : integer;
-			C_COUNT : integer;
-			D_COUNT : integer;
-			L_COUNT : integer;
-			F_COUNT	: integer;
-			DELAY	: integer
+			A_COUNT_H 	: integer;
+			B_COUNT_H 	: integer;
+			C_COUNT_H 	: integer;
+			D_COUNT_H 	: integer;
+			END_A_V 	: integer;
+			END_B_V 	: integer;
+			END_C_V 	: integer;
+			END_D_V 	: integer;
+			L_COUNT 	: integer;
+			F_COUNT		: integer;
+			DELAY		: integer;
+			-- Stripe size generics for simulating
+			START_LEFT_STRIPE 	: integer;
+			END_LEFT_STRIPE 	: integer;
+			START_RIGHT_STRIPE	: integer
 
 		);
 		port (
@@ -58,13 +66,21 @@ architecture behavioral of vga_TB is
 	signal VGA_VS	: std_logic;
 	
 	-- Generics
-	signal A_COUNT	: integer := 3;
-	signal B_COUNT	: integer := 2;
-	signal C_COUNT	: integer := 15;
-	signal D_COUNT  : integer := 15;
-	signal L_COUNT	: integer := 8;
-	signal F_COUNT	: integer := 10;
-	signal DELAY	: integer := 2;
+	signal A_COUNT_H	: integer := 3;
+	signal B_COUNT_H	: integer := 2;
+	signal C_COUNT_H	: integer := 15;
+	signal D_COUNT_H  	: integer := 19;
+	signal END_A_V		: integer := 0;
+	signal END_B_V		: integer := 2;
+	signal END_C_V		: integer := 5;
+	signal END_D_V		: integer := 10;
+	signal L_COUNT		: integer := 10;
+	signal F_COUNT		: integer := 10;
+	signal DELAY		: integer := 2;
+	-- Stripe size generics for simulating
+	signal START_LEFT_STRIPE 	: integer := 15;
+	signal END_LEFT_STRIPE 		: integer := 10;
+	signal START_RIGHT_STRIPE	: integer := 5;
 	
 begin
 
@@ -73,14 +89,20 @@ begin
 		generic map (
 			-- Map generic values (separated by , )--
 			-- NAME => value --
-			DELAY	=> DELAY,
-			F_COUNT	=> F_COUNT,
-			L_COUNT	=> L_COUNT,
-			D_COUNT => D_COUNT,
-			C_COUNT	=> C_COUNT,
-			B_COUNT	=> B_COUNT,
-			A_COUNT	=> A_COUNT
-			
+			DELAY				=> DELAY,
+			F_COUNT				=> F_COUNT,
+			L_COUNT				=> L_COUNT,
+			D_COUNT_H 			=> D_COUNT_H,
+			C_COUNT_H			=> C_COUNT_H,
+			B_COUNT_H			=> B_COUNT_H,
+			A_COUNT_H			=> A_COUNT_H,
+			END_A_V				=> END_A_V,
+			END_B_V				=> END_B_V,
+			END_C_V				=> END_C_V,
+			END_D_V				=> END_D_V,
+			START_LEFT_STRIPE	=> START_LEFT_STRIPE, 
+			END_LEFT_STRIPE     => END_LEFT_STRIPE, 
+			START_RIGHT_STRIPE  => START_RIGHT_STRIPE
 		)
 		port map (
 			-- Map port connections --
@@ -118,6 +140,8 @@ begin
 			KEY(0) <= '0';            
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
+			
+			
 			
 			wait;
 
