@@ -7,17 +7,17 @@ entity vga is
 	generic(
 		--     Add generics here     --
 		-- NAME : TYPE := DEFAULT_VALUE (separated by ; ) --
-		A_COUNT_H : integer := 15;
-		B_COUNT_H : integer := 95;
-		C_COUNT_H : integer := 47;
-		D_COUNT_H : integer := 639;
-		END_A_V : integer := 9;
-		END_B_V : integer := 11;
-		END_C_V : integer := 44;
-		END_D_V : integer := 524;
-		L_COUNT : integer := 524;
-		F_COUNT	: integer := 11;
-		DELAY	: integer := 2500000;
+		A_COUNT_H 	: integer := 15;
+		B_COUNT_H 	: integer := 95;
+		C_COUNT_H 	: integer := 47;
+		D_COUNT_H 	: integer := 639;
+		LAST_A_V 	: integer := 9;
+		LAST_B_V 	: integer := 11;
+		LAST_C_V 	: integer := 41;
+		LAST_D_V	 	: integer := 524;
+		L_COUNT 		: integer := 524;
+		F_COUNT		: integer := 11;
+		DELAY			: integer := 2500000;
 		-- Stripe size generics for simulating
 		START_LEFT_STRIPE : integer := 640;
 		END_LEFT_STRIPE 	: integer := 427;
@@ -186,7 +186,11 @@ begin
 					next_timer <= timer;
 					next_state <= A;
 					next_VGA_HS <= '1';
-					next_VGA_VS <= '1';
+					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
+						next_VGA_VS <= '0';
+					else
+						next_VGA_VS <= '1';
+					end if;
 				else
 					next_pix_count <= B_COUNT_H;
 					next_lin_count <= lin_count;
@@ -194,10 +198,10 @@ begin
 					next_timer <= timer;
 					next_state <= B;
 					next_VGA_HS <= '0';
-					if (END_A_V <= lin_count) and (lin_count < END_B_V) then
+					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
 						next_VGA_VS <= '0';
 					else
-						next_VGA_VS <= current_VGA_VS;
+						next_VGA_VS <= '1';
 					end if;
 				end if;
 				
@@ -222,37 +226,52 @@ begin
 					next_timer <= timer;
 					next_state <= C;
 					next_VGA_HS <= '1';
-					if (END_A_V < lin_count) and (lin_count < END_B_V) then
+					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
 						next_VGA_VS <= '0';
 					else
-						next_VGA_VS <= current_VGA_VS;
+						next_VGA_VS <= '1';
 					end if;
 				end if;
 				
 			when C => 
-				-- Drive data low --
-				next_VGA_R	<= "0000";
-				next_VGA_G	<= "0000";
-				next_VGA_B	<= "0000";
 				-- Sync high
 				next_VGA_HS <= '1';
-				if (END_A_V < lin_count) and (lin_count < END_B_V) then
-					next_VGA_VS <= '0';
-				else
-					next_VGA_VS <= current_VGA_VS;
-				end if;
+				if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
+						next_VGA_VS <= '0';
+					else
+						next_VGA_VS <= '1';
+					end if;
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= C;
+					next_VGA_R <= "0000";
+					next_VGA_G <= "0000";
+					next_VGA_B <= "0000";				
 				else
 					next_pix_count <= D_COUNT_H;
 					next_lin_count <= lin_count;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= D;
+					if lin_count > LAST_C_V then
+						case flg_count is
+							when 0 => 
+								next_VGA_R <= "0000";
+								next_VGA_G <= "0010";
+								next_VGA_B <= "1001";
+							when others =>
+								next_VGA_R <= "0000";
+								next_VGA_G <= "0010";
+								next_VGA_B <= "1001";
+						end case;
+					else
+						next_VGA_R <= "0000";
+						next_VGA_G <= "0000";
+						next_VGA_B <= "0000";				
+					end if;
 				end if;
 				
 			when D =>
@@ -264,22 +283,17 @@ begin
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= D;
-					if (END_A_V < lin_count) and (lin_count < END_B_V) then
+					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
 						next_VGA_VS <= '0';
 					else
-						next_VGA_VS <= current_VGA_VS;
+						next_VGA_VS <= '1';
 					end if;
-					if lin_count > END_C_V then
+					if lin_count > LAST_C_V then
 						--Flag Case
 						case flg_count is
 							when 0 =>
 								--Flag 0 - France
-								if (pix_count > END_LEFT_STRIPE) and (pix_count <= START_LEFT_STRIPE) then
-									--BLUE = #002395
-									next_VGA_R <= "0000";
-									next_VGA_G <= "0010";
-									next_VGA_B <= "1001";
-								elsif (pix_count > START_RIGHT_STRIPE) and (pix_count <= END_LEFT_STRIPE) then
+								if (pix_count > START_RIGHT_STRIPE) and (pix_count <= END_LEFT_STRIPE) then
 									--White = #FFFFFF
 									next_VGA_R <= "1111";
 									next_VGA_G <= "1111";
@@ -290,19 +304,14 @@ begin
 									next_VGA_G <= "0010";
 									next_VGA_B <= "0011";
 								else
-									-- Outside of data, drive 0s
-									next_VGA_R <= "0000";
-									next_VGA_G <= "0000";
-									next_VGA_B <= "0000";
+									-- Outside of data or in first stripe, keep the same
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
 								end if;
 							when others =>
 								--Flag 0 - France
-								if (pix_count > END_LEFT_STRIPE) and (pix_count <= START_LEFT_STRIPE) then
-									--BLUE = #002395
-									next_VGA_R <= "0000";
-									next_VGA_G <= "0010";
-									next_VGA_B <= "1001";
-								elsif (pix_count > START_RIGHT_STRIPE) and (pix_count <= END_LEFT_STRIPE) then
+								if (pix_count > START_RIGHT_STRIPE) and (pix_count <= END_LEFT_STRIPE) then
 									--White = #FFFFFF
 									next_VGA_R <= "1111";
 									next_VGA_G <= "1111";
@@ -313,10 +322,10 @@ begin
 									next_VGA_G <= "0010";
 									next_VGA_B <= "0011";
 								else
-									-- Outside of data, drive 0s
-									next_VGA_R <= "0000";
-									next_VGA_G <= "0000";
-									next_VGA_B <= "0000";
+									-- Outside of data or in first stripe, keep the same
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
 								end if;
 								
 						end case;
@@ -339,7 +348,7 @@ begin
 					next_VGA_G <= "0000";
 					next_VGA_B <= "0000";
 					next_VGA_HS <= current_VGA_HS;
-					if (END_A_V <= lin_count) and (lin_count <= END_B_V) then
+					if (lin_count >= LAST_A_V) and (lin_count < LAST_B_V) then
 							next_VGA_VS <= '0';
 						else
 							next_VGA_VS <= '1';

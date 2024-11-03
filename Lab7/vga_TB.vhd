@@ -16,10 +16,10 @@ architecture behavioral of vga_TB is
 			B_COUNT_H 	: integer;
 			C_COUNT_H 	: integer;
 			D_COUNT_H 	: integer;
-			END_A_V 	: integer;
-			END_B_V 	: integer;
-			END_C_V 	: integer;
-			END_D_V 	: integer;
+			LAST_A_V	: integer;
+			LAST_B_V	: integer;
+			LAST_C_V	: integer;
+			LAST_D_V	: integer;
 			L_COUNT 	: integer;
 			F_COUNT		: integer;
 			DELAY		: integer;
@@ -66,21 +66,21 @@ architecture behavioral of vga_TB is
 	signal VGA_VS	: std_logic;
 	
 	-- Generics
-	signal A_COUNT_H	: integer := 3;
-	signal B_COUNT_H	: integer := 2;
-	signal C_COUNT_H	: integer := 15;
-	signal D_COUNT_H  	: integer := 19;
-	signal END_A_V		: integer := 0;
-	signal END_B_V		: integer := 2;
-	signal END_C_V		: integer := 5;
-	signal END_D_V		: integer := 10;
+	signal A_COUNT_H	: integer := 2;
+	signal B_COUNT_H	: integer := 4;
+	signal C_COUNT_H	: integer := 2;
+	signal D_COUNT_H  	: integer := 10;
+	signal LAST_A_V		: integer := 2;
+	signal LAST_B_V		: integer := 4;
+	signal LAST_C_V		: integer := 7;
+	signal LAST_D_V		: integer := 9;
 	signal L_COUNT		: integer := 10;
 	signal F_COUNT		: integer := 10;
 	signal DELAY		: integer := 2;
 	-- Stripe size generics for simulating
-	signal START_LEFT_STRIPE 	: integer := 15;
-	signal END_LEFT_STRIPE 		: integer := 10;
-	signal START_RIGHT_STRIPE	: integer := 5;
+	signal START_LEFT_STRIPE 	: integer := 9;
+	signal END_LEFT_STRIPE 		: integer := 7;
+	signal START_RIGHT_STRIPE	: integer := 3;
 	
 begin
 
@@ -96,10 +96,10 @@ begin
 			C_COUNT_H			=> C_COUNT_H,
 			B_COUNT_H			=> B_COUNT_H,
 			A_COUNT_H			=> A_COUNT_H,
-			END_A_V				=> END_A_V,
-			END_B_V				=> END_B_V,
-			END_C_V				=> END_C_V,
-			END_D_V				=> END_D_V,
+			LAST_A_V			=> LAST_A_V,
+			LAST_B_V			=> LAST_B_V,
+			LAST_C_V			=> LAST_C_V,
+			LAST_D_V			=> LAST_D_V,
 			START_LEFT_STRIPE	=> START_LEFT_STRIPE, 
 			END_LEFT_STRIPE     => END_LEFT_STRIPE, 
 			START_RIGHT_STRIPE  => START_RIGHT_STRIPE
@@ -141,7 +141,11 @@ begin
 			wait for CLK_PERIOD * 10;
 			KEY(0) <= '1';
 			
-			
+			-- Test next Button
+			wait for CLK_PERIOD * 10;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
 			
 			wait;
 
