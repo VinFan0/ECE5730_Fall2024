@@ -11,13 +11,13 @@ entity vga is
 		B_COUNT_H 	: integer := 95;
 		C_COUNT_H 	: integer := 47;
 		D_COUNT_H 	: integer := 639;
-		LAST_A_V 	: integer := 9;
-		LAST_B_V 	: integer := 11;
-		LAST_C_V 	: integer := 44;
-		LAST_D_V	 	: integer := 524;
-		L_COUNT 		: integer := 524;
+		LAST_A_V 	: unsigned(9 downto 0) := to_unsigned(9, 	 10);
+		LAST_B_V 	: unsigned(9 downto 0) := to_unsigned(11,  10);
+		LAST_C_V 	: unsigned(9 downto 0) := to_unsigned(44,  10);
+		LAST_D_V	 	: unsigned(9 downto 0) := to_unsigned(524, 10);
+		L_COUNT 		: unsigned(9 downto 0) := to_unsigned(524, 10);
 		F_COUNT		: integer := 11;
-		DELAY			: integer := 2500000;
+		DELAY			: integer := 500000;
 		-- Stripe size generics for simulating
 		START_LEFT_STRIPE : integer := 640;
 		END_LEFT_STRIPE 	: integer := 427;
@@ -51,9 +51,9 @@ architecture behavioral of vga is
 	
 	signal pix_count 			: integer := 0;
 	signal next_pix_count	: integer := 0;
-	signal lin_count 			: integer := 0;
-	signal next_lin_count 	: integer := 0;
-	signal flg_count 			: integer := 10;
+	signal lin_count 			: unsigned(9 downto 0) := to_unsigned(0, 10);
+	signal next_lin_count 	: unsigned(9 downto 0) := to_unsigned(0, 10);
+	signal flg_count 			: integer := 0;
 	signal next_flg_count 	: integer := 0;
 	signal clk_count 			: integer := 0;
 	signal next_clk_count 	: integer := 0;
@@ -73,9 +73,9 @@ architecture behavioral of vga is
 	signal current_VGA_HS 		: std_logic := '1';
 	signal current_VGA_VS 		: std_logic := '1';
 	
-	signal LEFT_EDGE_YELLOW		: integer := 200;
+	signal LEFT_EDGE_YELLOW		: integer := 163;
 	signal RIGHT_EDGE_YELLOW	: integer := 0;
-	signal next_LEFT_EDGE_YELLOW	: integer := 200;
+	signal next_LEFT_EDGE_YELLOW	: integer := 163;
 	signal next_RIGHT_EDGE_YELLOW	: integer := 0;
 	
 	-- FSM States
@@ -168,13 +168,13 @@ begin
 				next_VGA_HS <= '1';
 				next_VGA_VS <= '1';
 				
-				next_LEFT_EDGE_YELLOW	<= 200;
+				next_LEFT_EDGE_YELLOW	<= 163;
 				next_RIGHT_EDGE_YELLOW 	<= 0;
 				
 				if KEY(0) = '0' then
 					-- Reset counters
 					next_pix_count <= 0;
-					next_lin_count <= 0;
+					next_lin_count <= to_unsigned(0, lin_count'length);
 					next_flg_count <= 0;
 					next_timer <= 0;
 					next_state <= Clear;
@@ -188,8 +188,8 @@ begin
 				end if;
 				
 			when A => 
-				if lin_count = 0 then
-					next_LEFT_EDGE_YELLOW	<= 200;
+				if lin_count = to_unsigned(0, lin_count'length) then
+					next_LEFT_EDGE_YELLOW	<= 163;
 					next_RIGHT_EDGE_YELLOW 	<= 0;
 				else
 					next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW;
@@ -325,11 +325,11 @@ begin
 								next_VGA_B <= "0000";
 							when 8 =>
 								-- Poland
-								if (lin_count > 44) and (lin_count <= 284) then
+								if (lin_count > to_unsigned(44, lin_count'length)) and (lin_count <= to_unsigned(284, lin_count'length)) then
 									next_VGA_R <= "1111";
 									next_VGA_G <= "1111";
 									next_VGA_B <= "1111";
-								elsif (lin_count > 284) and (lin_count <= 524) then
+								elsif (lin_count > to_unsigned(284, lin_count'length)) and (lin_count <= to_unsigned(524, lin_count'length)) then
 									next_VGA_R <= "1101";
 									next_VGA_G <= "0001";
 									next_VGA_B <= "0011";
@@ -340,17 +340,17 @@ begin
 								end if;
 							when 9 =>
 								--Flag 9-Germany
-								if (lin_count > 44) and (lin_count <= 204) then
+								if (lin_count > to_unsigned(44, lin_count'length)) and (lin_count <= to_unsigned(204, lin_count'length)) then
 									--BLACK = #000000
 									next_VGA_R <= "0000";
 									next_VGA_G <= "0000";
 									next_VGA_B <= "0000";
-								elsif (lin_count > 204) and (lin_count <= 364) then
+								elsif (lin_count > to_unsigned(204, lin_count'length)) and (lin_count <= to_unsigned(364, lin_count'length)) then
 									--RED = #dd0000
 									next_VGA_R <= "1101";
 									next_VGA_G <= "0000";
 									next_VGA_B <= "0000";
-								elsif (lin_count > 364) and (lin_count <= 524) then
+								elsif (lin_count > to_unsigned(364, lin_count'length)) and (lin_count <= to_unsigned(524, lin_count'length)) then
 									--YELLOW = #ffce00
 									next_VGA_R <= "1111";
 									next_VGA_G <= "1100";
@@ -363,17 +363,17 @@ begin
 								
 							when 10 =>
 								--Flag 10-Austria
-								if (lin_count > 44) and (lin_count <= 204) then
+								if (lin_count > to_unsigned(44, lin_count'length)) and (lin_count <= to_unsigned(204, lin_count'length)) then
 									--RED = #ed2939
 									next_VGA_R <= "1110";
 									next_VGA_G <= "0010";
 									next_VGA_B <= "0011";
-								elsif (lin_count > 204) and (lin_count <= 364) then
+								elsif (lin_count > to_unsigned(204, lin_count'length)) and (lin_count <= to_unsigned(364, lin_count'length)) then
 									--WHITE = #FFFFFF
 									next_VGA_R <= "1111";
 									next_VGA_G <= "1111";
 									next_VGA_B <= "1111";
-								elsif (lin_count > 364) and (lin_count <= 524) then
+								elsif (lin_count > to_unsigned(364, lin_count'length)) and (lin_count <= to_unsigned(524, lin_count'length)) then
 									--RED = #ed2939
 									next_VGA_R <= "1110";
 									next_VGA_G <= "0010";
@@ -637,13 +637,17 @@ begin
 				else
 					next_pix_count <= A_COUNT_H;
 					if lin_count = L_COUNT then
-						next_lin_count <= 0;
-						next_LEFT_EDGE_YELLOW	<= 200;
+						next_lin_count <= to_unsigned(0, lin_count'length);
+						next_LEFT_EDGE_YELLOW	<= 163;
 						next_RIGHT_EDGE_YELLOW 	<= 0;	
-					else
-						next_lin_count <= lin_count + 1;
+					elsif (lin_count > LAST_C_V) then
+						next_lin_count <= lin_count + to_unsigned(1, lin_count'length);
 						next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW + 1;
-						next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW + 1;	
+						next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW + 1;
+					else
+						next_lin_count <= lin_count + to_unsigned(1, lin_count'length);
+						next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW;
+						next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW;
 					end if;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
@@ -677,7 +681,7 @@ begin
 						next_VGA_VS <= current_VGA_VS;
 					else
 						next_pix_count <= A_COUNT_H;
-						next_lin_count <= 0;
+						next_lin_count <= to_unsigned(0, lin_count'length);
 						if flg_count = F_COUNT then
 							next_flg_count <= 0;
 						else
