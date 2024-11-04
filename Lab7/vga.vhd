@@ -13,7 +13,7 @@ entity vga is
 		D_COUNT_H 	: integer := 639;
 		LAST_A_V 	: integer := 9;
 		LAST_B_V 	: integer := 11;
-		LAST_C_V 	: integer := 41;
+		LAST_C_V 	: integer := 44;
 		LAST_D_V	 	: integer := 524;
 		L_COUNT 		: integer := 524;
 		F_COUNT		: integer := 11;
@@ -53,7 +53,7 @@ architecture behavioral of vga is
 	signal next_pix_count	: integer := 0;
 	signal lin_count 			: integer := 0;
 	signal next_lin_count 	: integer := 0;
-	signal flg_count 			: integer := 0;
+	signal flg_count 			: integer := 10;
 	signal next_flg_count 	: integer := 0;
 	signal clk_count 			: integer := 0;
 	signal next_clk_count 	: integer := 0;
@@ -72,6 +72,11 @@ architecture behavioral of vga is
 	signal current_VGA_B  		: std_logic_vector(3 downto 0) := "0000";
 	signal current_VGA_HS 		: std_logic := '1';
 	signal current_VGA_VS 		: std_logic := '1';
+	
+	signal LEFT_EDGE_YELLOW		: integer := 200;
+	signal RIGHT_EDGE_YELLOW	: integer := 0;
+	signal next_LEFT_EDGE_YELLOW	: integer := 200;
+	signal next_RIGHT_EDGE_YELLOW	: integer := 0;
 	
 	-- FSM States
 	type state_type is (
@@ -110,6 +115,8 @@ begin
 					current_VGA_HS <= next_VGA_HS;
 					current_VGA_VS <= next_VGA_VS;
 					current_state <= Clear;
+					LEFT_EDGE_YELLOW		<= next_LEFT_EDGE_YELLOW;
+					RIGHT_EDGE_YELLOW 	<= next_RIGHT_EDGE_YELLOW;
 					
 				-- If next
 				elsif KEY(1) = '0' then
@@ -123,6 +130,8 @@ begin
 					current_VGA_HS <= next_VGA_HS;
 					current_VGA_VS <= next_VGA_VS;
 					current_state <= Debounce;
+					LEFT_EDGE_YELLOW		<= next_LEFT_EDGE_YELLOW;
+					RIGHT_EDGE_YELLOW 	<= next_RIGHT_EDGE_YELLOW;
 				-- Continue same flag
 				else
 					-- Normal behavior --
@@ -136,6 +145,8 @@ begin
 					current_VGA_HS <= next_VGA_HS;
 					current_VGA_VS <= next_VGA_VS;
 					current_state <= next_state;
+					LEFT_EDGE_YELLOW		<= next_LEFT_EDGE_YELLOW;
+					RIGHT_EDGE_YELLOW 	<= next_RIGHT_EDGE_YELLOW;
 				end if;
 			else
 				clk_count <= clk_count + 1;
@@ -157,6 +168,9 @@ begin
 				next_VGA_HS <= '1';
 				next_VGA_VS <= '1';
 				
+				next_LEFT_EDGE_YELLOW	<= 200;
+				next_RIGHT_EDGE_YELLOW 	<= 0;
+				
 				if KEY(0) = '0' then
 					-- Reset counters
 					next_pix_count <= 0;
@@ -174,6 +188,13 @@ begin
 				end if;
 				
 			when A => 
+				if lin_count = 0 then
+					next_LEFT_EDGE_YELLOW	<= 200;
+					next_RIGHT_EDGE_YELLOW 	<= 0;
+				else
+					next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW;
+					next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW;
+				end if;
 				-- Drive data low --
 				next_VGA_R	<= "0000";
 				next_VGA_G	<= "0000";
@@ -210,6 +231,8 @@ begin
 				next_VGA_R	<= "0000";
 				next_VGA_G	<= "0000";
 				next_VGA_B	<= "0000";
+				next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW;
+				next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW;
 				-- Sync low
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
@@ -236,6 +259,8 @@ begin
 			when C => 
 				-- Sync high
 				next_VGA_HS <= '1';
+				next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW;
+				next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW;
 				if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
 						next_VGA_VS <= '0';
 					else
@@ -259,9 +284,112 @@ begin
 					if lin_count > LAST_C_V then
 						case flg_count is
 							when 0 => 
+								-- France
 								next_VGA_R <= "0000";
 								next_VGA_G <= "0010";
 								next_VGA_B <= "1001";
+							when 1 =>
+								-- Italy
+								next_VGA_R <= "0000";
+								next_VGA_G <= "1001";
+								next_VGA_B <= "0100";
+							when 2=>
+								-- Ireland
+								next_VGA_R <= "0001";
+								next_VGA_G <= "1001";
+								next_VGA_B <= "0110";
+							when 3 =>
+								-- Belgium
+								next_VGA_R <= "0000";
+								next_VGA_G <= "0000";
+								next_VGA_B <= "0000";
+							when 4 =>
+								-- Mali
+								next_VGA_R <= "0001";
+								next_VGA_G <= "1011";
+								next_VGA_B <= "0011";
+							when 5 =>
+								-- Chad
+								next_VGA_R <= "0000";
+								next_VGA_G <= "0010";
+								next_VGA_B <= "0110";
+							when 6 =>
+								-- Nigeria
+								next_VGA_R <= "0000";
+								next_VGA_G <= "1000";
+								next_VGA_B <= "0101";
+							when 7 =>
+								-- Ivory Coast
+								next_VGA_R <= "1111";
+								next_VGA_G <= "1001";
+								next_VGA_B <= "0000";
+							when 8 =>
+								-- Poland
+								if (lin_count > 44) and (lin_count <= 284) then
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								elsif (lin_count > 284) and (lin_count <= 524) then
+									next_VGA_R <= "1101";
+									next_VGA_G <= "0001";
+									next_VGA_B <= "0011";
+								else
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								end if;
+							when 9 =>
+								--Flag 9-Germany
+								if (lin_count > 44) and (lin_count <= 204) then
+									--BLACK = #000000
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								elsif (lin_count > 204) and (lin_count <= 364) then
+									--RED = #dd0000
+									next_VGA_R <= "1101";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								elsif (lin_count > 364) and (lin_count <= 524) then
+									--YELLOW = #ffce00
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1100";
+									next_VGA_B <= "0000";
+								else
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								end if;
+								
+							when 10 =>
+								--Flag 10-Austria
+								if (lin_count > 44) and (lin_count <= 204) then
+									--RED = #ed2939
+									next_VGA_R <= "1110";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "0011";
+								elsif (lin_count > 204) and (lin_count <= 364) then
+									--WHITE = #FFFFFF
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								elsif (lin_count > 364) and (lin_count <= 524) then
+									--RED = #ed2939
+									next_VGA_R <= "1110";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "0011";
+								else
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								end if;
+								
+							when 11 =>
+								-- Congo
+								next_VGA_R <= "0000";
+								next_VGA_G <= "1001";
+								next_VGA_B <= "0100";
+								
 							when others =>
 								next_VGA_R <= "0000";
 								next_VGA_G <= "0010";
@@ -283,6 +411,8 @@ begin
 					next_flg_count <= flg_count;
 					next_timer <= timer;
 					next_state <= D;
+					next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW;
+					next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW;
 					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
 						next_VGA_VS <= '0';
 					else
@@ -309,6 +439,174 @@ begin
 									next_VGA_G <= current_VGA_G;
 									next_VGA_B <= current_VGA_B;
 								end if;
+								
+							when 1 =>
+								--Flag 1-Italy
+								if (pix_count > 213) and (pix_count <= 427) then
+									--White = #FFFFFF
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								elsif pix_count <= 213 then
+									--RED = #ce2b37
+									next_VGA_R <= "1100";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "0011";
+								else
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
+								end if;
+								
+							when 2 =>
+								--Flag 2-Ireland
+								if (pix_count > 213) and (pix_count <= 427) then
+									--White = #FFFFFF
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								elsif pix_count <= 213 then
+									--ORANGE = #ff883e
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1000";
+									next_VGA_B <= "0011";
+								else
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
+								end if;	
+								
+							when 3 =>
+								--Flag 3-Belgium
+								if (pix_count > 213) and (pix_count <= 427) then
+									--Yellow = #fae042
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1110";
+									next_VGA_B <= "0100";
+								elsif pix_count <= 213 then
+									--RED = #ed2939
+									next_VGA_R <= "1110";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "0011";
+								else
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
+								end if;
+								
+							when 4 =>
+								--Flag 4-Mali	
+								if (pix_count > 213) and (pix_count <= 427) then
+									--Yellow = #fcd116
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1101";
+									next_VGA_B <= "0001";
+								elsif pix_count <= 213 then
+									--RED = #ce1126
+									next_VGA_R <= "1100";
+									next_VGA_G <= "0001";
+									next_VGA_B <= "0010";
+								else
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
+								end if;
+								
+							when 5 =>
+								--Flag 5-Chad	
+								if (pix_count > 213) and (pix_count <= 427) then
+									--Yellow = #fecb00
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1100";
+									next_VGA_B <= "0000";
+								elsif pix_count <= 213 then
+									--RED = #c60c30
+									next_VGA_R <= "1100";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0011";
+								else
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
+								end if;
+								
+							when 6 =>
+								--Flag 6-Nigeria
+								if (pix_count > 213) and (pix_count <= 427) then
+									--WHITE = #FFFFFF
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								elsif pix_count <= 213 then
+									--GREEN = #008751
+									next_VGA_R <= "0000";
+									next_VGA_G <= "1000";
+									next_VGA_B <= "0101";
+								else
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
+								end if;
+								
+							when 7 =>
+								--Flag 7-Ivory Coast
+								if (pix_count > 213) and (pix_count <= 427) then
+									--WHITE = #FFFFFF
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								elsif pix_count <= 213 then
+									--GREEN = #009e60
+									next_VGA_R <= "0000";
+									next_VGA_G <= "1001";
+									next_VGA_B <= "0110";
+								else
+									next_VGA_R <= current_VGA_R;
+									next_VGA_G <= current_VGA_G;
+									next_VGA_B <= current_VGA_B;
+								end if;
+							
+							when 8 =>
+								--Flag 8-Poland
+								next_VGA_R <= current_VGA_R;
+								next_VGA_G <= current_VGA_G;
+								next_VGA_B <= current_VGA_B;
+								
+							when 9 =>
+								-- Germany
+								next_VGA_R <= current_VGA_R;
+								next_VGA_G <= current_VGA_G;
+								next_VGA_B <= current_VGA_B;
+								
+							when 10 =>
+								-- Austria
+								next_VGA_R <= current_VGA_R;
+								next_VGA_G <= current_VGA_G;
+								next_VGA_B <= current_VGA_B;
+								
+							when 11 =>
+								--Flag 11-Republic of Congo
+								if (pix_count > LEFT_EDGE_YELLOW) and (pix_count <= D_COUNT_H) then
+									--GREEN = #009543
+									next_VGA_R <= "0000";
+									next_VGA_G <= "1001";
+									next_VGA_B <= "0100";
+								elsif(pix_count <= LEFT_EDGE_YELLOW) and (pix_count > RIGHT_EDGE_YELLOW) then
+									--YELLOW = #fbde4a
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1101";
+									next_VGA_B <= "0100";
+								elsif(pix_count <= RIGHT_EDGE_YELLOW) and (pix_count > 0) then
+									--RED = #dc241f
+									next_VGA_R <= "1101";
+									next_VGA_G <= "0010";
+									next_VGA_B <= "0001";
+								else
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								end if;
+							
 							when others =>
 								--Flag 0 - France
 								if (pix_count > START_RIGHT_STRIPE) and (pix_count <= END_LEFT_STRIPE) then
@@ -329,17 +627,23 @@ begin
 								end if;
 								
 						end case;
+						
 					else
 						next_VGA_R <= "0000";
 						next_VGA_G <= "0000";
 						next_VGA_B <= "0000";
 					end if;
+				-- Last pixel
 				else
 					next_pix_count <= A_COUNT_H;
 					if lin_count = L_COUNT then
 						next_lin_count <= 0;
+						next_LEFT_EDGE_YELLOW	<= 200;
+						next_RIGHT_EDGE_YELLOW 	<= 0;	
 					else
 						next_lin_count <= lin_count + 1;
+						next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW + 1;
+						next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW + 1;	
 					end if;
 					next_flg_count <= flg_count;
 					next_timer <= timer;
@@ -400,6 +704,8 @@ begin
 					next_VGA_HS <= current_VGA_HS;
 					next_VGA_VS <= current_VGA_VS;
 				end if;
+				next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW;
+				next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW;
 				
 			when others =>
 				next_pix_count <= pix_count;
@@ -412,6 +718,8 @@ begin
 				next_VGA_B  <= current_VGA_B;
 				next_VGA_HS <= current_VGA_HS;
 				next_VGA_VS <= current_VGA_VS;
+				next_LEFT_EDGE_YELLOW	<= LEFT_EDGE_YELLOW;
+				next_RIGHT_EDGE_YELLOW 	<= RIGHT_EDGE_YELLOW;
 			
 		end case;
 	end process;

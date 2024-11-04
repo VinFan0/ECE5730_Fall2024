@@ -75,7 +75,7 @@ architecture behavioral of vga_TB is
 	signal LAST_C_V		: integer := 7;
 	signal LAST_D_V		: integer := 9;
 	signal L_COUNT		: integer := 10;
-	signal F_COUNT		: integer := 10;
+	signal F_COUNT		: integer := 11;
 	signal DELAY		: integer := 2;
 	-- Stripe size generics for simulating
 	signal START_LEFT_STRIPE 	: integer := 9;
@@ -146,6 +146,67 @@ begin
 			KEY(1) <= '0';
 			wait for CLK_PERIOD * 5;
 			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
+			-- Test next Button
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '0';
+			wait for CLK_PERIOD * 5;
+			KEY(1) <= '1';
+			
 			
 			wait;
 

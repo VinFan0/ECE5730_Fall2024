@@ -45,19 +45,19 @@ end if;
 --Flag 2-Ireland
 if (pix_count > 427) and (pix_count <= 640) then
 	--GREEN = #169b62
-	next_next_VGA_R <= "0001";
-	next_next_VGA_G <= "1001";
-	next_next_VGA_B <= "0110";
+	next_VGA_R <= "0001";
+	next_VGA_G <= "1001";
+	next_VGA_B <= "0110";
 elsif (pix_count > 213) and (pix_count <= 427) then
 	--White = #FFFFFF
-	next_next_VGA_R <= "1111";
-	next_next_VGA_G <= "1111";
-	next_next_VGA_B <= "1111";
+	next_VGA_R <= "1111";
+	next_VGA_G <= "1111";
+	next_VGA_B <= "1111";
 elsif pix_count <= 213 then
 	--ORANGE = #ff883e
-	next_next_VGA_R <= "1111";
-	next_next_VGA_G <= "1000";
-	next_next_VGA_B <= "0011";
+	next_VGA_R <= "1111";
+	next_VGA_G <= "1000";
+	next_VGA_B <= "0011";
 else
 	next_VGA_R <= "0000";
 	next_VGA_G <= "0000";
@@ -67,19 +67,19 @@ end if;
 --Flag 3-Belgium
 if (pix_count > 427) and (pix_count <= 640) then
 	--BLACK = #000000
-	next_next_VGA_R <= "0000";
-	next_next_VGA_G <= "0000";
-	next_next_VGA_B <= "0000";
+	next_VGA_R <= "0000";
+	next_VGA_G <= "0000";
+	next_VGA_B <= "0000";
 elsif (pix_count > 213) and (pix_count <= 427) then
 	--Yellow = #fae042
-	next_next_VGA_R <= "1111";
-	next_next_VGA_G <= "1110";
-	next_next_VGA_B <= "0100";
+	next_VGA_R <= "1111";
+	next_VGA_G <= "1110";
+	next_VGA_B <= "0100";
 elsif pix_count <= 213 then
 	--RED = #ed2939
-	next_next_VGA_R <= "1110";
-	next_next_VGA_G <= "0010";
-	next_next_VGA_B <= "0011";
+	next_VGA_R <= "1110";
+	next_VGA_G <= "0010";
+	next_VGA_B <= "0011";
 else
 	next_VGA_R <= "0000";
 	next_VGA_G <= "0000";
@@ -89,19 +89,19 @@ end if;
 --Flag 4-Mali	
 if (pix_count > 427) and (pix_count <= 640) then
 	--GREEN = #14b53a
-	next_next_VGA_R <= "0001";
-	next_next_VGA_G <= "1011";
-	next_next_VGA_B <= "0011";
+	next_VGA_R <= "0001";
+	next_VGA_G <= "1011";
+	next_VGA_B <= "0011";
 elsif (pix_count > 213) and (pix_count <= 427) then
 	--Yellow = #fcd116
-	next_next_VGA_R <= "1111";
-	next_next_VGA_G <= "1101";
-	next_next_VGA_B <= "0001";
+	next_VGA_R <= "1111";
+	next_VGA_G <= "1101";
+	next_VGA_B <= "0001";
 elsif pix_count <= 213 then
 	--RED = #ce1126
-	next_next_VGA_R <= "1100";
-	next_next_VGA_G <= "0001";
-	next_next_VGA_B <= "0010";
+	next_VGA_R <= "1100";
+	next_VGA_G <= "0001";
+	next_VGA_B <= "0010";
 else
 	next_VGA_R <= "0000";
 	next_VGA_G <= "0000";
@@ -175,12 +175,12 @@ else
 end if;
 
 --Flag 8-Poland
-if (lin_count > 45) and (lin_count <= 285) then
+if (lin_count > 44) and (lin_count <= 284) then
 	--WHITE = #FFFFFF
 	next_VGA_R <= "1111";
 	next_VGA_G <= "1111";
 	next_VGA_B <= "1111";
-elsif (lin_count > 285) and (lin_count <= 525) then
+elsif (lin_count > 284) and (lin_count <= 524) then
 	--RED = #dc143c
 	next_VGA_R <= "1101";
 	next_VGA_G <= "0001";
@@ -236,9 +236,9 @@ else
 end if;
 	
 --Flag 11-Republic of Congo
-i = 160
+i = 159
 j = 0
-if (pix_count > i) and (pix_count <= 640) then
+if (pix_count > i) and (pix_count <= 639) then
 	--GREEN = #009543
 	next_VGA_R <= "0000";
 	next_VGA_G <= "1001";
