@@ -173,3 +173,5 @@ set_location_assignment PIN_F16 -to ARDUINO_RESET_N
 # End of pin assignments by Terasic System Builder
 #============================================================
 
+
+set_global_assignment -name QIP_FILE PLL_ADC.qip
