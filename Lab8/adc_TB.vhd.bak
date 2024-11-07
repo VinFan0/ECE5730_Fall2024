@@ -39,17 +39,6 @@ architecture behavioral of TB_NAME is
 			
 			-- LED output --
 			LEDR : out std_logic_vector(9 downto 0);
-			
-			-- VGA --
-			VGA_R 	: out std_logic_vector(3 downto 0);
-			VGA_G 	: out std_logic_vector(3 downto 0);
-			VGA_B 	: out std_logic_vector(3 downto 0);
-			VGA_HS	: out std_logic;
-			VGA_VS	: out std_logic;
-		
-			-- Arduino Header --
-			ARDUINO_IO			: inout std_logic_vector(15 downto 0);
-			ARDUINO_RESET_N	: inout std_logic;
 		);
 	end component;
 
