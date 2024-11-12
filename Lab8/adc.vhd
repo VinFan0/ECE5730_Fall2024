@@ -122,14 +122,69 @@ begin
 	
 
 	-- Define module behavior here --
-	process (  ) -- Sensitivity list goes in ()
+	process(PLL_ADC, reset)
 	begin
-		if KEY(0) = '0' then
-			-- Reset behavior --
-		else
-			-- Normal behavior --
-
+		if Key(0) = '0' then
+			--Reset all signals
+			next_state <= IDLE;
+			sample_counter <= 0;
+			commmand_valid <= '0';
+			command_startofpacket <= '0';
+			command_endofpacket <= '0';
+			command_channel <= "00000";
+			
+		elsif rising_edge(PLL_ADC) then
+			--1 Hz Clock Divider
+			if sample_counter < SAMPLE_PERIOD - 1 then
+				next_sample_counter <= sample_counter + 1;
+			else
+				sample_counter <= 0;
+				if next_state = IDLE then
+					next_state <= START;
+				end if;
+			end if;
 		end if;
+		case next_state is
+			when IDLE =>
+				--Wait for sample counter to trigger
+				command_valid <= '0';
+				command_startofpacket <= '0';
+				command_endofpacket <= '0';
+			
+			when START =>
+				--Preparing to send the packet
+				if command_ready = '1' then
+					command_valid <= '1';
+					command_startofpacket <= '1';
+					next_state <= SEND;
+				end if;
+				
+			when SEND =>
+				--Finish sending packet
+					command_startofpacket <= '0';
+					command_endofpacket <= '1';
+					next_state <= WAIT_RESPONSE;
+			
+			when WAIT_RESPONSE =>
+				--Wait for ADC conversion to complete
+				command_valid <= '0';
+				command_endofpacket <= '0';
+				if response_valid = '1' then
+					next_state <= READ_DATA;
+				end if;
+				
+			when READ_DATA =>
+				--Read the response data
+				current_display <= response_data;
+				next_state <= IDLE;
+				
+			when others =>
+				state <= IDLE;
+			
+			end case;
+				
 	end process;
+	
+	--process to update display?
 
 end architecture behavioral;
