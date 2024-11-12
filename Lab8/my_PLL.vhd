@@ -365,6 +365,6 @@ END SYN;
 -- Retrieval info: GEN_FILE: TYPE_NORMAL my_PLL.inc FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL my_PLL.cmp TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL my_PLL.bsf FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL my_PLL_inst.vhd FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL my_PLL_inst.vhd TRUE
 -- Retrieval info: LIB_FILE: altera_mf
 -- Retrieval info: CBX_MODULE_PREFIX: ON

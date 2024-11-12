@@ -265,7 +265,7 @@
   <parameter name="tsd_max" value="125" />
   <parameter name="tsd_min" value="0" />
   <parameter name="use_ch0" value="true" />
-  <parameter name="use_ch1" value="false" />
+  <parameter name="use_ch1" value="true" />
   <parameter name="use_ch10" value="false" />
   <parameter name="use_ch11" value="false" />
   <parameter name="use_ch12" value="false" />
@@ -273,8 +273,8 @@
   <parameter name="use_ch14" value="false" />
   <parameter name="use_ch15" value="false" />
   <parameter name="use_ch16" value="false" />
-  <parameter name="use_ch2" value="false" />
-  <parameter name="use_ch3" value="false" />
+  <parameter name="use_ch2" value="true" />
+  <parameter name="use_ch3" value="true" />
   <parameter name="use_ch4" value="false" />
   <parameter name="use_ch5" value="false" />
   <parameter name="use_ch6" value="false" />

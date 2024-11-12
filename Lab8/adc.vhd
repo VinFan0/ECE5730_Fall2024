@@ -57,7 +57,7 @@ architecture behavioral of adc is
 			command_ready          : out std_logic;                                        -- ready
 			response_valid         : out std_logic;                                        -- valid
 			response_channel       : out std_logic_vector(4 downto 0);                     -- channel
-			response_data          : out std_logic_vector(11 downto 0);                    -- data
+			response_data          : out unsigned(11 downto 0);                    -- data
 			response_startofpacket : out std_logic;                                        -- startofpacket
 			response_endofpacket   : out std_logic                                         -- endofpacket
 		);
@@ -77,26 +77,24 @@ architecture behavioral of adc is
 	-- Declare internal signals here -- (terminated by ; )
 	-- signal NAME : TYPE ;
 	
-	-- ADC Signals --
-	signal command_valid          : std_logic                     := 'X';             -- valid
-	signal next_command_valid     : std_logic                     := 'X';             -- valid
-	signal command_channel        : std_logic_vector(4 downto 0)  := (others => 'X'); -- channel
-	signal next_command_channel   : std_logic_vector(4 downto 0)  := (others => 'X'); -- channel
-	signal response_valid         : std_logic;                                        -- valid
-	signal response_channel       : std_logic_vector(4 downto 0);                     -- channel
-	signal response_data          : std_logic_vector(11 downto 0);                    -- data
+	-- ADC Command Signals --
+	signal command_valid          : std_logic							  := '1';            -- valid
+	signal command_channel        : std_logic_vector(4 downto 0)  := "00001";  		-- channel
+	signal command_startofpacket  : std_logic                     := '1';            -- startofpacket
+	signal command_endofpacket    : std_logic                     := '1';            -- endofpacket
+	signal command_ready          : std_logic;                                       -- ready
+	
+	-- ADC Response Signals --
+	signal response_valid         : std_logic;                                  		-- valid
+	signal response_channel       : std_logic_vector(4 downto 0);               		-- channel
+	signal response_data          : unsigned(11 downto 0);              		-- data
+	signal response_startofpacket : std_logic;                                  		-- startofpacket
+	signal response_endofpacket   : std_logic;                                  		-- endofpacket	
 	
 	-- PLL Signals --
-	-- signal areset						: std_logic 							:= '0';
-	signal c0_sig					      :  std_logic                     := 'X';             -- clk
-	signal locked_sig					   :  std_logic                     := 'X';             -- export
+	signal c0_sig					      :  std_logic                     := 'X';        -- clk
+	signal locked_sig					   :  std_logic                     := 'X';        -- export
 	
-	-- UNUSED ADC ?? --
-	signal command_startofpacket  : std_logic                     := 'X';             -- startofpacket
-	signal command_endofpacket    : std_logic                     := 'X';             -- endofpacket
-	signal command_ready          : std_logic;                                        -- ready
-	signal response_startofpacket : std_logic;                                        -- startofpacket
-	signal response_endofpacket   : std_logic;                                        -- endofpacket	
 	
 	--7-segment display
 	type SEVEN_SEG is array (0 to 15) of std_logic_vector(7 downto 0); -- Define new type for lookup table
@@ -105,23 +103,13 @@ architecture behavioral of adc is
 					X"99", X"92", X"82", X"F8",  -- 4, 5, 6, 7
 					X"80", X"90", X"88", X"83",  -- 8, 9, A, B
 					X"C6", X"A1", X"86", X"8E"); -- C, D, E, F
-					
-	-- FSM States
-	type state_type is (
-		IDLE, 
-		START, 
-		SEND, 
-		WAIT_RESPONSE, 
-		READ_DATA
-		);
-		
-	signal state, next_state : state_type;
 	
 	-- MISC --
 	signal sample_counter : integer := 0;
-	signal next_sample_counter : integer := 0;
+	signal sample_trigger : std_logic;
 	signal display : unsigned(11 downto 0) := (others => '0');
 	signal next_display : unsigned(11 downto 0) := (others => '0');
+	signal temp_display : integer;
 	
 
 begin
@@ -137,9 +125,9 @@ begin
 			adc_pll_clock_clk      => c0_sig,      								--  adc_pll_clock.clk
 			adc_pll_locked_export  => locked_sig,  								-- adc_pll_locked.export
 			command_valid          => command_valid,          					--        command.valid
-			command_channel        => "00000",        							--               .channel
-			command_startofpacket  => 'X',  											--               .startofpacket
-			command_endofpacket    => 'X',    										--               .endofpacket
+			command_channel        => command_channel,        					--               .channel
+			command_startofpacket  => command_startofpacket,  					--               .startofpacket
+			command_endofpacket    => command_endofpacket,    					--               .endofpacket
 			-- Output
 			command_ready          => command_ready,          					--               .ready
 			response_valid         => response_valid,         					--       response.valid
@@ -151,117 +139,56 @@ begin
 		
 	-- PLL --
 	my_PLL_inst : my_PLL PORT MAP (
-		areset	 => KEY(0),
+		areset	 => NOT KEY(0),
 		inclk0	 => ADC_CLK_10,
 		c0	 		 => c0_sig,
 		locked	 => locked_sig
 	);
 
-	-- Define module behavior here --
-	process(adc_clk_10)
-	begin
-		if rising_edge(adc_clk_10) then
-			if KEY(0) = '0' then
-				--Reset all signals
-				state <= IDLE;
-				sample_counter <= 0;
-				command_valid <= '0';
-				display <= (others => '0');
-				--command_startofpacket <= '0';
-				--command_endofpacket <= '0';
-				--command_channel <= "00000";
-				
-			else
-				--1 Hz Clock Divider
-				if sample_counter < SAMPLE_PERIOD - 1 then
-					sample_counter <= sample_counter + 1;
-					state <= next_state;
-					command_valid <= next_command_valid;
-				else
-					sample_counter <= 0;
-					if state = IDLE then
-						state <= START;
-						command_valid <= next_command_valid;
-					else
-						state <= next_state;
-						command_valid <= next_command_valid;
-					end if;
-				end if;
-				display <= next_display;
-			end if;
-		end if;
-	
-	end process;
-	
-	process(state, command_ready, command_valid, response_valid)
-	begin
-		
-		case state is
-			when IDLE =>
-				--Wait for sample counter to trigger
-				next_command_valid <= '0';
-				next_state <= state;
-				next_display <= display;
-				--command_startofpacket <= '0';
-				--command_endofpacket <= '0';
-			
-			when START =>
-				--Preparing to send the packet
-				if command_ready = '1' then
-					next_command_valid <= '1';
-					--command_startofpacket <= '1';
-					next_state <= SEND;
-					next_display <= display;
-				else
-					next_command_valid <= command_valid;
-					next_state <= state;
-					next_display <= display;
-				end if;
-				
-			when SEND =>
-				--Finish sending packet
-					--command_startofpacket <= '0';
-					--command_endofpacket <= '1';
-					next_state <= WAIT_RESPONSE;
-					next_command_valid <= command_valid;
-					next_display <= display;
-			
-			when WAIT_RESPONSE =>
-				--Wait for ADC conversion to complete
-				next_command_valid <= '0';
-				next_display <= display;
-				--command_endofpacket <= '0';
-				if response_valid = '1' then
-					next_state <= READ_DATA;
-				else
-					next_state <= state;
-				end if;
-				
-			when READ_DATA =>
-				--Read the response data
-				next_display <= unsigned(response_data);
-				next_state <= IDLE;
-				next_command_valid <= command_valid;
-				
-			when others =>
-				next_command_valid <= command_valid;
-				next_state <= IDLE;
-				next_display <= display;
-			
-			end case;
-				
-	end process;
-	
-	--process to update display?
+	-- Timing Controller --
 	process (ADC_CLK_10)
 	begin
 		if rising_edge(ADC_CLK_10) then
-			HEX0 <= table(to_integer(display(3 downto 0)));
-			HEX1 <= table(to_integer(display(7 downto 4)));
-			HEX2 <= table(to_integer(display(11 downto 8)));
-			HEX3 <= X"FF";
-			HEX4 <= X"FF";
-			HEX5 <= X"FF";
+			if sample_counter < SAMPLE_PERIOD - 1 then
+				sample_counter <= sample_counter + 1;
+				sample_trigger <= '0';
+			else
+				sample_counter <= 0;
+				sample_trigger <= '1';
+			end if;
+		end if;
+	end process;
+	
+	-- Sampling controller --
+	process (ADC_CLK_10)
+	begin
+		if rising_edge(ADC_CLK_10) then
+			if (response_valid = '1') then
+				temp_display <= to_integer(response_data) * 2 * 2500 / 4094;
+				display <= to_unsigned(temp_display, display'length);
+			end if;
+		end if;
+	end process;
+	
+	--process to drive 7 segment
+	process (ADC_CLK_10)
+	begin
+		if rising_edge(ADC_CLK_10) then
+			if (sample_trigger = '1') then
+				HEX0 <= table(to_integer(display(3 downto 0)));
+				HEX1 <= table(to_integer(display(7 downto 4)));
+				HEX2 <= table(to_integer(display(11 downto 8)));
+				HEX3 <= X"FF";
+				HEX4 <= X"FF";
+				HEX5 <= X"FF";
+			elsif KEY(0) = '0' then
+				HEX0 <= table(0);
+				HEX1 <= table(0);
+				HEX2 <= table(0);
+				HEX3 <= X"FF";
+				HEX4 <= X"FF";
+				HEX5 <= X"FF";
+			end if;
 		end if;
 	end process;
 

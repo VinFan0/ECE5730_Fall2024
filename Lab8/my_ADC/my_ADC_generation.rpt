@@ -1,6 +1,6 @@
 Info: Starting: Create block symbol file (.bsf)
-Info: qsys-generate C:\Users\Ryan\OneDrive\Fall_2024\Reconfigurable\Labs\Lab8\my_ADC.qsys --block-symbol-file --output-directory=C:\Users\Ryan\OneDrive\Fall_2024\Reconfigurable\Labs\Lab8\my_ADC --family="MAX 10" --part=10M50DAF484C7G
-Progress: Loading Lab8/my_ADC.qsys
+Info: qsys-generate C:\Users\Ryan\OneDrive\Fall_2024\Reconfigurable\Labs\NEWLab8\my_ADC.qsys --block-symbol-file --output-directory=C:\Users\Ryan\OneDrive\Fall_2024\Reconfigurable\Labs\NEWLab8\my_ADC --family="MAX 10" --part=10M50DAF484C7G
+Progress: Loading NEWLab8/my_ADC.qsys
 Progress: Reading input file
 Progress: Adding modular_adc_0 [altera_modular_adc 23.1]
 Progress: Parameterizing module modular_adc_0
@@ -12,8 +12,8 @@ Info: qsys-generate succeeded.
 Info: Finished: Create block symbol file (.bsf)
 Info: 
 Info: Starting: Create HDL design files for synthesis
-Info: qsys-generate C:\Users\Ryan\OneDrive\Fall_2024\Reconfigurable\Labs\Lab8\my_ADC.qsys --synthesis=VHDL --output-directory=C:\Users\Ryan\OneDrive\Fall_2024\Reconfigurable\Labs\Lab8\my_ADC\synthesis --family="MAX 10" --part=10M50DAF484C7G
-Progress: Loading Lab8/my_ADC.qsys
+Info: qsys-generate C:\Users\Ryan\OneDrive\Fall_2024\Reconfigurable\Labs\NEWLab8\my_ADC.qsys --synthesis=VHDL --output-directory=C:\Users\Ryan\OneDrive\Fall_2024\Reconfigurable\Labs\NEWLab8\my_ADC\synthesis --family="MAX 10" --part=10M50DAF484C7G
+Progress: Loading NEWLab8/my_ADC.qsys
 Progress: Reading input file
 Progress: Adding modular_adc_0 [altera_modular_adc 23.1]
 Progress: Parameterizing module modular_adc_0

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="my_ADC" kind="system" version="23.1" fabric="QSYS">
  <!-- Format version 23.1 991 (Future versions may contain additional information.) -->
- <!-- 2024.11.11.20:04:47 -->
+ <!-- 2024.11.12.10:26:51 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1731380685</value>
+  <value>1731432410</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -184,7 +184,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.USE_CH1</name>
-   <value>0</value>
+   <value>1</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.USE_CH10</name>
@@ -216,11 +216,11 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.USE_CH2</name>
-   <value>0</value>
+   <value>1</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.USE_CH3</name>
-   <value>0</value>
+   <value>1</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.USE_CH4</name>
@@ -600,7 +600,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="use_ch1">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -648,7 +648,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="use_ch2">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -696,7 +696,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="use_ch3">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -2471,5 +2471,5 @@ parameters are a RESULT of the module parameters. -->
   <version>23.1</version>
  </plugin>
  <reportVersion>23.1 991</reportVersion>
- <uniqueIdentifier>C87F545CD2F8000001931E54AD92</uniqueIdentifier>
+ <uniqueIdentifier>C87F545CD2F8000001932169EF23</uniqueIdentifier>
 </EnsembleReport>
