@@ -158,9 +158,9 @@ begin
 	);
 
 	-- Define module behavior here --
-	process(c0_sig)
+	process(adc_clk_10)
 	begin
-		if rising_edge(c0_sig) then
+		if rising_edge(adc_clk_10) then
 			if KEY(0) = '0' then
 				--Reset all signals
 				state <= IDLE;
