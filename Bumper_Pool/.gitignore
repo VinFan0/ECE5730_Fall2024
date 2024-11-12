@@ -1,0 +1,16 @@
+/db/
+/incremental_db/
+/work/
+*.rpt
+*.cdf
+*.done
+*.smsg
+*.summary
+*.jdi
+*.pin
+*.pof
+*.qws
+*.sld
+*.sof
+*.swp
+*.md
