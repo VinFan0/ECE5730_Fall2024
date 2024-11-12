@@ -14,7 +14,7 @@
 --https://fpgasoftware.intel.com/eula.
 
 
-component PLL_ADC
+component my_PLL
 	PORT
 	(
 		areset		: IN STD_LOGIC  := '0';
