@@ -164,7 +164,7 @@ begin
 	begin
 		if rising_edge(ADC_CLK_10) then
 			if (response_valid = '1') then
-				temp_display <= to_integer(response_data) * 2 * 2500 / 4094;
+				temp_display <= to_integer(response_data);-- * 2 * 2500 / 4094;
 				display <= to_unsigned(temp_display, display'length);
 			end if;
 		end if;
