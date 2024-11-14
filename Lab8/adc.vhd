@@ -107,8 +107,8 @@ architecture behavioral of adc is
 	-- MISC --
 	signal sample_counter : integer := 0;
 	signal sample_trigger : std_logic;
-	signal display : unsigned(11 downto 0) := (others => '0');
-	signal next_display : unsigned(11 downto 0) := (others => '0');
+	signal display : unsigned(12 downto 0) := (others => '0');
+	signal next_display : unsigned(12 downto 0) := (others => '0');
 	signal temp_display : integer;
 	
 
@@ -164,7 +164,7 @@ begin
 	begin
 		if rising_edge(ADC_CLK_10) then
 			if (response_valid = '1') then
-				temp_display <= to_integer(response_data);-- * 2 * 2500 / 4094;
+				temp_display <= to_integer(response_data) * 2 * 2500 / 4094;
 				display <= to_unsigned(temp_display, display'length);
 			end if;
 		end if;
