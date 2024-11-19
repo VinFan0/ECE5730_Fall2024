@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity Bumper_Pool is
+entity vga is
 
 	generic(
 		--     Add generics here     --
@@ -17,7 +17,7 @@ entity Bumper_Pool is
 		LAST_D_V	 	: unsigned(9 downto 0) := to_unsigned(524, 10);
 		L_COUNT 		: unsigned(9 downto 0) := to_unsigned(524, 10);
 		F_COUNT		: integer := 11;
-		DELAY			: integer := 500000
+		DELAY			: integer := 500000;
 		);
 
 	port (
@@ -38,9 +38,9 @@ entity Bumper_Pool is
 		VGA_VS	: out std_logic
 	);
 
-end entity Bumper_Pool;
+end entity vga;
 
-architecture behavioral of Bumper_Pool is
+architecture behavioral of vga is
 
 	-- Declare internal signals here -- (terminated by ; )
 	-- signal NAME : TYPE ;
@@ -242,9 +242,9 @@ begin
 
 						-- Initial Pixel Column Data Here --
 					else
-						next_VGA_R <= "1111";
-						next_VGA_G <= "1111";
-						next_VGA_B <= "1111";				
+						next_VGA_R <= "FFFF";
+						next_VGA_G <= "FFFF";
+						next_VGA_B <= "FFFF";				
 					end if;
 				end if;
 				
@@ -264,9 +264,9 @@ begin
 					if lin_count > LAST_C_V then
 
 						-- Display Pixel Data Here --
-						next_VGA_R <= "1111";	
-						next_VGA_G <= "1111";	
-						next_VGA_B <= "1111";	
+						next_VGA_R <= "FFFF";	
+						next_VGA_G <= "FFFF";	
+						next_VGA_B <= "FFFF";	
 					else
 						next_VGA_R <= "0000";
 						next_VGA_G <= "0000";
