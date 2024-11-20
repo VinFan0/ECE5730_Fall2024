@@ -42,9 +42,7 @@ end entity Bumper_Pool;
 
 architecture behavioral of Bumper_Pool is
 
-	-- Declare internal signals here -- (terminated by ; )
-	-- signal NAME : TYPE ;
-	
+	-- VGA Signals --
 	signal pix_count 			: integer := 0;
 	signal next_pix_count	: integer := 0;
 	signal lin_count 			: unsigned(9 downto 0) := to_unsigned(0, 10);
@@ -67,6 +65,11 @@ architecture behavioral of Bumper_Pool is
 	signal current_VGA_HS 		: std_logic := '1';
 	signal current_VGA_VS 		: std_logic := '1';
 	
+	-- Game Board Values --
+	signal Border_Line_Thickness	: integer := 3;
+	signal Border_Line_Top		: integer := 17;
+	signal Border_Line_Left		: integer := 17;
+
 	-- FSM States
 	type state_type is (
 		Clear,
