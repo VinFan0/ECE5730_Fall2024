@@ -42,6 +42,18 @@ end entity Bumper_Pool;
 
 architecture behavioral of Bumper_Pool is
 
+	-- Components --
+	-- PLL --
+	component my_PLL IS
+		PORT
+		(
+			areset	: IN STD_LOGIC  := '0';
+			inclk0	: IN STD_LOGIC  := '0';
+			c0			: OUT STD_LOGIC ;
+			locked	: OUT STD_LOGIC 
+		);
+	END component;
+
 	-- VGA Signals --
 	signal pix_count 			: integer := 0;
 	signal next_pix_count	: integer := 0;
@@ -66,10 +78,25 @@ architecture behavioral of Bumper_Pool is
 	signal current_VGA_VS 		: std_logic := '1';
 	
 	-- Game Board Values --
-	signal Border_Line_Thickness	: integer := 3;
-	signal Border_Line_Top		: integer := 17;
-	signal Border_Line_Left		: integer := 17;
+	constant Border_Line_Thickness	: unsigned(9 downto 0) := to_unsigned(5, 10);					-- Thickness of border lines
+	constant Border_Line_Top			: unsigned(9 downto 0) := last_C_V + to_unsigned(17, 10);	-- Top-most edge of upper board edge
+	constant Border_Line_Bottom 		: unsigned(9 downto 0) := last_C_V + to_unsigned(340, 10);	-- Top-most edge of lower board edge
+	constant Border_Line_Left			: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(17, 10);	-- Left-most edge of left board edge
+	constant Border_Line_Right			: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(617, 10);	-- Left-most edge of right board edge
+	constant Border_Goal_Top			: unsigned(9 downto 0) := last_C_V + to_unsigned(145, 10);	-- Top-most edge of goal
+	constant Border_Goal_Bottom		: unsigned(9 downto 0) := last_C_V + to_unsigned(215, 10);	-- Bottom-most edge of goal
 
+	-- Obstacle Locations --
+	constant OB_Width				: unsigned(9 downto 0) := to_unsigned(20, 10);
+	constant C_OB_Pixel			: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(311, 10);
+	constant c_OB_Line			: unsigned(9 downto 0) := last_C_V + to_unsigned(170, 10);
+	constant Top_OB_Line			: unsigned(9 downto 0) := last_C_V + to_unsigned(90, 10);
+	constant Bottom_OB_Line		: unsigned(9 downto 0) := last_C_V + to_unsigned(250, 10);
+	constant OB_Col_1				: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(140, 10);
+	constant OB_Col_2				: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(253, 10);
+	constant OB_Col_3				: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(366, 10);
+	constant OB_Col_4				: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(479, 10);
+	
 	-- FSM States
 	type state_type is (
 		Clear,
@@ -242,12 +269,16 @@ begin
 					next_timer <= timer;
 					next_state <= D;
 					if lin_count > LAST_C_V then
-
 						-- Initial Pixel Column Data Here --
+						-- Always starts black
+						next_VGA_R <= "0000";
+						next_VGA_G <= "0000";
+						next_VGA_B <= "0000";				
 					else
-						next_VGA_R <= "1111";
-						next_VGA_G <= "1111";
-						next_VGA_B <= "1111";				
+						-- Always starts black
+						next_VGA_R <= "0000";
+						next_VGA_G <= "0000";
+						next_VGA_B <= "0000";				
 					end if;
 				end if;
 				
@@ -267,9 +298,105 @@ begin
 					if lin_count > LAST_C_V then
 
 						-- Display Pixel Data Here --
-						next_VGA_R <= "1111";	
-						next_VGA_G <= "1111";	
-						next_VGA_B <= "1111";	
+						-- If inside vertical boundaries
+						if (lin_count > Border_Line_Top) and (lin_count < Border_Line_Bottom + Border_Line_Thickness) then
+							-- If inside horizontal boundaries
+							if (pix_count < Border_Line_Left) and (pix_count > Border_Line_Right-Border_Line_Thickness) then
+								-- If on the top or bottom lines
+								if(lin_count < Border_Line_Top+Border_Line_Thickness) or (lin_count > Border_Line_Bottom) then
+									-- Display white
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								-- Or if on left or right sides, and not in goal
+								elsif ((pix_count > Border_Line_Left - Border_Line_Thickness) or (pix_count < Border_Line_Right)) and ((lin_count < Border_Goal_Top) or (lin_count > Border_Goal_Bottom))then
+									-- Display white
+									next_VGA_R <= "1111";
+									next_VGA_G <= "1111";
+									next_VGA_B <= "1111";
+								-- Or if at center obstacle
+								elsif (pix_count < C_OB_Pixel and pix_count > C_OB_Pixel-OB_Width) and (lin_count > C_OB_Line and lin_count < C_OB_Line + OB_Width) then
+									-- Display Red
+									next_VGA_R <= "1111";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								-- Or if at top row of obstacles
+								elsif (lin_count > Top_OB_Line and lin_count < Top_OB_Line+OB_Width) then
+									-- If first column
+									if (pix_count < OB_Col_1 and pix_count > OB_Col_1-OB_Width) then
+										-- Display Red
+										next_VGA_R <= "1111";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									-- If second column
+									elsif (pix_count < OB_Col_2 and pix_count > OB_Col_2-OB_Width) then
+										-- Display Red
+										next_VGA_R <= "1111";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									-- If third column
+									elsif (pix_count < OB_Col_3 and pix_count > OB_Col_3-OB_Width) then
+										-- Display Red
+										next_VGA_R <= "1111";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									-- If fourth column
+									elsif (pix_count < OB_Col_4 and pix_count > OB_Col_4-OB_Width) then
+										-- Display Red
+										next_VGA_R <= "1111";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									else
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+									-- Or if at bottom row of obstacles
+								elsif (lin_count > Bottom_OB_Line and lin_count < Bottom_OB_Line+OB_Width) then
+									-- If first column
+									if (pix_count < OB_Col_1 and pix_count > OB_Col_1-OB_Width) then
+										-- Display Red
+										next_VGA_R <= "1111";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									-- If second column
+									elsif (pix_count < OB_Col_2 and pix_count > OB_Col_2-OB_Width) then
+										-- Display Red
+										next_VGA_R <= "1111";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									-- If third column
+									elsif (pix_count < OB_Col_3 and pix_count > OB_Col_3-OB_Width) then
+										-- Display Red
+										next_VGA_R <= "1111";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									-- If fourth column
+									elsif (pix_count < OB_Col_4 and pix_count > OB_Col_4-OB_Width) then
+										-- Display Red
+										next_VGA_R <= "1111";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									else
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								else
+									next_VGA_R <= "0000";
+									next_VGA_G <= "0000";
+									next_VGA_B <= "0000";
+								end if;
+							else
+								next_VGA_R <= "0000";
+								next_VGA_G <= "0000";
+								next_VGA_B <= "0000";
+							end if;
+						else
+							next_VGA_R <= "0000";
+							next_VGA_G <= "0000";
+							next_VGA_B <= "0000";
+						end if;
 					else
 						next_VGA_R <= "0000";
 						next_VGA_G <= "0000";
