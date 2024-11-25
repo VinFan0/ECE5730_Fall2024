@@ -97,6 +97,19 @@ architecture behavioral of Bumper_Pool is
 	constant OB_Col_3				: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(366, 10);
 	constant OB_Col_4				: unsigned(9 downto 0) := D_COUNT_H - to_unsigned(479, 10);
 	
+	-- Ball location --
+	signal ball_current_pixel 	: integer := 320;
+	signal ball_next_pixel	 	: integer := 320;
+	signal ball_current_line	: integer := to_integer(last_C_V) + 60;
+	signal ball_next_line		: integer := to_integer(last_C_V) + 60;
+	constant ball_radius			: integer := 5;
+	
+	-- Ball movement --
+	signal ball_current_x_vel	: integer := 5;
+	signal ball_next_x_vel		: integer := 5;
+	signal ball_current_y_vel	: integer := 0;
+	signal ball_next_y_vel		: integer := 0;
+	
 	-- FSM States
 	type state_type is (
 		Clear,
@@ -133,7 +146,11 @@ begin
 					current_VGA_HS <= next_VGA_HS;
 					current_VGA_VS <= next_VGA_VS;
 					current_state <= Clear;
-				-- If next
+					ball_current_line <= to_integer(last_C_V) + 60;
+					ball_current_pixel <= 320;
+					ball_current_x_vel <= 5;
+					ball_current_y_vel <= 0;
+				-- If new ball
 				elsif KEY(1) = '0' then
 					pix_count <= next_pix_count;
 					lin_count <= next_lin_count;
@@ -143,8 +160,12 @@ begin
 					current_VGA_B  <= next_VGA_B; 
 					current_VGA_HS <= next_VGA_HS;
 					current_VGA_VS <= next_VGA_VS;
-					current_state <= Debounce;
-					-- Continue same flag
+					current_state <= next_state;
+					ball_current_line <= to_integer(last_C_V) + 60;
+					ball_current_pixel <= 320;
+					ball_current_x_vel <= 1;
+					ball_current_y_vel <= 0;
+					
 				else
 					-- Normal behavior --
 					pix_count <= next_pix_count;
@@ -156,6 +177,10 @@ begin
 					current_VGA_HS <= next_VGA_HS;
 					current_VGA_VS <= next_VGA_VS;
 					current_state <= next_state;
+					ball_current_line <= ball_next_line;
+					ball_current_pixel <= ball_next_pixel;
+					ball_current_x_vel <= ball_next_x_vel;
+					ball_current_y_vel <= ball_next_y_vel;
 				end if;
 			else
 				clk_count <= clk_count + 1;
@@ -176,6 +201,11 @@ begin
 				-- Sync high
 				next_VGA_HS <= '1';
 				next_VGA_VS <= '1';
+				-- Reset ball position and velocity
+				ball_next_x_vel <= 1;
+				ball_next_y_vel <= 0;
+				ball_next_pixel <= 320;
+				ball_next_line <= to_integer(last_C_V) + 60;
 				
 				if KEY(0) = '0' then
 					-- Reset counters
@@ -191,28 +221,70 @@ begin
 					next_state <= A;
 				end if;
 				
+			-- Horizontal A
 			when A => 
+				-- Signals to keep the same
+				ball_next_line <= ball_current_line;
+				ball_next_pixel <= ball_current_pixel;
+				
 				-- Drive data low --
 				next_VGA_R	<= "0000";
 				next_VGA_G	<= "0000";
 				next_VGA_B	<= "0000";
-				-- Sync high
-				if pix_count /= 0 then
+				
+				-- In Horizontal A
+				if pix_count /= 0 then 
+					ball_next_x_vel <= ball_current_x_vel;
+					ball_next_y_vel <= ball_current_y_vel;
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
 					next_timer <= timer;
 					next_state <= A;
+					-- Hor Sync high
 					next_VGA_HS <= '1';
+					-- If in vertical A
 					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
+						-- Vert Sync low
 						next_VGA_VS <= '0';
 					else
+						-- Vert Sync high
 						next_VGA_VS <= '1';
 					end if;
+					
+				-- Last pixel in horizontal A
 				else
 					next_pix_count <= B_COUNT_H;
 					next_lin_count <= lin_count;
 					next_timer <= timer;
 					next_state <= B;
+	
+					-- If going to hit left wall
+					if (ball_current_pixel + ball_radius - ball_next_x_vel) > (Border_Line_Left - Border_Line_Thickness) then
+						-- Bounce right
+						ball_next_x_vel <= 1;
+						ball_next_y_vel <= ball_current_y_vel;
+						
+					-- If going to hit right wall
+					elsif (ball_current_pixel - ball_radius - ball_next_x_vel) <= Border_Line_Right then
+						-- Bounce left
+						ball_next_x_vel <= -1;
+						ball_next_y_vel <= ball_current_y_vel;
+						
+					-- If no collision
+					else
+						ball_next_x_vel <= ball_current_x_vel;
+						ball_next_y_vel <= ball_current_y_vel;
+					end if;
+	
+--					-- Check ball next position on last line of Vert A, update velocity vector as needed
+--					if lin_count = LAST_A_V then
+--						
+--					else
+--						ball_next_x_vel <= ball_current_x_vel;
+--						ball_next_y_vel <= ball_current_y_vel;
+--					end if;
+					
+					-- Hor Sync low
 					next_VGA_HS <= '0';
 					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
 						next_VGA_VS <= '0';
@@ -221,7 +293,14 @@ begin
 					end if;
 				end if;
 				
+			-- Horizontal B
 			when B => 
+				-- Signals to keep the same
+				ball_next_line <= ball_current_line;
+				ball_next_pixel <= ball_current_pixel;
+				ball_next_x_vel <= ball_current_x_vel;
+				ball_next_y_vel <= ball_current_y_vel;
+			
 				-- Drive data low --
 				next_VGA_R	<= "0000";
 				next_VGA_G	<= "0000";
@@ -247,7 +326,14 @@ begin
 					end if;
 				end if;
 				
+			-- Horizontal C
 			when C => 
+				-- Signals to keep the same
+				ball_next_line <= ball_current_line;
+				ball_next_pixel <= ball_current_pixel;
+				ball_next_x_vel <= ball_current_x_vel;
+				ball_next_y_vel <= ball_current_y_vel;
+				
 				-- Sync high
 				next_VGA_HS <= '1';
 				if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
@@ -255,6 +341,7 @@ begin
 					else
 						next_VGA_VS <= '1';
 					end if;
+				-- If in Hor C
 				if pix_count /= 0 then
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
@@ -282,44 +369,63 @@ begin
 					end if;
 				end if;
 				
-			when D =>
+			-- Horizontal D
+			when D =>			
+				-- Signals to keep the same
+				ball_next_x_vel <= ball_current_x_vel;
+				ball_next_y_vel <= ball_current_y_vel;
+				
 				-- Sync high
 				next_VGA_HS <= '1';
+				
+				-- If in data
 				if pix_count /= 0 then
+					-- Signals to keep the same
+					ball_next_line <= ball_current_line;
+					ball_next_pixel <= ball_current_pixel;
+				
 					next_pix_count <= pix_count - 1;
 					next_lin_count <= lin_count;
 					next_timer <= timer;
 					next_state <= D;
+					
+					-- If in Vert B
 					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
+						-- Reset Vert Sync
 						next_VGA_VS <= '0';
 					else
 						next_VGA_VS <= '1';
-					end if;
+					end if;					
 					if lin_count > LAST_C_V then
 
 						-- Display Pixel Data Here --
 						-- If inside vertical boundaries
 						if (lin_count > Border_Line_Top) and (lin_count < Border_Line_Bottom + Border_Line_Thickness) then
+						
 							-- If inside horizontal boundaries
 							if (pix_count < Border_Line_Left) and (pix_count > Border_Line_Right-Border_Line_Thickness) then
+							
 								-- If on the top or bottom lines
 								if(lin_count < Border_Line_Top+Border_Line_Thickness) or (lin_count > Border_Line_Bottom) then
 									-- Display white
 									next_VGA_R <= "1111";
 									next_VGA_G <= "1111";
 									next_VGA_B <= "1111";
+									
 								-- Or if on left or right sides, and not in goal
 								elsif ((pix_count > Border_Line_Left - Border_Line_Thickness) or (pix_count < Border_Line_Right)) and ((lin_count < Border_Goal_Top) or (lin_count > Border_Goal_Bottom))then
 									-- Display white
 									next_VGA_R <= "1111";
 									next_VGA_G <= "1111";
 									next_VGA_B <= "1111";
+								
 								-- Or if at center obstacle
 								elsif (pix_count < C_OB_Pixel and pix_count > C_OB_Pixel-OB_Width) and (lin_count > C_OB_Line and lin_count < C_OB_Line + OB_Width) then
 									-- Display Red
 									next_VGA_R <= "1111";
 									next_VGA_G <= "0000";
 									next_VGA_B <= "0000";
+								
 								-- Or if at top row of obstacles
 								elsif (lin_count > Top_OB_Line and lin_count < Top_OB_Line+OB_Width) then
 									-- If first column
@@ -351,7 +457,8 @@ begin
 										next_VGA_G <= "0000";
 										next_VGA_B <= "0000";
 									end if;
-									-- Or if at bottom row of obstacles
+								
+								-- Or if at bottom row of obstacles
 								elsif (lin_count > Bottom_OB_Line and lin_count < Bottom_OB_Line+OB_Width) then
 									-- If first column
 									if (pix_count < OB_Col_1 and pix_count > OB_Col_1-OB_Width) then
@@ -382,6 +489,55 @@ begin
 										next_VGA_G <= "0000";
 										next_VGA_B <= "0000";
 									end if;
+								-- Or if right above ball
+								elsif (lin_count >= ball_current_line) and ((lin_count - ball_current_line) <= ball_radius) then
+									
+									-- Just left of ball
+									if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
+										-- Paint ball
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									
+									-- Just right of ball
+									elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
+										-- Paint ball
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									
+									else
+										-- Blackspace
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								
+								-- Or if right below ball
+								elsif (lin_count < ball_current_line) and ((ball_current_line - lin_count) <= ball_radius) then
+									
+									-- Just left of ball
+									if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
+										-- Paint ball
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									
+									-- Just right of ball
+									elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
+										-- Paint ball
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									
+									else
+										-- Blackspace
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;									
+									
+								-- Else black space
 								else
 									next_VGA_R <= "0000";
 									next_VGA_G <= "0000";
@@ -402,14 +558,32 @@ begin
 						next_VGA_G <= "0000";
 						next_VGA_B <= "0000";
 					end if;
+				
 				-- Last pixel
 				else
+				
+					-- Reset pix_count to Hor A
 					next_pix_count <= A_COUNT_H;
-					if lin_count = L_COUNT then
-						next_lin_count <= to_unsigned(0, lin_count'length);
-					elsif (lin_count > LAST_C_V) then
-						next_lin_count <= lin_count + to_unsigned(1, lin_count'length);
+					
+					-- If last line of Vert B
+					if (lin_count = LAST_B_V) then
+						-- Update next ball position
+						ball_next_line <= ball_current_line + ball_current_y_vel;
+						ball_next_pixel <= ball_current_pixel - ball_current_x_vel;
 					else
+						ball_next_line <= ball_current_line;
+						ball_next_pixel <= ball_current_pixel;
+					end if;
+					
+					-- If Last line
+					if lin_count = L_COUNT then					
+						-- Reset lin_count
+						next_lin_count <= to_unsigned(0, lin_count'length);
+						
+--					elsif (lin_count > LAST_C_V) then
+--						next_lin_count <= lin_count + to_unsigned(1, lin_count'length);
+					else
+						-- Else increment lin_count
 						next_lin_count <= lin_count + to_unsigned(1, lin_count'length);
 					end if;
 					next_timer <= timer;
@@ -440,6 +614,10 @@ begin
 						next_VGA_B 	<= current_VGA_B;
 						next_VGA_HS <= current_VGA_HS;
 						next_VGA_VS <= current_VGA_VS;
+						ball_next_x_vel <= ball_current_x_vel;
+						ball_next_y_vel <= ball_current_y_vel;
+						ball_next_line <= ball_current_line;
+						ball_next_pixel <= ball_current_pixel;
 					else
 						next_pix_count <= A_COUNT_H;
 						next_lin_count <= to_unsigned(0, lin_count'length);
@@ -450,6 +628,10 @@ begin
 						next_VGA_B 	<= "0000";
 						next_VGA_HS <= '1';
 						next_VGA_VS <= '1';
+						ball_next_x_vel <= 5;
+						ball_next_y_vel <= 0;
+						ball_next_line <= to_integer(last_C_V) + 60;
+						ball_next_pixel <= 320;
 					end if;
 				else
 					--Increment timer
@@ -462,6 +644,10 @@ begin
 					next_VGA_B 	<= current_VGA_B;
 					next_VGA_HS <= current_VGA_HS;
 					next_VGA_VS <= current_VGA_VS;
+					ball_next_x_vel <= ball_current_x_vel;
+					ball_next_y_vel <= ball_current_y_vel;
+					ball_next_line <= ball_current_line;
+					ball_next_pixel <= ball_current_pixel;
 				end if;
 				
 			when others =>
@@ -474,6 +660,10 @@ begin
 				next_VGA_B  <= current_VGA_B;
 				next_VGA_HS <= current_VGA_HS;
 				next_VGA_VS <= current_VGA_VS;
+				ball_next_x_vel <= ball_current_x_vel;
+				ball_next_y_vel <= ball_current_y_vel;
+				ball_next_line <= ball_current_line;
+				ball_next_pixel <= ball_current_pixel;
 			
 		end case;
 	end process;
