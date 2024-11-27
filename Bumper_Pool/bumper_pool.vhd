@@ -150,7 +150,7 @@ begin
 	begin
 		if rising_edge(c0_sig) then
 			-- If Reset
-			if KEY(0) = '0' then
+			if (KEY(0) = '0') or (locked_sig = '0') then
 				-- State
 				ball_current_state 	<= Hidden;
 			
@@ -181,7 +181,7 @@ begin
 		case ball_current_state is
 			when Hidden =>
 				-- If Reset pressed
-				if KEY(0) = '0' then
+				if (KEY(0) = '0')  or (locked_sig = '0') then
 					ball_next_state	<= Hidden;
 					ball_next_pixel	<= 0;
 					ball_next_line		<= 0;
@@ -210,7 +210,7 @@ begin
 				if KEY(1) = '1' then
 					ball_next_state <= Moving;
 					ball_next_x_vel <= 5;
-					ball_next_y_vel <= 0;
+					ball_next_y_vel <= 5;
 					
 				-- If New-Ball still pressed
 				else
@@ -226,7 +226,7 @@ begin
 			
 			when Moving =>
 				-- If Reset pressed
-				if KEY(0) = '0' then
+				if (KEY(0) = '0')  or (locked_sig = '0') then
 					ball_next_state	<= Hidden;
 					ball_next_pixel 	<= 0;
 					ball_next_line 	<= 0;
@@ -244,7 +244,7 @@ begin
 				-- Normal Behavior
 				else
 					-- If going to hit left wall
-					if (ball_current_pixel - ball_current_x_vel) >= (Border_Line_Left - Border_Line_Thickness) then
+					if (ball_current_pixel + ball_radius - ball_current_x_vel) >= (Border_Line_Left - Border_Line_Thickness) then
 						ball_next_state	<= moving;
 						ball_next_pixel 	<= ball_current_pixel;
 						ball_next_line 	<= ball_current_line;
@@ -252,18 +252,34 @@ begin
 						ball_next_y_vel 	<= ball_current_y_vel;
 						
 					-- If going to hit right wall
-					elsif (ball_current_pixel - ball_current_x_vel) <= Border_Line_Right then
+					elsif (ball_current_pixel - ball_radius - ball_current_x_vel) <= Border_Line_Right then
 						ball_next_state	<= moving;
 						ball_next_pixel	<= ball_current_pixel;
 						ball_next_line		<= ball_current_line;
 						ball_next_x_vel	<= 0 - ball_current_x_vel;
 						ball_next_y_vel	<= ball_current_y_vel;
+						
+					-- If going to hit top wall
+					elsif (ball_current_line - ball_radius - ball_current_y_vel) <= (Border_Line_Top + Border_Line_Thickness) then
+						ball_next_state	<= moving;
+						ball_next_pixel	<= ball_current_pixel;
+						ball_next_line		<= ball_current_line;
+						ball_next_x_vel	<= ball_current_x_vel;
+						ball_next_y_vel	<= 0 - ball_current_y_vel;
+						
+					-- If going to hit bottom wall
+					elsif (ball_current_line + ball_radius - ball_current_y_vel) >= Border_Line_Bottom then
+						ball_next_state	<= moving;
+						ball_next_pixel	<= ball_current_pixel;
+						ball_next_line		<= ball_current_line;
+						ball_next_x_vel	<= ball_current_x_vel;
+						ball_next_y_vel	<= 0 - ball_current_y_vel;
 					
 					-- Update ball on last pixel of last Vert C data
 					elsif (lin_count = LAST_C_V) and (VGA_current_state = D) and (pix_count = 0) then
 						ball_next_state 	<= Moving;
 						ball_next_pixel 	<= ball_current_pixel - ball_current_x_vel;
-						ball_next_line 	<= ball_current_line + ball_current_y_vel;
+						ball_next_line 	<= ball_current_line - ball_current_y_vel;
 						ball_next_x_vel 	<= ball_current_x_vel;
 						ball_next_y_vel 	<= ball_current_y_vel;
 						
@@ -493,7 +509,7 @@ begin
 									next_VGA_R <= "1111";
 									next_VGA_G <= "1111";
 									next_VGA_B <= "1111";
-								
+													
 								-- Or if at center obstacle
 								elsif (pix_count < C_OB_Pixel and pix_count > C_OB_Pixel-OB_Width) and (lin_count > C_OB_Line and lin_count < C_OB_Line + OB_Width) then
 									-- Display Red
@@ -527,10 +543,60 @@ begin
 										next_VGA_R <= "1111";
 										next_VGA_G <= "0000";
 										next_VGA_B <= "0000";
+									-- In between columns
 									else
-										next_VGA_R <= "0000";
-										next_VGA_G <= "0000";
-										next_VGA_B <= "0000";
+										-- If right above ball
+										if (lin_count >= ball_current_line) and ((lin_count - ball_current_line) <= ball_radius) then
+											
+											-- Just left of ball
+											if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
+												-- Paint ball
+												next_VGA_R <= "1111";
+												next_VGA_G <= "1111";
+												next_VGA_B <= "1111";
+											
+											-- Just right of ball
+											elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
+												-- Paint ball
+												next_VGA_R <= "1111";
+												next_VGA_G <= "1111";
+												next_VGA_B <= "1111";
+											
+											else
+												-- Blackspace
+												next_VGA_R <= "0000";
+												next_VGA_G <= "0000";
+												next_VGA_B <= "0000";
+											end if;
+										
+										-- If right below ball
+										elsif (lin_count < ball_current_line) and ((ball_current_line - lin_count) <= ball_radius) then
+											
+											-- Just left of ball
+											if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
+												-- Paint ball
+												next_VGA_R <= "1111";
+												next_VGA_G <= "1111";
+												next_VGA_B <= "1111";
+											
+											-- Just right of ball
+											elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
+												-- Paint ball
+												next_VGA_R <= "1111";
+												next_VGA_G <= "1111";
+												next_VGA_B <= "1111";
+											
+											else
+												-- Blackspace
+												next_VGA_R <= "0000";
+												next_VGA_G <= "0000";
+												next_VGA_B <= "0000";
+											end if;
+										else
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
 									end if;
 								
 								-- Or if at bottom row of obstacles
@@ -559,65 +625,116 @@ begin
 										next_VGA_R <= "1111";
 										next_VGA_G <= "0000";
 										next_VGA_B <= "0000";
+									-- In between obstacles
 									else
-										next_VGA_R <= "0000";
-										next_VGA_G <= "0000";
-										next_VGA_B <= "0000";
-									end if;
-								
-								-- Or if right above ball
-								elsif (lin_count >= ball_current_line) and ((lin_count - ball_current_line) <= ball_radius) then
+										-- If right above ball
+										if (lin_count >= ball_current_line) and ((lin_count - ball_current_line) <= ball_radius) then
+											
+											-- Just left of ball
+											if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
+												-- Paint ball
+												next_VGA_R <= "1111";
+												next_VGA_G <= "1111";
+												next_VGA_B <= "1111";
+											
+											-- Just right of ball
+											elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
+												-- Paint ball
+												next_VGA_R <= "1111";
+												next_VGA_G <= "1111";
+												next_VGA_B <= "1111";
+											
+											else
+												-- Blackspace
+												next_VGA_R <= "0000";
+												next_VGA_G <= "0000";
+												next_VGA_B <= "0000";
+											end if;
+										
+										-- If right below ball
+										elsif (lin_count < ball_current_line) and ((ball_current_line - lin_count) <= ball_radius) then
+											
+											-- Just left of ball
+											if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
+												-- Paint ball
+												next_VGA_R <= "1111";
+												next_VGA_G <= "1111";
+												next_VGA_B <= "1111";
+											
+											-- Just right of ball
+											elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
+												-- Paint ball
+												next_VGA_R <= "1111";
+												next_VGA_G <= "1111";
+												next_VGA_B <= "1111";
+											
+											else
+												-- Blackspace
+												next_VGA_R <= "0000";
+												next_VGA_G <= "0000";
+												next_VGA_B <= "0000";
+											end if;
+										else
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									end if;								
 									
-									-- Just left of ball
-									if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
-										-- Paint ball
-										next_VGA_R <= "1111";
-										next_VGA_G <= "1111";
-										next_VGA_B <= "1111";
-									
-									-- Just right of ball
-									elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
-										-- Paint ball
-										next_VGA_R <= "1111";
-										next_VGA_G <= "1111";
-										next_VGA_B <= "1111";
-									
-									else
-										-- Blackspace
-										next_VGA_R <= "0000";
-										next_VGA_G <= "0000";
-										next_VGA_B <= "0000";
-									end if;
-								
-								-- Or if right below ball
-								elsif (lin_count < ball_current_line) and ((ball_current_line - lin_count) <= ball_radius) then
-									
-									-- Just left of ball
-									if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
-										-- Paint ball
-										next_VGA_R <= "1111";
-										next_VGA_G <= "1111";
-										next_VGA_B <= "1111";
-									
-									-- Just right of ball
-									elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
-										-- Paint ball
-										next_VGA_R <= "1111";
-										next_VGA_G <= "1111";
-										next_VGA_B <= "1111";
-									
-									else
-										-- Blackspace
-										next_VGA_R <= "0000";
-										next_VGA_G <= "0000";
-										next_VGA_B <= "0000";
-									end if;									
-									
-								-- Else black space
+								-- Else empty board space
 								else
-									next_VGA_R <= "0000";
-									next_VGA_G <= "0000";
-									next_VGA_B <= "0000";
+									-- If right above ball
+									if (lin_count >= ball_current_line) and ((lin_count - ball_current_line) <= ball_radius) then
+										
+										-- Just left of ball
+										if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
+											-- Paint ball
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										
+										-- Just right of ball
+										elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
+											-- Paint ball
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										
+										else
+											-- Blackspace
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									
+									-- If right below ball
+									elsif (lin_count < ball_current_line) and ((ball_current_line - lin_count) <= ball_radius) then
+										
+										-- Just left of ball
+										if (pix_count <= ball_current_pixel) and ((ball_current_pixel - pix_count) <= ball_radius) then
+											-- Paint ball
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										
+										-- Just right of ball
+										elsif (pix_count > ball_current_pixel) and ((pix_count - ball_current_pixel) <= ball_radius) then
+											-- Paint ball
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										
+										else
+											-- Blackspace
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									else
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
 								end if;
 							else
 								next_VGA_R <= "0000";
