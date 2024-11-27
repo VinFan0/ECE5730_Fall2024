@@ -1,0 +1,25 @@
+
+
+C:/Users/Ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Bumper_Pool/my_PLL.vhd
+
+Nov 26 09PM:11:41>: The following design file, which has identical name but a different extension 
+from the specified variation file, already exists in the working directory:
+
+my_PLL.v
+
+This may create a conflict of design files and/or lead to undesirable side
+effects.
+
+Is it OK to continue file generation?
+
+C:/Users/Ryan/OneDrive/Fall_2024/Reconfigurable/Labs/Bumper_Pool/my_PLL.vhd
+
+Nov 26 09PM:13:11>: The following design file, which has identical name but a different extension 
+from the specified variation file, already exists in the working directory:
+
+my_PLL.v
+
+This may create a conflict of design files and/or lead to undesirable side
+effects.
+
+Is it OK to continue file generation?
