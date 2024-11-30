@@ -129,7 +129,8 @@ architecture behavioral of Bumper_Pool is
 	type Ball_state_type is (
 		Hidden,
 		Waiting,
-		Moving
+		Moving,
+		Scored
 	);
 	
 	signal ball_current_state, ball_next_state: Ball_state_type;
@@ -209,7 +210,7 @@ begin
 				-- If New-Ball released
 				if KEY(1) = '1' then
 					ball_next_state <= Moving;
-					ball_next_x_vel <= 4;
+					ball_next_x_vel <= -4;
 					ball_next_y_vel <= 3;
 					
 				-- If New-Ball still pressed
@@ -243,8 +244,26 @@ begin
 		
 				-- Normal Behavior
 				else
+					-- If in left goal
+					if (ball_current_pixel > Border_Line_Left - Border_Line_Thickness) then
+						ball_next_state	<= Scored;
+						ball_next_pixel	<= 0;
+						ball_next_line		<= 0;
+						ball_next_x_vel	<= 0;
+						ball_next_y_vel	<= 0;
+						
+					-- If in right goal
+					elsif (ball_current_pixel < to_integer(Border_Line_Right) + 1) then
+						ball_next_state	<= Scored;
+						ball_next_pixel	<= 0;
+						ball_next_line		<= 0;
+						ball_next_x_vel	<= 0;
+						ball_next_y_vel	<= 0;
+					
 					-- If going to hit left wall
-					if (ball_current_pixel + ball_radius - ball_current_x_vel) >= (Border_Line_Left - Border_Line_Thickness) then
+					elsif ((ball_current_pixel + ball_radius - ball_current_x_vel) >= (Border_Line_Left - Border_Line_Thickness)) and 
+						((ball_current_line - ball_radius - ball_current_y_vel < Border_Goal_Top) or
+						(ball_Current_line + ball_radius - ball_current_y_vel > Border_Goal_Bottom)) then
 						ball_next_state	<= moving;
 						ball_next_pixel 	<= ball_current_pixel;
 						ball_next_line 	<= ball_current_line;
@@ -252,7 +271,9 @@ begin
 						ball_next_y_vel 	<= ball_current_y_vel;
 						
 					-- If going to hit right wall
-					elsif (ball_current_pixel - ball_radius - ball_current_x_vel) <= Border_Line_Right then
+					elsif ((ball_current_pixel - ball_radius - ball_current_x_vel) <= Border_Line_Right) and 
+						((ball_current_line - ball_radius - ball_current_y_vel < Border_Goal_Top) or
+						(ball_Current_line + ball_radius - ball_current_y_vel > Border_Goal_Bottom)) then
 						ball_next_state	<= moving;
 						ball_next_pixel	<= ball_current_pixel;
 						ball_next_line		<= ball_current_line;
@@ -936,7 +957,7 @@ begin
 							ball_next_line 	<= ball_current_line;
 							ball_next_x_vel	<= ball_current_x_vel;
 							ball_next_y_vel	<= -ball_current_y_vel;
-					
+							
 					-- Update ball on last pixel of last Vert C data
 					elsif (lin_count = LAST_C_V) and (VGA_current_state = D) and (pix_count = 0) then
 						ball_next_state 	<= Moving;
@@ -953,10 +974,25 @@ begin
 						ball_next_x_vel	<= ball_current_x_vel;
 						ball_next_y_vel	<= ball_current_y_vel;
 						
-					end if;
-				
+					end if;				
 				end if;
-				
+			
+			when Scored =>
+				-- If new-ball
+				if KEY(1) = '0' then
+					ball_next_state 	<= Waiting;
+					ball_next_pixel	<= 320;
+					ball_next_line 	<= to_integer(last_C_V) + 60;
+					ball_next_x_vel 	<= 0;
+					ball_next_y_vel 	<= 0;
+				else
+					-- No change
+					ball_next_state 	<= ball_current_state;
+					ball_next_pixel 	<= ball_current_pixel;
+					ball_next_line 	<= ball_current_line;
+					ball_next_x_vel	<= ball_current_x_vel;
+					ball_next_y_vel	<= ball_current_y_vel;
+				end if;
 		end case;
 	end process;
 	
