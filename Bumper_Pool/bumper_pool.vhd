@@ -191,8 +191,8 @@ begin
 				-- If New-Ball pressed
 				elsif KEY(1) = '0' then
 					ball_next_state 	<= Waiting;
-					ball_next_pixel	<= to_integer(OB_Col_4)-43;--320;
-					ball_next_line 	<= to_integer(Top_OB_Line);--to_integer(last_C_V) + 60;
+					ball_next_pixel	<= 320;
+					ball_next_line 	<= to_integer(last_C_V) + 60;
 					ball_next_x_vel 	<= 0;
 					ball_next_y_vel 	<= 0;
 				
@@ -209,8 +209,8 @@ begin
 				-- If New-Ball released
 				if KEY(1) = '1' then
 					ball_next_state <= Moving;
-					ball_next_x_vel <= -5;
-					ball_next_y_vel <= 0;
+					ball_next_x_vel <= 4;
+					ball_next_y_vel <= 3;
 					
 				-- If New-Ball still pressed
 				else
@@ -236,8 +236,8 @@ begin
 				-- If New-Ball pressed
 				elsif KEY(1) = '0' then
 					ball_next_state	<= Waiting;
-					ball_next_pixel 	<= to_integer(OB_Col_4)-43;--320;
-					ball_next_line 	<= to_integer(Top_OB_Line);--to_integer(last_C_V) + 60;
+					ball_next_pixel 	<= 320;
+					ball_next_line 	<= to_integer(last_C_V) + 60;
 					ball_next_x_vel 	<= 0;
 					ball_next_y_vel 	<= 0;
 		
@@ -352,103 +352,590 @@ begin
 						ball_next_x_vel 	<= -ball_current_x_vel;
 						ball_next_y_vel	<= ball_current_y_vel;
 					
+					-- Object 1 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
-						-- If going to hit obstacle 1
-							-- If top of ball above bottom of obstacle
-								-- Bounce vertically
-							-- If top of ball below bottom of obstable
-								-- Bounce horizontally
-						-- If going to hit obstacle 2
-							-- If top of ball above bottom of obstacle
-								-- Bounce horizontally
-							-- If top of ball below bottom of obstable
-								-- Bounce vertically
-						-- If going to hit obstacle 3
-							-- If top of ball above bottom of obstacle
-								-- Bounce horizontally
-							-- If top of ball below bottom of obstable
-								-- Bounce vertically
-						-- If going to hit obstacle 4
-							-- If top of ball above bottom of obstacle
-								-- Bounce horizontally
-							-- If top of ball below bottom of obstable
-								-- Bounce vertically
-						-- If going to hit center obstacle
-							-- If top of ball above bottom of obstacle
-								-- Bounce horizontally
-							-- If top of ball below bottom of obstable
-								-- Bounce vertically
-						-- If going to hit obstacle 5
-							-- If top of ball above bottom of obstacle
-								-- Bounce horizontally
-							-- If top of ball below bottom of obstable
-								-- Bounce vertically
-						-- If going to hit obstacle 6
-							-- If top of ball above bottom of obstacle
-								-- Bounce horizontally
-							-- If top of ball below bottom of obstable
-								-- Bounce vertically
-						-- If going to hit obstacle 7
-							-- If top of ball above bottom of obstacle
-								-- Bounce horizontally
-							-- If top of ball below bottom of obstable
-								-- Bounce vertically
-						-- If going to hit obstacle 8
-							-- If top of ball above bottom of obstacle
-								-- Bounce horizontally
-							-- If top of ball below bottom of obstable
-								-- Bounce vertically
-						-- Otherwise
-							-- No change
-					
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_1 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_1)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= Top_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_1 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_1)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= Top_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
 					-- If traveling downwards
-						-- If going to hit obstacle 1
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- If going to hit obstacle 2
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- If going to hit obstacle 3
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- If going to hit obstacle 4
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- If going to hit center obstacle
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- If going to hit obstacle 5
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- If going to hit obstacle 6
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- If going to hit obstacle 7
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- If going to hit obstacle 8
-							-- If bottom of ball above top of obstacle
-								-- Bounce vertically
-							-- If bottom of ball below top of obstacle
-								-- Bounce horizontally
-						-- Otherwise
-							-- No change
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_1 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_1)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= Top_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_1 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_1)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= Top_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+						
+					-- Object 2 Collisions ------------------------------------------------------------------------------
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_2 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_2)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= Top_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_2 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_2)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= Top_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_2 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_2)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= Top_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_2 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_2)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= Top_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+					
+					-- Object 3 Collisions ------------------------------------------------------------------------------
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_3 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_3)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= Top_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_3 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_3)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= Top_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_3 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_3)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= Top_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_3 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_3)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= Top_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+					
+					-- Object 4 Collisions ------------------------------------------------------------------------------
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_4 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_4)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= Top_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_4 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_4)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= Top_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_4 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_4)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= Top_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_4 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_4)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= Top_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Top_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Top_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+					
+					-- Object 5 Collisions ------------------------------------------------------------------------------
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_1 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_1)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= Bottom_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_1 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_1)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= Bottom_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_1 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_1)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= Bottom_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_1 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_1)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= Bottom_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+					
+					-- Object 6 Collisions ------------------------------------------------------------------------------
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_2 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_2)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= Bottom_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_2 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_2)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= Bottom_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_2 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_2)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= Bottom_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_2 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_2)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= Bottom_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+					
+					-- Object 7 Collisions ------------------------------------------------------------------------------
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_3 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_3)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= Bottom_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_3 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_3)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= Bottom_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_3 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_3)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= Bottom_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_3 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_3)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= Bottom_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+					
+					-- Object 8 Collisions ------------------------------------------------------------------------------
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_4 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_4)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= Bottom_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_4 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_4)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= Bottom_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_4 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_4)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= Bottom_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= OB_Col_4 - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= OB_Col_4)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= Bottom_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= Bottom_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= Bottom_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- Center Object Collisions ------------------------------------------------------------------------------
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= C_OB_Pixel - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= C_OB_Pixel)) and
+						-- If going to hit side
+						(ball_current_line - ball_radius <= C_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= C_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= C_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling upwards
+					elsif (ball_current_y_vel > 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= C_OB_Pixel - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= C_OB_Pixel)) and
+						-- If going to hit bottom
+						(ball_current_line - ball_radius >= C_OB_Line + OB_Width) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= C_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= C_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= C_OB_Pixel - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= C_OB_Pixel)) and
+						-- If going to hit side
+						(ball_current_line + ball_radius >= C_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= C_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= C_OB_Line + OB_Width) then
+							-- Bounce horizontally
+							ball_next_state	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel 	<= -ball_current_x_vel;
+							ball_next_y_vel 	<= ball_current_y_vel;
+							
+					-- If traveling downwards
+					elsif (ball_current_y_vel < 0) and 
+						-- Going to hit OB 1
+						((ball_current_pixel + ball_radius - ball_current_x_vel >= C_OB_Pixel - OB_Width) and 
+						(ball_current_pixel - ball_radius - ball_current_x_vel <= C_OB_Pixel)) and
+						-- If going to hit top
+						(ball_current_line + ball_radius <= C_OB_Line) and
+						(ball_current_line + ball_radius - ball_current_y_vel >= C_OB_Line) and
+						(ball_current_line - ball_radius - ball_current_y_vel <= C_OB_Line + OB_Width)	then
+							-- Bounce vertically
+							ball_next_state 	<= ball_current_state;
+							ball_next_pixel 	<= ball_current_pixel;
+							ball_next_line 	<= ball_current_line;
+							ball_next_x_vel	<= ball_current_x_vel;
+							ball_next_y_vel	<= -ball_current_y_vel;
 					
 					-- Update ball on last pixel of last Vert C data
 					elsif (lin_count = LAST_C_V) and (VGA_current_state = D) and (pix_count = 0) then
