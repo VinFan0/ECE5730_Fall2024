@@ -17,7 +17,9 @@ entity Bumper_Pool is
 		LAST_D_V	 	: unsigned(9 downto 0) := to_unsigned(524, 10);
 		L_COUNT 		: unsigned(9 downto 0) := to_unsigned(524, 10);
 		F_COUNT		: integer := 11;
-		DELAY			: integer := 500000
+		DELAY			: integer := 500000;
+		SAMPLE_PERIOD : integer := 10000000
+
 		);
 
 	port (
@@ -35,7 +37,11 @@ entity Bumper_Pool is
 		VGA_G 	: out std_logic_vector(3 downto 0);
 		VGA_B 	: out std_logic_vector(3 downto 0);
 		VGA_HS	: out std_logic;
-		VGA_VS	: out std_logic
+		VGA_VS	: out std_logic;
+		
+		-- Arduino Header --
+		ARDUINO_IO			: inout std_logic_vector(15 downto 0);
+		ARDUINO_RESET_N	: inout std_logic
 	);
 
 end entity Bumper_Pool;
@@ -43,6 +49,26 @@ end entity Bumper_Pool;
 architecture behavioral of Bumper_Pool is
 
 	-- Components --
+	-- ADC --
+	component my_ADC is
+		port (
+			clock_clk              : in  std_logic                     := 'X';             -- clk
+			reset_sink_reset_n     : in  std_logic                     := 'X';             -- reset_n
+			adc_pll_clock_clk      : in  std_logic                     := 'X';             -- clk
+			adc_pll_locked_export  : in  std_logic                     := 'X';             -- export
+			command_valid          : in  std_logic                     := 'X';             -- valid
+			command_channel        : in  std_logic_vector(4 downto 0)  := (others => 'X'); -- channel
+			command_startofpacket  : in  std_logic                     := 'X';             -- startofpacket
+			command_endofpacket    : in  std_logic                     := 'X';             -- endofpacket
+			command_ready          : out std_logic;                                        -- ready
+			response_valid         : out std_logic;                                        -- valid
+			response_channel       : out std_logic_vector(4 downto 0);                     -- channel
+			response_data          : out unsigned(11 downto 0);                    -- data
+			response_startofpacket : out std_logic;                                        -- startofpacket
+			response_endofpacket   : out std_logic                                         -- endofpacket
+		);
+	end component my_ADC;
+	
 	-- PLL --
 	component my_PLL IS
 		PORT
@@ -56,6 +82,8 @@ architecture behavioral of Bumper_Pool is
 	
 	signal c0_sig : std_logic;
 	signal locked_sig : std_logic;
+	signal c1_sig : std_logic;
+	signal locked1_sig : std_logic;
 
 	-- VGA Signals --
 	signal pix_count 			: integer := 0;
@@ -113,6 +141,28 @@ architecture behavioral of Bumper_Pool is
 	signal ball_current_y_vel	: integer := 0;
 	signal ball_next_y_vel		: integer := 0;
 	
+	-- ADC Command Signals --
+	signal command_valid          : std_logic							  := '1';            -- valid
+	signal command_channel        : std_logic_vector(4 downto 0)  :=  "00001";  		-- channel
+	signal command_startofpacket  : std_logic                     := '1';            -- startofpacket
+	signal command_endofpacket    : std_logic                     := '1';            -- endofpacket
+	signal command_ready          : std_logic;                                       -- ready
+	
+	-- ADC Response Signals --
+	signal response_valid         : std_logic;                                  		-- valid
+	signal response_channel       : std_logic_vector(4 downto 0);               		-- channel
+	signal response_data          : unsigned(11 downto 0);              		-- data
+	signal response_startofpacket : std_logic;                                  		-- startofpacket
+	signal response_endofpacket   : std_logic;    
+	
+	-- MISC --
+	signal sample_counter : integer := 0;
+	signal sample_trigger : std_logic;
+	signal player_1 : unsigned(12 downto 0) := (others => '0');
+	signal player_2 : unsigned(12 downto 0) := (others => '0');
+	signal next_player : unsigned(12 downto 0) := (others => '0');
+	signal temp_player : integer;
+	
 	-- VGA FSM States
 	type VGA_state_type is (
 		Clear,
@@ -139,6 +189,27 @@ begin
 
 	-- Define module behavior here --
 	-- Instantiate components --
+	-- ADC --
+	u0 : component my_ADC
+		port map (
+			-- Input
+			clock_clk              => MAX10_CLK1_50,             					--          clock.clk
+			reset_sink_reset_n     => KEY(0),  				   					--     reset_sink.reset_n
+			adc_pll_clock_clk      => c0_sig,      								--  adc_pll_clock.clk
+			adc_pll_locked_export  => locked_sig,  								-- adc_pll_locked.export
+			command_valid          => command_valid,          					--        command.valid
+			command_channel        => command_channel,        					--               .channel
+			command_startofpacket  => command_startofpacket,  					--               .startofpacket
+			command_endofpacket    => command_endofpacket,    					--               .endofpacket
+			-- Output
+			command_ready          => command_ready,          					--               .ready
+			response_valid         => response_valid,         					--       response.valid
+			response_channel       => response_channel,       					--               .channel
+			response_data          => response_data,          					--               .data
+			response_startofpacket => response_startofpacket, 					--               .startofpacket
+			response_endofpacket   => response_endofpacket    					--               .endofpacket
+		);
+	
 	my_PLL_inst : my_PLL PORT MAP (
 		areset	 	=> not KEY(0),
 		inclk0	 	=> MAX10_CLK1_50,
@@ -1192,6 +1263,7 @@ begin
 						if (lin_count > Border_Line_Top) and (lin_count < Border_Line_Bottom + Border_Line_Thickness) then
 						
 							-- If inside horizontal boundaries
+							
 							if (pix_count < Border_Line_Left) and (pix_count > Border_Line_Right-Border_Line_Thickness) then
 							
 								-- If on the top or bottom lines
@@ -1216,7 +1288,7 @@ begin
 									next_VGA_B <= "0000";
 								
 								-- Or if at top row of obstacles
-								elsif (lin_count > Top_OB_Line and lin_count < Top_OB_Line+OB_Width) then
+								elsif (lin_count > Top_OB_Line and lin_count < Top_OB_Line+OB_Width) and (pix_count < OB_COL_1) and (pix_count > OB_COL_4 - OB_WIDTH) then
 									-- If first column
 									if (pix_count < OB_Col_1 and pix_count > OB_Col_1-OB_Width) then
 										-- Display Red
@@ -1298,7 +1370,7 @@ begin
 									end if;
 								
 								-- Or if at bottom row of obstacles
-								elsif (lin_count > Bottom_OB_Line and lin_count < Bottom_OB_Line+OB_Width) then
+								elsif (lin_count > Bottom_OB_Line and lin_count < Bottom_OB_Line+OB_Width) and (pix_count < OB_COL_1) and (pix_count > OB_COL_4 - OB_WIDTH) then
 									-- If first column
 									if (pix_count < OB_Col_1 and pix_count > OB_Col_1-OB_Width) then
 										-- Display Red
@@ -1377,7 +1449,74 @@ begin
 											next_VGA_G <= "0000";
 											next_VGA_B <= "0000";
 										end if;
-									end if;								
+									end if;	
+		
+								--Paddle 1
+								elsif (pix_count >= 37) and (pix_count < 42) and (lin_count > 65) and (lin_count < 385) and (lin_count >= player_1) and (lin_count < player_1 + 40) then
+									if (player_1 > 65) and (player_1 < 345) then
+										if (lin_count >= player_1) and (lin_count < player_1 + 40) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1010";
+											next_VGA_B <= "0100";
+										elsif (lin_count < player_1) and (lin_count > player_1) then
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif player_1 <= 65 then
+										if (lin_count >= 65) and (lin_count < 105) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1010";
+											next_VGA_B <= "0100";
+										else
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif player_1 >= 345 then
+										if (lin_count >= 345) and (lin_count < 385) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1010";
+											next_VGA_B <= "0100";
+										else
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									end if;
+								--Paddle 2
+								elsif (pix_count >= 597) and (pix_count < 602) and (lin_count > 65) and (lin_count < 385) and (lin_count >= player_2) and (lin_count < player_2 + 40)then
+									if (player_2 > 65) and (player_2 < 345) then
+										if (lin_count >= player_2) and (lin_count < player_2 + 40) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1010";
+											next_VGA_B <= "0100";
+										else
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif player_2 <= 65 then
+										if (lin_count >= 65) and (lin_count < 105) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1010";
+											next_VGA_B <= "0100";
+										else
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif player_2 >= 345 then
+										if (lin_count >= 345) and (lin_count < 385) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1010";
+											next_VGA_B <= "0100";
+										else
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									end if;
 									
 								-- Else empty board space
 								else
@@ -1428,6 +1567,7 @@ begin
 											next_VGA_G <= "0000";
 											next_VGA_B <= "0000";
 										end if;
+
 									else
 										next_VGA_R <= "0000";
 										next_VGA_G <= "0000";
@@ -1439,11 +1579,14 @@ begin
 								next_VGA_G <= "0000";
 								next_VGA_B <= "0000";
 							end if;
+						--Add Scoring
 						else
 							next_VGA_R <= "0000";
 							next_VGA_G <= "0000";
 							next_VGA_B <= "0000";
 						end if;
+						
+						
 					else
 						next_VGA_R <= "0000";
 						next_VGA_G <= "0000";
@@ -1541,6 +1684,50 @@ begin
 		VGA_B  <= current_VGA_B;
 		VGA_HS <= current_VGA_HS;
 		VGA_VS <= current_VGA_VS;
+	end process;
+	
+	-- Timing Controller --
+	process (MAX10_CLK1_50)
+	begin
+		if rising_edge(MAX10_CLK1_50) then
+			if sample_counter < SAMPLE_PERIOD - 1 then
+				sample_counter <= sample_counter + 1;
+				sample_trigger <= '0';
+			else
+				sample_counter <= 0;
+				sample_trigger <= '1';
+			end if;
+		end if;
+	end process;
+	
+	-- Sampling controller --
+	process (MAX10_CLK1_50)
+	begin
+		if rising_edge(MAX10_CLK1_50) then
+			if (response_valid = '1') then
+				if command_channel = "00001" then
+					temp_player <= to_integer(shift_right(response_data,2));
+					if (temp_player >= 345) then
+						player_1 <= to_unsigned(345, 13);
+					elsif (temp_player <= 65) then
+						player_1 <= to_unsigned(65, 13);
+					else
+						player_1 <= to_unsigned(temp_player, player_1'length);
+					end if;
+					command_channel <= "00010";
+				elsif command_channel = "00010" then
+					temp_player <= to_integer(shift_right(response_data, 2));
+					if (temp_player >= 345) then
+						player_2 <= to_unsigned(345, 13);
+					elsif (temp_player <= 65) then
+						player_2 <= to_unsigned(65, 13);
+					else
+						player_2 <= to_unsigned(temp_player, player_2'length);
+					end if;
+					command_channel <= "00001";
+				end if;
+			end if;
+		end if;
 	end process;
 
 end architecture behavioral;

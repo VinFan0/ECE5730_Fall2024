@@ -1,0 +1,77 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'MAX10_CLK1_50'
+Slack : -882.206
+TNS   : -8820.948
+
+Type  : Slow 1200mV 85C Model Setup 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : -1.399
+TNS   : -7.135
+
+Type  : Slow 1200mV 85C Model Hold 'MAX10_CLK1_50'
+Slack : 0.340
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 6.027
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 4.575
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'MAX10_CLK1_50'
+Slack : 9.624
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'MAX10_CLK1_50'
+Slack : -874.115
+TNS   : -8740.126
+
+Type  : Slow 1200mV 0C Model Setup 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 0.015
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'MAX10_CLK1_50'
+Slack : 0.306
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 4.734
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 4.631
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'MAX10_CLK1_50'
+Slack : 9.648
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'MAX10_CLK1_50'
+Slack : -834.121
+TNS   : -8340.810
+
+Type  : Fast 1200mV 0C Model Setup 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 6.151
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : -0.138
+TNS   : -0.229
+
+Type  : Fast 1200mV 0C Model Hold 'MAX10_CLK1_50'
+Slack : 0.147
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'my_PLL_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 4.903
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'MAX10_CLK1_50'
+Slack : 9.194
+TNS   : 0.000
+
+------------------------------------------------------------
