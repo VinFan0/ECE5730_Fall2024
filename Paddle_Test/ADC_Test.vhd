@@ -18,7 +18,8 @@ entity ADC_Test is
 		L_COUNT 		: unsigned(9 downto 0) := to_unsigned(524, 10);
 		F_COUNT		: integer := 11;
 		DELAY			: integer := 500000;
-		SAMPLE_PERIOD : integer := 10000000
+		SAMPLE_PERIOD : integer := 10000000;
+		Counter : integer := 50000000
 
 	);
 
@@ -81,6 +82,10 @@ architecture behavioral of ADC_Test is
 	signal current_VGA_VS 		: std_logic := '1';
 	signal change : integer := 0;
 	signal help : std_logic := '1';
+	signal score_1 : integer := 0;
+	signal score_2 : integer := 0;
+	signal count : integer := 0;
+	
 	
 	-- ADC --
 	component my_ADC is
@@ -388,30 +393,292 @@ begin
 						next_VGA_VS <= '1';
 					end if;					
 					if lin_count > LAST_C_V then
-						if (pix_count >= 65) and (pix_count < 70) then
-							if (display_0 > 35) or (display_0 < 300) then
-								if (lin_count >= display_0) and (lin_count < display_0 + 40) then
-									next_VGA_R <= "1111";
-									next_VGA_G <= "1010";
-									next_VGA_B <= "0100";
+						if (lin_count > 400)  and (lin_count <= 430) then
+							if (pix_count <= 490) and (pix_count > 470) then
+								if score_1 = 0 then
+									if ((lin_count > 400) and (lin_count <= 405)) or ((lin_count > 425) and (lin_count <= 430)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									elsif ((pix_count <= 490) and (pix_count > 486)) or ((pix_count < 475) and (pix_count > 470)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									else
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_1 = 1 then
+									if (pix_count <= 475) and (pix_count > 470) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									else
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_1 = 2 then
+									if ((lin_count > 400) and (lin_count <= 405)) or ((lin_count > 412) and (lin_count < 418)) or ((lin_count > 425) and (lin_count <= 430)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									elsif (pix_count <= 475) and (pix_count > 470) then
+										if (lin_count > 405) and (lin_count <= 412) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif (pix_count <= 490) and (pix_count > 485) then
+										if (lin_count >= 418) and (lin_count <= 425) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									else 
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_1 = 3 then
+									if ((lin_count > 400) and (lin_count <= 405)) or ((lin_count > 412) and (lin_count < 418)) or ((lin_count > 425) and (lin_count <= 430)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									elsif (pix_count <= 475) and (pix_count > 470) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									else 
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_1 = 4 then
+									if (lin_count >= 400) and (lin_count < 412) then
+										if (pix_count <= 490) and (pix_count > 486) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										elsif (pix_count <= 475) and (pix_count > 470) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif (lin_count >= 412) and (lin_count < 418) then
+										if (pix_count <= 490) and (pix_count > 470) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif (lin_count >= 418) and (lin_count < 430) then
+										if (pix_count < 475) and (pix_count > 470) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									else 
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_1 = 5 then
+									if ((lin_count > 400) and (lin_count <= 405)) or ((lin_count > 412) and (lin_count < 418)) or ((lin_count > 425) and (lin_count <= 430)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									elsif (pix_count <= 490) and (pix_count > 485) then
+										if (lin_count > 405) and (lin_count <= 412) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif (pix_count <= 475) and (pix_count > 470) then
+										if (lin_count >= 418) and (lin_count <= 425) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									else 
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
 								end if;
-							else
-								if (lin_count > 2) then 
-									next_VGA_R <= "1111";
-									next_VGA_G <= "1010";
-									next_VGA_B <= "0100";
+							elsif (pix_count <= 140) and (pix_count > 120) then
+								if score_2 = 0 then
+									if ((lin_count > 400) and (lin_count <= 405)) or ((lin_count > 425) and (lin_count <= 430)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									elsif ((pix_count <= 140) and (pix_count > 136)) or ((pix_count < 125) and (pix_count > 120)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									else
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_2 = 1 then
+									if (pix_count <= 125) and (pix_count > 120) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									else
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_2 = 2 then
+									if ((lin_count > 400) and (lin_count <= 405)) or ((lin_count > 412) and (lin_count < 418)) or ((lin_count > 425) and (lin_count <= 430)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									elsif (pix_count <= 125) and (pix_count > 120) then
+										if (lin_count > 405) and (lin_count <= 412) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif (pix_count <= 140) and (pix_count > 135) then
+										if (lin_count >= 418) and (lin_count <= 425) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									else 
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_2 = 3 then
+									if ((lin_count > 400) and (lin_count <= 405)) or ((lin_count > 412) and (lin_count < 418)) or ((lin_count > 425) and (lin_count <= 430)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									elsif (pix_count <= 125) and (pix_count > 120) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									else 
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_2 = 4 then
+									if (lin_count >= 400) and (lin_count < 412) then
+										if (pix_count <= 140) and (pix_count > 135) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										elsif (pix_count <= 125) and (pix_count > 120) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif (lin_count >= 412) and (lin_count < 418) then
+										if (pix_count <= 140) and (pix_count > 120) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif (lin_count >= 418) and (lin_count < 430) then
+										if (pix_count < 125) and (pix_count > 120) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									else 
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
+								elsif score_2 = 5 then
+									if ((lin_count > 400) and (lin_count <= 405)) or ((lin_count > 412) and (lin_count < 418)) or ((lin_count > 425) and (lin_count <= 430)) then
+										next_VGA_R <= "1111";
+										next_VGA_G <= "1111";
+										next_VGA_B <= "1111";
+									elsif (pix_count <= 140) and (pix_count > 135) then
+										if (lin_count > 405) and (lin_count <= 412) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									elsif (pix_count <= 125) and (pix_count > 120) then
+										if (lin_count >= 418) and (lin_count <= 425) then
+											next_VGA_R <= "1111";
+											next_VGA_G <= "1111";
+											next_VGA_B <= "1111";
+										else 
+											next_VGA_R <= "0000";
+											next_VGA_G <= "0000";
+											next_VGA_B <= "0000";
+										end if;
+									else 
+										next_VGA_R <= "0000";
+										next_VGA_G <= "0000";
+										next_VGA_B <= "0000";
+									end if;
 								end if;
+							else 
+								next_VGA_R <= "0000";
+								next_VGA_G <= "0000";
+								next_VGA_B <= "0000";
 							end if;
-						elsif (pix_count >= 600) and (pix_count < 605) then
-							if (lin_count >= display_1) and (lin_count < display_1 + 40) then
-								next_VGA_R <= "1111";
-								next_VGA_G <= "1010";
-								next_VGA_B <= "0100";
-							end if;
-						else 
-							next_VGA_R <= "0000";
-							next_VGA_G <= "0000";
-							next_VGA_B <= "0000";
 						end if;
 					end if;
 				

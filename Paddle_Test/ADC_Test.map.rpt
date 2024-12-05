@@ -1,5 +1,5 @@
 Analysis & Synthesis report for ADC_Test
-Mon Dec  2 00:42:05 2024
+Tue Dec  3 22:12:17 2024
 Quartus Prime Version 23.1std.0 Build 991 11/28/2023 Patches 0.02std SC Lite Edition
 
 
@@ -73,15 +73,15 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                                        ;
 +------------------------------------+----------------------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Dec  2 00:42:05 2024                          ;
+; Analysis & Synthesis Status        ; Successful - Tue Dec  3 22:12:17 2024                          ;
 ; Quartus Prime Version              ; 23.1std.0 Build 991 11/28/2023 Patches 0.02std SC Lite Edition ;
 ; Revision Name                      ; ADC_Test                                                       ;
 ; Top-level Entity Name              ; ADC_Test                                                       ;
 ; Family                             ; MAX 10                                                         ;
-; Total logic elements               ; 408                                                            ;
-;     Total combinational functions  ; 351                                                            ;
-;     Dedicated logic registers      ; 226                                                            ;
-; Total registers                    ; 226                                                            ;
+; Total logic elements               ; 357                                                            ;
+;     Total combinational functions  ; 304                                                            ;
+;     Dedicated logic registers      ; 221                                                            ;
+; Total registers                    ; 221                                                            ;
 ; Total pins                         ; 88                                                             ;
 ; Total virtual pins                 ; 0                                                              ;
 ; Total memory bits                  ; 0                                                              ;
@@ -237,20 +237,20 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+---------------------+
 ; Resource                                    ; Usage               ;
 +---------------------------------------------+---------------------+
-; Estimated Total logic elements              ; 408                 ;
+; Estimated Total logic elements              ; 357                 ;
 ;                                             ;                     ;
-; Total combinational functions               ; 351                 ;
+; Total combinational functions               ; 304                 ;
 ; Logic element usage by number of LUT inputs ;                     ;
-;     -- 4 input functions                    ; 94                  ;
-;     -- 3 input functions                    ; 71                  ;
-;     -- <=2 input functions                  ; 186                 ;
+;     -- 4 input functions                    ; 103                 ;
+;     -- 3 input functions                    ; 51                  ;
+;     -- <=2 input functions                  ; 150                 ;
 ;                                             ;                     ;
 ; Logic elements by mode                      ;                     ;
-;     -- normal mode                          ; 194                 ;
-;     -- arithmetic mode                      ; 157                 ;
+;     -- normal mode                          ; 195                 ;
+;     -- arithmetic mode                      ; 109                 ;
 ;                                             ;                     ;
-; Total registers                             ; 226                 ;
-;     -- Dedicated logic registers            ; 226                 ;
+; Total registers                             ; 221                 ;
+;     -- Dedicated logic registers            ; 221                 ;
 ;     -- I/O registers                        ; 0                   ;
 ;                                             ;                     ;
 ; I/O pins                                    ; 88                  ;
@@ -261,9 +261,9 @@ https://fpgasoftware.intel.com/eula.
 ;     -- PLLs                                 ; 1                   ;
 ;                                             ;                     ;
 ; Maximum fan-out node                        ; MAX10_CLK1_50~input ;
-; Maximum fan-out                             ; 227                 ;
-; Total fan-out                               ; 1717                ;
-; Average fan-out                             ; 2.22                ;
+; Maximum fan-out                             ; 222                 ;
+; Total fan-out                               ; 1616                ;
+; Average fan-out                             ; 2.24                ;
 +---------------------------------------------+---------------------+
 
 
@@ -272,7 +272,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------+--------------+
 ; Compilation Hierarchy Node                                                ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; UFM Blocks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; ADC blocks ; Full Hierarchy Name                                                                                                                                                                                   ; Entity Name                            ; Library Name ;
 +---------------------------------------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------+--------------+
-; |ADC_Test                                                                 ; 351 (305)           ; 226 (174)                 ; 0           ; 0          ; 0            ; 0       ; 0         ; 88   ; 0            ; 0          ; |ADC_Test                                                                                                                                                                                             ; ADC_Test                               ; work         ;
+; |ADC_Test                                                                 ; 304 (258)           ; 221 (169)                 ; 0           ; 0          ; 0            ; 0       ; 0         ; 88   ; 0            ; 0          ; |ADC_Test                                                                                                                                                                                             ; ADC_Test                               ; work         ;
 ;    |my_ADC:u0|                                                            ; 46 (0)              ; 52 (0)                    ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |ADC_Test|my_ADC:u0                                                                                                                                                                                   ; my_ADC                                 ; work         ;
 ;       |my_ADC_modular_adc_0:modular_adc_0|                                ; 46 (0)              ; 52 (0)                    ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |ADC_Test|my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0                                                                                                                                                ; my_ADC_modular_adc_0                   ; work         ;
 ;          |altera_modular_adc_control:control_internal|                    ; 46 (0)              ; 52 (0)                    ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |ADC_Test|my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal                                                                                                    ; altera_modular_adc_control             ; work         ;
@@ -356,20 +356,25 @@ Encoding Type:  One-Hot
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------+--------------------------------------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; User-Specified and Inferred Latches                                                               ;
-+----------------------------------------------------+---------------------+------------------------+
-; Latch Name                                         ; Latch Enable Signal ; Free of Timing Hazards ;
-+----------------------------------------------------+---------------------+------------------------+
-; next_VGA_R[0]                                      ; Selector82          ; yes                    ;
-; next_VGA_R[1]                                      ; Selector82          ; yes                    ;
-; next_VGA_R[2]                                      ; Selector82          ; yes                    ;
-; next_VGA_R[3]                                      ; Selector82          ; yes                    ;
-; next_VGA_G[1]                                      ; Selector82          ; yes                    ;
-; next_VGA_G[3]                                      ; Selector82          ; yes                    ;
-; next_VGA_B[2]                                      ; Selector82          ; yes                    ;
-; Number of user-specified and inferred latches = 7  ;                     ;                        ;
-+----------------------------------------------------+---------------------+------------------------+
++----------------------------------------------------------------------------------------------------+
+; User-Specified and Inferred Latches                                                                ;
++-----------------------------------------------------+---------------------+------------------------+
+; Latch Name                                          ; Latch Enable Signal ; Free of Timing Hazards ;
++-----------------------------------------------------+---------------------+------------------------+
+; next_VGA_R[0]                                       ; Selector82          ; yes                    ;
+; next_VGA_R[1]                                       ; Selector82          ; yes                    ;
+; next_VGA_R[2]                                       ; Selector82          ; yes                    ;
+; next_VGA_R[3]                                       ; Selector82          ; yes                    ;
+; next_VGA_G[0]                                       ; Selector82          ; yes                    ;
+; next_VGA_G[1]                                       ; Selector82          ; yes                    ;
+; next_VGA_G[2]                                       ; Selector82          ; yes                    ;
+; next_VGA_G[3]                                       ; Selector82          ; yes                    ;
+; next_VGA_B[0]                                       ; Selector82          ; yes                    ;
+; next_VGA_B[1]                                       ; Selector82          ; yes                    ;
+; next_VGA_B[2]                                       ; Selector82          ; yes                    ;
+; next_VGA_B[3]                                       ; Selector82          ; yes                    ;
+; Number of user-specified and inferred latches = 12  ;                     ;                        ;
++-----------------------------------------------------+---------------------+------------------------+
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
@@ -378,6 +383,8 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; Register name                                                                                                                                                                                                                                                                                                                      ; Reason for Removal                                                                                                                                                    ;
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; HEX0[7]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
+; HEX1[7]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; HEX2[7]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; HEX3[7]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; HEX3[6]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
@@ -403,23 +410,17 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; HEX5[2]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; HEX5[1]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; HEX5[0]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
-; HEX1[7]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
-; HEX0[7]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; my_PLL:my_PLL_inst|altpll:altpll_component|my_PLL_altpll:auto_generated|pll_lock_sync                                                                                                                                                                                                                                              ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|avrg_cnt_done                                                                                                                                                                                ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; temp_display[10,11]                                                                                                                                                                                                                                                                                                                ; Merged with command_channel[2]                                                                                                                                        ;
-; command_channel[3]                                                                                                                                                                                                                                                                                                                 ; Merged with command_channel[2]                                                                                                                                        ;
-; temp_display[12]                                                                                                                                                                                                                                                                                                                   ; Merged with command_channel[2]                                                                                                                                        ;
-; command_channel[4]                                                                                                                                                                                                                                                                                                                 ; Merged with command_channel[2]                                                                                                                                        ;
-; display_0[11,12]                                                                                                                                                                                                                                                                                                                   ; Merged with display_0[10]                                                                                                                                             ;
-; display_1[11,12]                                                                                                                                                                                                                                                                                                                   ; Merged with display_1[10]                                                                                                                                             ;
+; command_channel[3,4]                                                                                                                                                                                                                                                                                                               ; Merged with command_channel[2]                                                                                                                                        ;
+; display_0[11]                                                                                                                                                                                                                                                                                                                      ; Merged with display_0[10]                                                                                                                                             ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|chsel[3]                                                                                                                                                                                     ; Merged with my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|chsel[2]            ;
 ; command_channel[2]                                                                                                                                                                                                                                                                                                                 ; Stuck at GND due to stuck port data_in                                                                                                                                ;
 ; display_0[10]                                                                                                                                                                                                                                                                                                                      ; Stuck at GND due to stuck port data_in                                                                                                                                ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|prev_cmd_is_ts                                                                                                                                                                               ; Stuck at GND due to stuck port data_in                                                                                                                                ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|frst_64_ptr_done                                                                                                                                                                             ; Stuck at VCC due to stuck port data_in                                                                                                                                ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|cntr_n2b:rd_ptr_count|counter_reg_bit[0..5]                        ; Stuck at GND due to stuck port clock                                                                                                                                  ;
-; display_1[10]                                                                                                                                                                                                                                                                                                                      ; Stuck at GND due to stuck port data_in                                                                                                                                ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|cntr_n2b:wr_ptr|counter_reg_bit[0..5]                              ; Stuck at GND due to stuck port clock                                                                                                                                  ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|a_fefifo_c6e:fifo_state|cntr_337:count_usedw|counter_reg_bit[0..5] ; Stuck at GND due to stuck port clock                                                                                                                                  ;
 ; HEX2[1]~reg0                                                                                                                                                                                                                                                                                                                       ; Stuck at GND due to stuck port data_in                                                                                                                                ;
@@ -447,10 +448,8 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state.PUTRESP_DLY1                                                                                                                                                                      ; Merged with my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|rsp_valid           ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|chsel[4]                                                                                                                                                                                     ; Merged with my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|chsel[2]            ;
 ; current_state.Debounce                                                                                                                                                                                                                                                                                                             ; Stuck at GND due to stuck port data_in                                                                                                                                ;
-; current_VGA_G[0,2]                                                                                                                                                                                                                                                                                                                 ; Stuck at GND due to stuck port data_in                                                                                                                                ;
-; current_VGA_B[0,1,3]                                                                                                                                                                                                                                                                                                               ; Stuck at GND due to stuck port data_in                                                                                                                                ;
 ; timer[0..31]                                                                                                                                                                                                                                                                                                                       ; Stuck at GND due to stuck port data_in                                                                                                                                ;
-; Total Number of Removed Registers = 171                                                                                                                                                                                                                                                                                            ;                                                                                                                                                                       ;
+; Total Number of Removed Registers = 161                                                                                                                                                                                                                                                                                            ;                                                                                                                                                                       ;
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
@@ -490,8 +489,8 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ;                                                                                                                                                                                                                                                                                                ; due to stuck port data_in ; timer[14], timer[15], timer[16], timer[17], timer[18], timer[19], timer[20], timer[21],                                                                                                                                                                                                                                          ;
 ;                                                                                                                                                                                                                                                                                                ;                           ; timer[22], timer[23], timer[24], timer[25], timer[26], timer[27], timer[28], timer[29],                                                                                                                                                                                                                                          ;
 ;                                                                                                                                                                                                                                                                                                ;                           ; timer[30], timer[31]                                                                                                                                                                                                                                                                                                             ;
-; command_channel[2]                                                                                                                                                                                                                                                                             ; Stuck at GND              ; display_0[10], display_1[10], HEX2[1]~reg0, current_VGA_G[0], current_VGA_G[2],                                                                                                                                                                                                                                                  ;
-;                                                                                                                                                                                                                                                                                                ; due to stuck port data_in ; current_VGA_B[0], current_VGA_B[1], current_VGA_B[3]                                                                                                                                                                                                                                                                             ;
+; command_channel[2]                                                                                                                                                                                                                                                                             ; Stuck at GND              ; display_0[10], HEX2[1]~reg0                                                                                                                                                                                                                                                                                                      ;
+;                                                                                                                                                                                                                                                                                                ; due to stuck port data_in ;                                                                                                                                                                                                                                                                                                                                  ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|a_fefifo_c6e:fifo_state|b_full ; Stuck at GND              ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|a_fefifo_c6e:fifo_state|b_non_empty                              ;
 ;                                                                                                                                                                                                                                                                                                ; due to stuck port data_in ;                                                                                                                                                                                                                                                                                                                                  ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state.WAIT_PEND_DLY1                                                                                                                                ; Stuck at GND              ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|pend                                                                                                                                                                                       ;
@@ -504,12 +503,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 226   ;
+; Total registers                              ; 221   ;
 ; Number of registers using Synchronous Clear  ; 50    ;
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 127   ;
+; Number of registers using Clock Enable       ; 122   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -521,8 +520,8 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------+---------+
 ; current_VGA_HS                         ; 3       ;
 ; current_VGA_VS                         ; 2       ;
-; temp_display[0]                        ; 2       ;
-; command_channel[0]                     ; 5       ;
+; temp_display[0]                        ; 1       ;
+; command_channel[0]                     ; 4       ;
 ; Total number of inverted registers = 4 ;         ;
 +----------------------------------------+---------+
 
@@ -536,7 +535,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; 6:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |ADC_Test|timer[24]                                                                                                                                          ;
 ; 5:1                ; 24 bits   ; 72 LEs        ; 24 LEs               ; 48 LEs                 ; Yes        ; |ADC_Test|pix_count[12]                                                                                                                                      ;
 ; 5:1                ; 4 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; Yes        ; |ADC_Test|pix_count[0]                                                                                                                                       ;
-; 8:1                ; 10 bits   ; 50 LEs        ; 10 LEs               ; 40 LEs                 ; Yes        ; |ADC_Test|lin_count[8]                                                                                                                                       ;
+; 8:1                ; 10 bits   ; 50 LEs        ; 10 LEs               ; 40 LEs                 ; Yes        ; |ADC_Test|lin_count[0]                                                                                                                                       ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |ADC_Test|pix_count[6]                                                                                                                                       ;
 ; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |ADC_Test|current_state                                                                                                                                      ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -600,6 +599,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; F_COUNT        ; 11         ; Signed Integer                             ;
 ; DELAY          ; 500000     ; Signed Integer                             ;
 ; SAMPLE_PERIOD  ; 10000000   ; Signed Integer                             ;
+; Counter        ; 50000000   ; Signed Integer                             ;
 +----------------+------------+--------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
@@ -1255,27 +1255,26 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 88                          ;
-; cycloneiii_ff         ; 226                         ;
-;     ENA               ; 109                         ;
+; cycloneiii_ff         ; 221                         ;
+;     ENA               ; 104                         ;
 ;     ENA SCLR          ; 18                          ;
 ;     SCLR              ; 32                          ;
 ;     plain             ; 67                          ;
 ; cycloneiii_io_obuf    ; 17                          ;
-; cycloneiii_lcell_comb ; 354                         ;
-;     arith             ; 157                         ;
-;         2 data inputs ; 119                         ;
-;         3 data inputs ; 38                          ;
-;     normal            ; 197                         ;
-;         0 data inputs ; 4                           ;
-;         1 data inputs ; 13                          ;
-;         2 data inputs ; 53                          ;
-;         3 data inputs ; 33                          ;
-;         4 data inputs ; 94                          ;
+; cycloneiii_lcell_comb ; 307                         ;
+;     arith             ; 109                         ;
+;         2 data inputs ; 109                         ;
+;     normal            ; 198                         ;
+;         0 data inputs ; 2                           ;
+;         1 data inputs ; 12                          ;
+;         2 data inputs ; 30                          ;
+;         3 data inputs ; 51                          ;
+;         4 data inputs ; 103                         ;
 ; cycloneiii_pll        ; 1                           ;
 ; fiftyfivenm_adcblock  ; 1                           ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 3.50                        ;
+; Average LUT depth     ; 3.11                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1284,7 +1283,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:00     ;
 +----------------+--------------+
 
 
@@ -1294,7 +1293,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.0 Build 991 11/28/2023 Patches 0.02std SC Lite Edition
-    Info: Processing started: Mon Dec  2 00:41:53 2024
+    Info: Processing started: Tue Dec  3 22:12:06 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off ADC_Test -c ADC_Test
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
@@ -1302,58 +1301,60 @@ Info (12021): Found 2 design units, including 1 entities, in source file my_pll.
     Info (12022): Found design unit 1: my_pll-SYN File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_PLL.vhd Line: 54
     Info (12023): Found entity 1: my_PLL File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_PLL.vhd Line: 43
 Warning (12125): Using design file adc_test.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
-    Info (12022): Found design unit 1: ADC_Test-behavioral File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 55
+    Info (12022): Found design unit 1: ADC_Test-behavioral File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 56
     Info (12023): Found entity 1: ADC_Test File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 5
 Info (12127): Elaborating entity "ADC_Test" for the top level hierarchy
-Warning (10541): VHDL Signal Declaration warning at adc_test.vhd(39): used implicit default value for signal "HEX6" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(83): used explicit default value for signal "help" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 83
-Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(120): used explicit default value for signal "command_valid" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 120
-Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(122): used explicit default value for signal "command_startofpacket" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 122
-Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(123): used explicit default value for signal "command_endofpacket" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 123
-Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(124): object "command_ready" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 124
-Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(128): object "response_channel" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 128
-Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(130): object "response_startofpacket" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 130
-Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(131): object "response_endofpacket" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 131
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(319): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 319
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(320): signal "current_VGA_VS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 320
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(392): signal "display_0" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 392
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(393): signal "display_0" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 393
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(406): signal "display_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 406
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(440): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 440
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(458): signal "current_VGA_R" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 458
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(459): signal "current_VGA_G" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 459
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(460): signal "current_VGA_B" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 460
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(461): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 461
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(462): signal "current_VGA_VS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 462
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(480): signal "current_VGA_R" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 480
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(481): signal "current_VGA_G" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 481
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(482): signal "current_VGA_B" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 482
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(483): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 483
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(484): signal "current_VGA_VS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 484
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(492): signal "current_VGA_R" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 492
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(493): signal "current_VGA_G" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 493
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(494): signal "current_VGA_B" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 494
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(495): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 495
-Warning (10492): VHDL Process Statement warning at adc_test.vhd(496): signal "current_VGA_VS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 496
-Warning (10631): VHDL Process Statement warning at adc_test.vhd(241): inferring latch(es) for signal or variable "next_VGA_R", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Warning (10631): VHDL Process Statement warning at adc_test.vhd(241): inferring latch(es) for signal or variable "next_VGA_G", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Warning (10631): VHDL Process Statement warning at adc_test.vhd(241): inferring latch(es) for signal or variable "next_VGA_B", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_B[0]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_B[1]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_B[2]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_B[3]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_G[0]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_G[1]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_G[2]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_G[3]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_R[0]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_R[1]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_R[2]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Info (10041): Inferred latch for "next_VGA_R[3]" at adc_test.vhd(241) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
+Warning (10541): VHDL Signal Declaration warning at adc_test.vhd(40): used implicit default value for signal "HEX6" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
+Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(84): used explicit default value for signal "help" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 84
+Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(85): used explicit default value for signal "score_1" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 85
+Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(86): used explicit default value for signal "score_2" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 86
+Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(125): used explicit default value for signal "command_valid" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 125
+Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(127): used explicit default value for signal "command_startofpacket" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 127
+Warning (10540): VHDL Signal Declaration warning at adc_test.vhd(128): used explicit default value for signal "command_endofpacket" because signal was never assigned a value File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 128
+Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(129): object "command_ready" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 129
+Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(133): object "response_channel" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 133
+Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(135): object "response_startofpacket" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 135
+Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(136): object "response_endofpacket" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 136
+Warning (10036): Verilog HDL or VHDL warning at adc_test.vhd(155): object "display_1" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 155
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(324): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 324
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(325): signal "current_VGA_VS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 325
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(398): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 398
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(538): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 538
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(707): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 707
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(725): signal "current_VGA_R" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 725
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(726): signal "current_VGA_G" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 726
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(727): signal "current_VGA_B" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 727
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(728): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 728
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(729): signal "current_VGA_VS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 729
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(747): signal "current_VGA_R" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 747
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(748): signal "current_VGA_G" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 748
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(749): signal "current_VGA_B" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 749
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(750): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 750
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(751): signal "current_VGA_VS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 751
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(759): signal "current_VGA_R" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 759
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(760): signal "current_VGA_G" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 760
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(761): signal "current_VGA_B" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 761
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(762): signal "current_VGA_HS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 762
+Warning (10492): VHDL Process Statement warning at adc_test.vhd(763): signal "current_VGA_VS" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 763
+Warning (10631): VHDL Process Statement warning at adc_test.vhd(246): inferring latch(es) for signal or variable "next_VGA_R", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Warning (10631): VHDL Process Statement warning at adc_test.vhd(246): inferring latch(es) for signal or variable "next_VGA_G", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Warning (10631): VHDL Process Statement warning at adc_test.vhd(246): inferring latch(es) for signal or variable "next_VGA_B", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_B[0]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_B[1]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_B[2]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_B[3]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_G[0]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_G[1]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_G[2]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_G[3]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_R[0]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_R[1]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_R[2]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Info (10041): Inferred latch for "next_VGA_R[3]" at adc_test.vhd(246) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
 Warning (12125): Using design file my_adc.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
     Info (12022): Found design unit 1: my_ADC-rtl File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_adc.vhd Line: 28
     Info (12023): Found entity 1: my_ADC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_adc.vhd Line: 9
-Info (12128): Elaborating entity "my_ADC" for hierarchy "my_ADC:u0" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 172
+Info (12128): Elaborating entity "my_ADC" for hierarchy "my_ADC:u0" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 177
 Warning (12125): Using design file my_adc_modular_adc_0.v, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: my_ADC_modular_adc_0 File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_adc_modular_adc_0.v Line: 9
 Info (12128): Elaborating entity "my_ADC_modular_adc_0" for hierarchy "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_adc.vhd Line: 53
@@ -1412,7 +1413,7 @@ Info (12128): Elaborating entity "chsel_code_converter_sw_to_hw" for hierarchy "
 Warning (12125): Using design file fiftyfivenm_adcblock_primitive_wrapper.v, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: fiftyfivenm_adcblock_primitive_wrapper File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/fiftyfivenm_adcblock_primitive_wrapper.v Line: 37
 Info (12128): Elaborating entity "fiftyfivenm_adcblock_primitive_wrapper" for hierarchy "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|fiftyfivenm_adcblock_top_wrapper:adc_inst|fiftyfivenm_adcblock_primitive_wrapper:adcblock_instance" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/fiftyfivenm_adcblock_top_wrapper.v Line: 191
-Info (12128): Elaborating entity "my_PLL" for hierarchy "my_PLL:my_PLL_inst" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 193
+Info (12128): Elaborating entity "my_PLL" for hierarchy "my_PLL:my_PLL_inst" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 198
 Info (12128): Elaborating entity "altpll" for hierarchy "my_PLL:my_PLL_inst|altpll:altpll_component" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_PLL.vhd Line: 141
 Info (12130): Elaborated megafunction instantiation "my_PLL:my_PLL_inst|altpll:altpll_component" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_PLL.vhd Line: 141
 Info (12133): Instantiated megafunction "my_PLL:my_PLL_inst|altpll:altpll_component" with the following parameter: File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/my_PLL.vhd Line: 141
@@ -1503,90 +1504,90 @@ Warning (14284): Synthesized away the following node(s):
         Warning (14320): Synthesized away node "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|altsyncram_rqn1:FIFOram|q_b[10]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/db/altsyncram_rqn1.tdf Line: 340
         Warning (14320): Synthesized away node "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|altsyncram_rqn1:FIFOram|q_b[11]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/db/altsyncram_rqn1.tdf Line: 370
 Warning (13039): The following bidirectional pins have no drivers
-    Warning (13040): bidirectional pin "ARDUINO_IO[0]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[1]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[2]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[3]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[4]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[5]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[6]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[7]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[8]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[9]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[10]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[11]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[12]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[13]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[14]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_IO[15]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 49
-    Warning (13040): bidirectional pin "ARDUINO_RESET_N" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[0]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[1]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[2]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[3]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[4]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[5]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[6]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[7]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[8]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[9]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[10]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[11]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[12]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[13]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[14]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_IO[15]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 50
+    Warning (13040): bidirectional pin "ARDUINO_RESET_N" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 51
 Info (13025): Duplicate LATCH primitives merged into single LATCH primitive
-    Info (13026): Duplicate LATCH primitive "next_VGA_R[1]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-    Info (13026): Duplicate LATCH primitive "next_VGA_R[2]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-    Info (13026): Duplicate LATCH primitive "next_VGA_R[3]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-    Info (13026): Duplicate LATCH primitive "next_VGA_G[1]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-    Info (13026): Duplicate LATCH primitive "next_VGA_G[3]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-    Info (13026): Duplicate LATCH primitive "next_VGA_B[2]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-Warning (13012): Latch next_VGA_R[0] has unsafe behavior File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 241
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal pix_count[30] File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 204
+    Info (13026): Duplicate LATCH primitive "next_VGA_R[1]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_R[2]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_R[3]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_G[0]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_G[1]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_G[2]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_G[3]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_B[0]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_B[1]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_B[2]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Info (13026): Duplicate LATCH primitive "next_VGA_B[3]" merged with LATCH primitive "next_VGA_R[0]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+Warning (13012): Latch next_VGA_R[0] has unsafe behavior File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 246
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal current_state.D File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 169
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "HEX0[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX1[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX2[1]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX2[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX3[0]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX3[1]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX3[2]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX3[3]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX3[4]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX3[5]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX3[6]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX3[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX4[0]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX4[1]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX4[2]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX4[3]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX4[4]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX4[5]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX4[6]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX4[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX5[0]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX5[1]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX5[2]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX5[3]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX5[4]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX5[5]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX5[6]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX5[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 546
-    Warning (13410): Pin "HEX6[0]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-    Warning (13410): Pin "HEX6[1]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-    Warning (13410): Pin "HEX6[2]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-    Warning (13410): Pin "HEX6[3]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-    Warning (13410): Pin "HEX6[4]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-    Warning (13410): Pin "HEX6[5]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-    Warning (13410): Pin "HEX6[6]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-    Warning (13410): Pin "HEX6[7]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 39
-    Warning (13410): Pin "VGA_G[0]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 43
-    Warning (13410): Pin "VGA_G[2]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 43
-    Warning (13410): Pin "VGA_B[0]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 44
-    Warning (13410): Pin "VGA_B[1]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 44
-    Warning (13410): Pin "VGA_B[3]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 44
+    Warning (13410): Pin "HEX0[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX1[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX2[1]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX2[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX3[0]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX3[1]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX3[2]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX3[3]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX3[4]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX3[5]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX3[6]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX3[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX4[0]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX4[1]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX4[2]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX4[3]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX4[4]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX4[5]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX4[6]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX4[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX5[0]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX5[1]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX5[2]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX5[3]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX5[4]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX5[5]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX5[6]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX5[7]" is stuck at VCC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 813
+    Warning (13410): Pin "HEX6[0]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
+    Warning (13410): Pin "HEX6[1]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
+    Warning (13410): Pin "HEX6[2]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
+    Warning (13410): Pin "HEX6[3]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
+    Warning (13410): Pin "HEX6[4]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
+    Warning (13410): Pin "HEX6[5]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
+    Warning (13410): Pin "HEX6[6]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
+    Warning (13410): Pin "HEX6[7]" is stuck at GND File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/adc_test.vhd Line: 40
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 9 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Paddle_Test/ADC_Test.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 508 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 457 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 1 input pins
     Info (21059): Implemented 70 output pins
     Info (21060): Implemented 17 bidirectional pins
-    Info (21061): Implemented 418 logic cells
+    Info (21061): Implemented 367 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 134 warnings
-    Info: Peak virtual memory: 4891 megabytes
-    Info: Processing ended: Mon Dec  2 00:42:05 2024
-    Info: Elapsed time: 00:00:12
-    Info: Total CPU time (on all processors): 00:00:13
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 131 warnings
+    Info: Peak virtual memory: 4894 megabytes
+    Info: Processing ended: Tue Dec  3 22:12:17 2024
+    Info: Elapsed time: 00:00:11
+    Info: Total CPU time (on all processors): 00:00:15
 
 
 +------------------------------------------+

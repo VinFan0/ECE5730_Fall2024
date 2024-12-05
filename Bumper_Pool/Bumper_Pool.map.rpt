@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Bumper_Pool
-Tue Dec  3 15:01:42 2024
+Wed Dec  4 21:45:41 2024
 Quartus Prime Version 23.1std.0 Build 991 11/28/2023 Patches 0.02std SC Lite Edition
 
 
@@ -72,15 +72,15 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                                        ;
 +------------------------------------+----------------------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Tue Dec  3 15:01:42 2024                          ;
+; Analysis & Synthesis Status        ; Successful - Wed Dec  4 21:45:41 2024                          ;
 ; Quartus Prime Version              ; 23.1std.0 Build 991 11/28/2023 Patches 0.02std SC Lite Edition ;
 ; Revision Name                      ; Bumper_Pool                                                    ;
 ; Top-level Entity Name              ; Bumper_Pool                                                    ;
 ; Family                             ; MAX 10                                                         ;
-; Total logic elements               ; 1,323                                                          ;
-;     Total combinational functions  ; 1,283                                                          ;
-;     Dedicated logic registers      ; 270                                                            ;
-; Total registers                    ; 270                                                            ;
+; Total logic elements               ; 1,551                                                          ;
+;     Total combinational functions  ; 1,511                                                          ;
+;     Dedicated logic registers      ; 334                                                            ;
+; Total registers                    ; 334                                                            ;
 ; Total pins                         ; 34                                                             ;
 ; Total virtual pins                 ; 0                                                              ;
 ; Total memory bits                  ; 0                                                              ;
@@ -243,20 +243,20 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+------------------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                                    ;
 +---------------------------------------------+------------------------------------------------------------------------------------------+
-; Estimated Total logic elements              ; 1,323                                                                                    ;
+; Estimated Total logic elements              ; 1,551                                                                                    ;
 ;                                             ;                                                                                          ;
-; Total combinational functions               ; 1283                                                                                     ;
+; Total combinational functions               ; 1511                                                                                     ;
 ; Logic element usage by number of LUT inputs ;                                                                                          ;
-;     -- 4 input functions                    ; 556                                                                                      ;
-;     -- 3 input functions                    ; 428                                                                                      ;
-;     -- <=2 input functions                  ; 299                                                                                      ;
+;     -- 4 input functions                    ; 677                                                                                      ;
+;     -- 3 input functions                    ; 414                                                                                      ;
+;     -- <=2 input functions                  ; 420                                                                                      ;
 ;                                             ;                                                                                          ;
 ; Logic elements by mode                      ;                                                                                          ;
-;     -- normal mode                          ; 735                                                                                      ;
-;     -- arithmetic mode                      ; 548                                                                                      ;
+;     -- normal mode                          ; 901                                                                                      ;
+;     -- arithmetic mode                      ; 610                                                                                      ;
 ;                                             ;                                                                                          ;
-; Total registers                             ; 270                                                                                      ;
-;     -- Dedicated logic registers            ; 270                                                                                      ;
+; Total registers                             ; 334                                                                                      ;
+;     -- Dedicated logic registers            ; 334                                                                                      ;
 ;     -- I/O registers                        ; 0                                                                                        ;
 ;                                             ;                                                                                          ;
 ; I/O pins                                    ; 34                                                                                       ;
@@ -267,9 +267,9 @@ https://fpgasoftware.intel.com/eula.
 ;     -- PLLs                                 ; 1                                                                                        ;
 ;                                             ;                                                                                          ;
 ; Maximum fan-out node                        ; my_PLL:my_PLL_inst|altpll:altpll_component|my_PLL_altpll:auto_generated|wire_pll1_clk[0] ;
-; Maximum fan-out                             ; 191                                                                                      ;
-; Total fan-out                               ; 4957                                                                                     ;
-; Average fan-out                             ; 3.02                                                                                     ;
+; Maximum fan-out                             ; 256                                                                                      ;
+; Total fan-out                               ; 5895                                                                                     ;
+; Average fan-out                             ; 3.05                                                                                     ;
 +---------------------------------------------+------------------------------------------------------------------------------------------+
 
 
@@ -278,7 +278,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------+--------------+
 ; Compilation Hierarchy Node                                                ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; UFM Blocks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; ADC blocks ; Full Hierarchy Name                                                                                                                                                                                      ; Entity Name                            ; Library Name ;
 +---------------------------------------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------+--------------+
-; |Bumper_Pool                                                              ; 1283 (1231)         ; 270 (215)                 ; 0           ; 0          ; 0            ; 0       ; 0         ; 34   ; 0            ; 0          ; |Bumper_Pool                                                                                                                                                                                             ; Bumper_Pool                            ; work         ;
+; |Bumper_Pool                                                              ; 1511 (1459)         ; 334 (279)                 ; 0           ; 0          ; 0            ; 0       ; 0         ; 34   ; 0            ; 0          ; |Bumper_Pool                                                                                                                                                                                             ; Bumper_Pool                            ; work         ;
 ;    |my_ADC:u0|                                                            ; 52 (0)              ; 54 (0)                    ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |Bumper_Pool|my_ADC:u0                                                                                                                                                                                   ; my_ADC                                 ; work         ;
 ;       |my_ADC_modular_adc_0:modular_adc_0|                                ; 52 (0)              ; 54 (0)                    ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |Bumper_Pool|my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0                                                                                                                                                ; my_ADC_modular_adc_0                   ; work         ;
 ;          |altera_modular_adc_control:control_internal|                    ; 52 (0)              ; 54 (0)                    ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |Bumper_Pool|my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal                                                                                                    ; altera_modular_adc_control             ; work         ;
@@ -387,6 +387,10 @@ Encoding Type:  One-Hot
 ; temp_player[10,12,15,16,18,19,21,22,24]                                                                                                                                                                                                                                                                                            ; Merged with temp_player[30]                                                                                                                                           ;
 ; command_channel[3]                                                                                                                                                                                                                                                                                                                 ; Merged with temp_player[30]                                                                                                                                           ;
 ; temp_player[14,17,23,25,28,29]                                                                                                                                                                                                                                                                                                     ; Merged with temp_player[30]                                                                                                                                           ;
+; current_VGA_R[1..3]                                                                                                                                                                                                                                                                                                                ; Merged with current_VGA_R[0]                                                                                                                                          ;
+; current_VGA_B[1,3]                                                                                                                                                                                                                                                                                                                 ; Merged with current_VGA_B[0]                                                                                                                                          ;
+; current_VGA_G[0,2]                                                                                                                                                                                                                                                                                                                 ; Merged with current_VGA_B[0]                                                                                                                                          ;
+; current_VGA_G[1,3]                                                                                                                                                                                                                                                                                                                 ; Merged with current_VGA_B[2]                                                                                                                                          ;
 ; player_2[11,12]                                                                                                                                                                                                                                                                                                                    ; Merged with player_2[10]                                                                                                                                              ;
 ; player_1[11,12]                                                                                                                                                                                                                                                                                                                    ; Merged with player_1[10]                                                                                                                                              ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|chsel[3]                                                                                                                                                                                     ; Merged with my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|chsel[2]            ;
@@ -414,10 +418,6 @@ Encoding Type:  One-Hot
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state~6                                                                                                                                                                                 ; Lost fanout                                                                                                                                                           ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state~7                                                                                                                                                                                 ; Lost fanout                                                                                                                                                           ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state~8                                                                                                                                                                                 ; Lost fanout                                                                                                                                                           ;
-; current_VGA_R[1..3]                                                                                                                                                                                                                                                                                                                ; Merged with current_VGA_R[0]                                                                                                                                          ;
-; current_VGA_B[1,3]                                                                                                                                                                                                                                                                                                                 ; Merged with current_VGA_B[0]                                                                                                                                          ;
-; current_VGA_G[0,2]                                                                                                                                                                                                                                                                                                                 ; Merged with current_VGA_B[0]                                                                                                                                          ;
-; current_VGA_G[1,3]                                                                                                                                                                                                                                                                                                                 ; Merged with current_VGA_B[2]                                                                                                                                          ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state.PUTRESP                                                                                                                                                                           ; Merged with my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|conv_dly1_s_flp     ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state.WAIT_PEND                                                                                                                                                                         ; Merged with my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state.PRE_CONV ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|ctrl_state.PRE_CONV                                                                                                                                                                          ; Stuck at GND due to stuck port data_in                                                                                                                                ;
@@ -478,12 +478,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 270   ;
-; Number of registers using Synchronous Clear  ; 18    ;
+; Total registers                              ; 334   ;
+; Number of registers using Synchronous Clear  ; 82    ;
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 55    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 183   ;
+; Number of registers using Clock Enable       ; 247   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -495,16 +495,16 @@ Encoding Type:  One-Hot
 +------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 ; current_VGA_HS                                                                                                                                 ; 2       ;
 ; current_VGA_VS                                                                                                                                 ; 2       ;
+; ball_current_pixel[8]                                                                                                                          ; 7       ;
+; ball_current_pixel[6]                                                                                                                          ; 7       ;
 ; ball_current_line[6]                                                                                                                           ; 6       ;
 ; ball_current_line[5]                                                                                                                           ; 6       ;
 ; ball_current_line[3]                                                                                                                           ; 6       ;
-; ball_current_pixel[8]                                                                                                                          ; 7       ;
-; ball_current_pixel[6]                                                                                                                          ; 7       ;
+; ball_current_x_vel[2]                                                                                                                          ; 4       ;
+; ball_current_x_vel[0]                                                                                                                          ; 5       ;
 ; temp_player[31]                                                                                                                                ; 3       ;
 ; temp_player[0]                                                                                                                                 ; 2       ;
 ; command_channel[0]                                                                                                                             ; 5       ;
-; ball_current_x_vel[2]                                                                                                                          ; 4       ;
-; ball_current_x_vel[0]                                                                                                                          ; 5       ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|usr_pwd  ; 2       ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|chsel[2] ; 6       ;
 ; my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|chsel[1] ; 5       ;
@@ -517,17 +517,19 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                                                                      ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Bumper_Pool|my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|int_timer[0] ;
-; 6:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |Bumper_Pool|timer[15]                                                                                                                                          ;
-; 5:1                ; 24 bits   ; 72 LEs        ; 24 LEs               ; 48 LEs                 ; Yes        ; |Bumper_Pool|pix_count[13]                                                                                                                                      ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; Yes        ; |Bumper_Pool|pix_count[3]                                                                                                                                       ;
-; 8:1                ; 10 bits   ; 50 LEs        ; 10 LEs               ; 40 LEs                 ; Yes        ; |Bumper_Pool|lin_count[9]                                                                                                                                       ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |Bumper_Pool|pix_count[4]                                                                                                                                       ;
-; 11:1               ; 59 bits   ; 413 LEs       ; 59 LEs               ; 354 LEs                ; Yes        ; |Bumper_Pool|ball_current_pixel[14]                                                                                                                             ;
-; 13:1               ; 30 bits   ; 240 LEs       ; 120 LEs              ; 120 LEs                ; Yes        ; |Bumper_Pool|ball_current_x_vel[12]                                                                                                                             ;
-; 13:1               ; 32 bits   ; 256 LEs       ; 96 LEs               ; 160 LEs                ; Yes        ; |Bumper_Pool|ball_current_y_vel[24]                                                                                                                             ;
-; 11:1               ; 5 bits    ; 35 LEs        ; 20 LEs               ; 15 LEs                 ; Yes        ; |Bumper_Pool|ball_current_line[3]                                                                                                                               ;
-; 13:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Bumper_Pool|ball_current_x_vel[0]                                                                                                                              ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Bumper_Pool|my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|int_timer[3] ;
+; 6:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |Bumper_Pool|timer[26]                                                                                                                                          ;
+; 7:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |Bumper_Pool|score_2[11]                                                                                                                                        ;
+; 7:1                ; 32 bits   ; 128 LEs       ; 32 LEs               ; 96 LEs                 ; Yes        ; |Bumper_Pool|score_1[31]                                                                                                                                        ;
+; 5:1                ; 24 bits   ; 72 LEs        ; 24 LEs               ; 48 LEs                 ; Yes        ; |Bumper_Pool|pix_count[31]                                                                                                                                      ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; Yes        ; |Bumper_Pool|pix_count[0]                                                                                                                                       ;
+; 8:1                ; 10 bits   ; 50 LEs        ; 10 LEs               ; 40 LEs                 ; Yes        ; |Bumper_Pool|lin_count[2]                                                                                                                                       ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |Bumper_Pool|pix_count[6]                                                                                                                                       ;
+; 11:1               ; 59 bits   ; 413 LEs       ; 59 LEs               ; 354 LEs                ; Yes        ; |Bumper_Pool|ball_current_line[10]                                                                                                                              ;
+; 13:1               ; 30 bits   ; 240 LEs       ; 120 LEs              ; 120 LEs                ; Yes        ; |Bumper_Pool|ball_current_x_vel[14]                                                                                                                             ;
+; 13:1               ; 32 bits   ; 256 LEs       ; 96 LEs               ; 160 LEs                ; Yes        ; |Bumper_Pool|ball_current_y_vel[22]                                                                                                                             ;
+; 11:1               ; 5 bits    ; 35 LEs        ; 20 LEs               ; 15 LEs                 ; Yes        ; |Bumper_Pool|ball_current_line[6]                                                                                                                               ;
+; 13:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Bumper_Pool|ball_current_x_vel[2]                                                                                                                              ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |Bumper_Pool|VGA_current_state                                                                                                                                  ;
 ; 3:1                ; 10 bits   ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |Bumper_Pool|player_1                                                                                                                                           ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |Bumper_Pool|ball_next_state                                                                                                                                    ;
@@ -1237,29 +1239,29 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 34                          ;
-; cycloneiii_ff         ; 270                         ;
+; cycloneiii_ff         ; 334                         ;
 ;     CLR               ; 37                          ;
 ;     ENA               ; 155                         ;
 ;     ENA CLR           ; 10                          ;
 ;     ENA CLR SCLR      ; 8                           ;
-;     ENA SCLR          ; 10                          ;
+;     ENA SCLR          ; 74                          ;
 ;     plain             ; 50                          ;
 ; cycloneiii_io_obuf    ; 17                          ;
-; cycloneiii_lcell_comb ; 1285                        ;
-;     arith             ; 548                         ;
-;         2 data inputs ; 236                         ;
+; cycloneiii_lcell_comb ; 1513                        ;
+;     arith             ; 610                         ;
+;         2 data inputs ; 298                         ;
 ;         3 data inputs ; 312                         ;
-;     normal            ; 737                         ;
+;     normal            ; 903                         ;
 ;         0 data inputs ; 3                           ;
-;         1 data inputs ; 16                          ;
-;         2 data inputs ; 46                          ;
-;         3 data inputs ; 116                         ;
-;         4 data inputs ; 556                         ;
+;         1 data inputs ; 18                          ;
+;         2 data inputs ; 103                         ;
+;         3 data inputs ; 102                         ;
+;         4 data inputs ; 677                         ;
 ; cycloneiii_pll        ; 1                           ;
 ; fiftyfivenm_adcblock  ; 1                           ;
 ;                       ;                             ;
-; Max LUT depth         ; 17.40                       ;
-; Average LUT depth     ; 10.05                       ;
+; Max LUT depth         ; 17.50                       ;
+; Average LUT depth     ; 9.98                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1268,7 +1270,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:03     ;
+; Top            ; 00:00:04     ;
 +----------------+--------------+
 
 
@@ -1278,7 +1280,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.0 Build 991 11/28/2023 Patches 0.02std SC Lite Edition
-    Info: Processing started: Tue Dec  3 15:01:28 2024
+    Info: Processing started: Wed Dec  4 21:45:26 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Bumper_Pool -c Bumper_Pool
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
@@ -1297,36 +1299,47 @@ Warning (10036): Verilog HDL or VHDL warning at Bumper_Pool.vhd(153): object "re
 Warning (10036): Verilog HDL or VHDL warning at Bumper_Pool.vhd(155): object "response_startofpacket" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 155
 Warning (10036): Verilog HDL or VHDL warning at Bumper_Pool.vhd(156): object "response_endofpacket" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 156
 Warning (10036): Verilog HDL or VHDL warning at Bumper_Pool.vhd(160): object "sample_trigger" assigned a value but never read File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 160
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1455): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1455
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1456): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1456
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1457): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1457
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1461): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1461
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1466): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1466
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1476): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1476
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1488): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1488
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1489): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1489
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1490): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1490
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1499): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1499
-Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1509): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1509
-Warning (10631): VHDL Process Statement warning at Bumper_Pool.vhd(1105): inferring latch(es) for signal or variable "next_VGA_R", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (10631): VHDL Process Statement warning at Bumper_Pool.vhd(1105): inferring latch(es) for signal or variable "next_VGA_G", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (10631): VHDL Process Statement warning at Bumper_Pool.vhd(1105): inferring latch(es) for signal or variable "next_VGA_B", which holds its previous value in one or more paths through the process File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_B[0]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_B[1]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_B[2]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_B[3]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_G[0]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_G[1]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_G[2]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_G[3]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_R[0]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_R[1]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_R[2]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Info (10041): Inferred latch for "next_VGA_R[3]" at Bumper_Pool.vhd(1105) File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(264): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 264
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(265): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 265
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(294): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 294
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(295): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 295
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(315): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 315
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(316): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 316
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(344): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 344
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(345): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 345
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(347): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 347
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(357): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 357
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(358): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 358
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(360): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 360
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1081): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1081
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1082): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1082
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1488): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1488
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1489): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1489
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1490): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1490
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1494): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1494
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1499): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1499
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1509): signal "player_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1509
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1525): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1525
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1526): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1526
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1527): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1527
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1536): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1536
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1546): signal "player_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1546
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1626): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1626
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1640): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1640
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1650): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1650
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1680): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1680
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1694): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1694
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1734): signal "score_1" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1734
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1766): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1766
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1780): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1780
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1790): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1790
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1820): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1820
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1834): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1834
+Warning (10492): VHDL Process Statement warning at Bumper_Pool.vhd(1874): signal "score_2" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1874
 Warning (12125): Using design file my_adc.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
     Info (12022): Found design unit 1: my_ADC-rtl File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/my_adc.vhd Line: 28
     Info (12023): Found entity 1: my_ADC File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/my_adc.vhd Line: 9
-Info (12128): Elaborating entity "my_ADC" for hierarchy "my_ADC:u0" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 193
+Info (12128): Elaborating entity "my_ADC" for hierarchy "my_ADC:u0" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 197
 Warning (12125): Using design file my_adc_modular_adc_0.v, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: my_ADC_modular_adc_0 File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/my_adc_modular_adc_0.v Line: 9
 Info (12128): Elaborating entity "my_ADC_modular_adc_0" for hierarchy "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/my_adc.vhd Line: 53
@@ -1385,7 +1398,7 @@ Info (12128): Elaborating entity "chsel_code_converter_sw_to_hw" for hierarchy "
 Warning (12125): Using design file fiftyfivenm_adcblock_primitive_wrapper.v, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: fiftyfivenm_adcblock_primitive_wrapper File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/fiftyfivenm_adcblock_primitive_wrapper.v Line: 37
 Info (12128): Elaborating entity "fiftyfivenm_adcblock_primitive_wrapper" for hierarchy "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|fiftyfivenm_adcblock_top_wrapper:adc_inst|fiftyfivenm_adcblock_primitive_wrapper:adcblock_instance" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/fiftyfivenm_adcblock_top_wrapper.v Line: 191
-Info (12128): Elaborating entity "my_PLL" for hierarchy "my_PLL:my_PLL_inst" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 213
+Info (12128): Elaborating entity "my_PLL" for hierarchy "my_PLL:my_PLL_inst" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 217
 Info (12128): Elaborating entity "altpll" for hierarchy "my_PLL:my_PLL_inst|altpll:altpll_component" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/my_PLL.vhd Line: 141
 Info (12130): Elaborated megafunction instantiation "my_PLL:my_PLL_inst|altpll:altpll_component" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/my_PLL.vhd Line: 141
 Info (12133): Instantiated megafunction "my_PLL:my_PLL_inst|altpll:altpll_component" with the following parameter: File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/my_PLL.vhd Line: 141
@@ -1475,18 +1488,6 @@ Warning (14284): Synthesized away the following node(s):
         Warning (14320): Synthesized away node "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|altsyncram_rqn1:FIFOram|q_b[9]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/db/altsyncram_rqn1.tdf Line: 310
         Warning (14320): Synthesized away node "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|altsyncram_rqn1:FIFOram|q_b[10]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/db/altsyncram_rqn1.tdf Line: 340
         Warning (14320): Synthesized away node "my_ADC:u0|my_ADC_modular_adc_0:modular_adc_0|altera_modular_adc_control:control_internal|altera_modular_adc_control_fsm:u_control_fsm|altera_modular_adc_control_avrg_fifo:ts_avrg_fifo|scfifo:scfifo_component|scfifo_ds61:auto_generated|a_dpfifo_3o41:dpfifo|altsyncram_rqn1:FIFOram|q_b[11]" File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/db/altsyncram_rqn1.tdf Line: 370
-Warning (14026): LATCH primitive "next_VGA_R[0]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_R[1]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_R[2]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_R[3]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_G[0]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_G[1]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_G[2]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_G[3]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_B[0]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_B[1]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_B[2]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
-Warning (14026): LATCH primitive "next_VGA_B[3]" is permanently enabled File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 1105
 Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "ARDUINO_IO[0]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 43
     Warning (13040): bidirectional pin "ARDUINO_IO[1]" has no driver File: C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.vhd Line: 43
@@ -1512,17 +1513,17 @@ Info (17049): 9 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file C:/Users/jhamb/OneDrive/Documents/GitHub/ECE5730_Fall2024/Bumper_Pool/Bumper_Pool.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 1376 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 1604 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 3 input pins
     Info (21059): Implemented 14 output pins
     Info (21060): Implemented 17 bidirectional pins
-    Info (21061): Implemented 1340 logic cells
+    Info (21061): Implemented 1568 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 90 warnings
-    Info: Peak virtual memory: 4901 megabytes
-    Info: Processing ended: Tue Dec  3 15:01:42 2024
-    Info: Elapsed time: 00:00:14
-    Info: Total CPU time (on all processors): 00:00:15
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 101 warnings
+    Info: Peak virtual memory: 4906 megabytes
+    Info: Processing ended: Wed Dec  4 21:45:41 2024
+    Info: Elapsed time: 00:00:15
+    Info: Total CPU time (on all processors): 00:00:18
 
 
 +------------------------------------------+
