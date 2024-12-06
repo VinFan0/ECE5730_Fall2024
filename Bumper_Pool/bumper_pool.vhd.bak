@@ -1436,7 +1436,9 @@ begin
 				
 			-- Horizontal D
 			when D =>
-				
+				next_VGA_R  <= current_VGA_R; 
+				next_VGA_G  <= current_VGA_G; 
+				next_VGA_B  <= current_VGA_B;
 				-- Sync high
 				next_VGA_HS <= '1';
 				
@@ -1452,14 +1454,8 @@ begin
 					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
 						-- Reset Vert Sync
 						next_VGA_VS <= '0';
-						next_VGA_R  <= current_VGA_R; 
-						next_VGA_G  <= current_VGA_G; 
-						next_VGA_B  <= current_VGA_B;
 					else
 						next_VGA_VS <= '1';
-						next_VGA_R  <= current_VGA_R; 
-						next_VGA_G  <= current_VGA_G; 
-						next_VGA_B  <= current_VGA_B;
 					end if;					
 					if lin_count > LAST_C_V then
 
