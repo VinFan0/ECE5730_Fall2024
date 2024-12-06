@@ -82,8 +82,6 @@ architecture behavioral of Bumper_Pool is
 	
 	signal c0_sig : std_logic;
 	signal locked_sig : std_logic;
-	signal c1_sig : std_logic;
-	signal locked1_sig : std_logic;
 
 	-- VGA Signals --
 	signal pix_count 			: integer := 0;
@@ -197,7 +195,7 @@ begin
 	u0 : component my_ADC
 		port map (
 			-- Input
-			clock_clk              => MAX10_CLK1_50,             					--          clock.clk
+			clock_clk              => c0_sig,             						--          clock.clk
 			reset_sink_reset_n     => KEY(0),  				   					--     reset_sink.reset_n
 			adc_pll_clock_clk      => c0_sig,      								--  adc_pll_clock.clk
 			adc_pll_locked_export  => locked_sig,  								-- adc_pll_locked.export
@@ -412,6 +410,72 @@ begin
 							-- If section 5
 							elsif (ball_current_line - ball_current_y_vel >= player_1 + 32) then
 								ball_next_x_vel <= 3;
+								ball_next_y_vel <= -3;
+								ball_next_state <= moving;
+								ball_next_pixel <= ball_current_pixel;
+								ball_next_line <= ball_current_line;
+								next_score_1 <= score_1;
+								next_score_2 <= score_2;
+							
+							-- Otherwise
+							else
+								ball_next_x_vel <= ball_current_x_vel;
+								ball_next_y_vel <= ball_current_y_vel;
+								ball_next_state <= moving;
+								ball_next_pixel <= ball_current_pixel;
+								ball_next_line <= ball_current_line;
+								next_score_1 <= score_1;
+								next_score_2 <= score_2;
+							end if;
+							
+					-- If going to be right of left edge of right paddle (player_2)
+					elsif ((ball_current_pixel - ball_radius - ball_current_x_vel) <= 42) and	-- Horizontal check
+							(ball_current_line - ball_current_y_vel >= player_2 - 5) and 	-- Top of paddle check
+							(ball_current_line - ball_current_y_vel <= player_2 + 45) and
+							(ball_current_x_vel > 0) then
+							-- If section 1
+							if (ball_current_line - ball_current_y_vel < player_2 + 8) then
+								ball_next_x_vel <= -3;
+								ball_next_y_vel <= 3;
+								ball_next_state <= moving;
+								ball_next_pixel <= ball_current_pixel;
+								ball_next_line <= ball_current_line;
+								next_score_1 <= score_1;
+								next_score_2 <= score_2;
+								
+							-- If section 2
+							elsif (ball_current_line - ball_current_y_vel >= player_2 + 8) and (ball_current_line - ball_current_y_vel < player_2 + 16) then
+								ball_next_x_vel <= -4;
+								ball_next_y_vel <= 3;
+								ball_next_state <= moving;
+								ball_next_pixel <= ball_current_pixel;
+								ball_next_line <= ball_current_line;
+								next_score_1 <= score_1;
+								next_score_2 <= score_2;
+							
+							-- If section 3
+							elsif (ball_current_line - ball_current_y_vel >= player_2 + 16) and (ball_current_line - ball_current_y_vel < player_2 + 24) then
+								ball_next_x_vel <= -5;
+								ball_next_y_vel <= 0;
+								ball_next_state <= moving;
+								ball_next_pixel <= ball_current_pixel;
+								ball_next_line <= ball_current_line;
+								next_score_1 <= score_1;
+								next_score_2 <= score_2;
+							
+							-- If section 4
+							elsif (ball_current_line - ball_current_y_vel >= player_2 + 24) and (ball_current_line - ball_current_y_vel < player_2 + 32) then
+								ball_next_x_vel <= -4;
+								ball_next_y_vel <= -3;
+								ball_next_state <= moving;
+								ball_next_pixel <= ball_current_pixel;
+								ball_next_line <= ball_current_line;
+								next_score_1 <= score_1;
+								next_score_2 <= score_2;
+							
+							-- If section 5
+							elsif (ball_current_line - ball_current_y_vel >= player_2 + 32) then
+								ball_next_x_vel <= -3;
 								ball_next_y_vel <= -3;
 								ball_next_state <= moving;
 								ball_next_pixel <= ball_current_pixel;
@@ -1436,7 +1500,9 @@ begin
 				
 			-- Horizontal D
 			when D =>
-				
+				next_VGA_R  <= current_VGA_R; 
+				next_VGA_G  <= current_VGA_G; 
+				next_VGA_B  <= current_VGA_B;
 				-- Sync high
 				next_VGA_HS <= '1';
 				
@@ -1452,14 +1518,8 @@ begin
 					if (lin_count > LAST_A_V) and (lin_count <= LAST_B_V) then
 						-- Reset Vert Sync
 						next_VGA_VS <= '0';
-						next_VGA_R  <= current_VGA_R; 
-						next_VGA_G  <= current_VGA_G; 
-						next_VGA_B  <= current_VGA_B;
 					else
 						next_VGA_VS <= '1';
-						next_VGA_R  <= current_VGA_R; 
-						next_VGA_G  <= current_VGA_G; 
-						next_VGA_B  <= current_VGA_B;
 					end if;					
 					if lin_count > LAST_C_V then
 
@@ -1657,6 +1717,8 @@ begin
 									end if;	
 		
 								--Paddle 1
+								-- Left Edge: 602
+								-- Right Edge: 597
 								elsif (pix_count >= 597) and (pix_count < 602) and (lin_count > 65) and (lin_count < 385) and (lin_count >= player_1) and (lin_count < player_1 + 40) then
 									if (player_1 > 65) and (player_1 < 345) then
 										if (lin_count >= player_1) and (lin_count < player_1 + 40) then
@@ -1693,7 +1755,9 @@ begin
 										next_VGA_G <= "0000";
 										next_VGA_B <= "0000";
 									end if;
-								--Paddle 2
+								-- Paddle 2
+								-- Left Edge: 42
+								-- Right Edge 37
 								elsif (pix_count >= 37) and (pix_count < 42) and (lin_count > 65) and (lin_count < 385) and (lin_count >= player_2) and (lin_count < player_2 + 40)then
 									if (player_2 > 65) and (player_2 < 345) then
 										if (lin_count >= player_2) and (lin_count < player_2 + 40) then
@@ -2186,9 +2250,9 @@ begin
 	end process;
 	
 	-- Timing Controller --
-	process (MAX10_CLK1_50)
+	process ( c0_sig, sample_counter )
 	begin
-		if rising_edge(MAX10_CLK1_50) then
+		if rising_edge(c0_sig) then
 			if sample_counter < SAMPLE_PERIOD - 1 then
 				sample_counter <= sample_counter + 1;
 				sample_trigger <= '0';
@@ -2200,9 +2264,9 @@ begin
 	end process;
 	
 	-- Sampling controller --
-	process (MAX10_CLK1_50)
+	process (c0_sig, response_valid, command_channel, response_data, temp_player)
 	begin
-		if rising_edge(MAX10_CLK1_50) then
+		if rising_edge(c0_sig) then
 			if (response_valid = '1') then
 				if command_channel = "00001" then
 					temp_player <= to_integer(shift_right(response_data,2));
