@@ -18,7 +18,8 @@ entity Bumper_Pool is
 		L_COUNT 		: unsigned(9 downto 0) := to_unsigned(524, 10);
 		F_COUNT		: integer := 11;
 		DELAY			: integer := 500000;
-		SAMPLE_PERIOD : integer := 10000000
+		SAMPLE_PERIOD : integer := 10000000;
+		seed : std_logic_vector(15 downto 0) := X"A58B"
 
 		);
 
@@ -134,8 +135,8 @@ architecture behavioral of Bumper_Pool is
 	constant ball_radius			: integer := 5;
 	
 	-- Ball movement --
-	signal ball_current_x_vel	: integer := 5;
-	signal ball_next_x_vel		: integer := 5;
+	signal ball_current_x_vel	: integer := -5;
+	signal ball_next_x_vel		: integer := -5;
 	signal ball_current_y_vel	: integer := 0;
 	signal ball_next_y_vel		: integer := 0;
 	
@@ -164,6 +165,11 @@ architecture behavioral of Bumper_Pool is
 	signal score_2 : integer := 0;
 	signal next_score_1 : integer;
 	signal next_score_2 : integer;
+	signal current_direction : integer := 0;
+	signal next_direction : integer := 0;
+	signal lfsr : std_logic_vector(15 downto 0) := seed;	-- LFSR defaults to A58B
+	signal bit1  : std_logic_vector(15 downto 0);
+	signal bottom : std_logic;
 	
 	-- VGA FSM States
 	type VGA_state_type is (
@@ -223,6 +229,11 @@ begin
 	process ( c0_sig, KEY, locked_sig )
 	begin
 		if rising_edge(c0_sig) then
+			current_direction <= next_direction;
+			bit1 <= std_logic_vector(unsigned(lfsr) srl 0) xor std_logic_vector(unsigned(lfsr) srl 2) 
+			xor std_logic_vector(unsigned(lfsr) srl 3) xor std_logic_vector(unsigned(lfsr) srl 5);
+			lfsr <= std_logic_vector(unsigned(lfsr) srl 1) or std_logic_vector(unsigned(bit1) sll 15); 
+			bottom <= lfsr(4);
 			-- If Reset
 			if (KEY(0) = '0') or (locked_sig = '0') then
 				-- State
@@ -255,10 +266,11 @@ begin
 	end process;
 	
 	-- Ball Control FSM --
-	process ( KEY, ball_current_state, ball_current_pixel, ball_current_line, ball_current_x_vel, ball_current_y_vel, lin_count, VGA_current_state, pix_count, locked_sig, score_1, score_2, player_1, player_2 )
+	process ( KEY, ball_current_state, ball_current_pixel, ball_current_line, ball_current_x_vel, ball_current_y_vel, lin_count, VGA_current_state, pix_count, locked_sig, score_1, score_2, player_1, player_2, current_direction )
 	begin
 		case ball_current_state is
 			when Hidden =>
+				next_direction <= current_direction;
 				-- If Reset pressed
 				if (KEY(0) = '0')  or (locked_sig = '0') then
 					ball_next_state	<= Hidden;
@@ -272,8 +284,14 @@ begin
 				-- If New-Ball pressed
 				elsif KEY(1) = '0' then
 					ball_next_state 	<= Waiting;
-					ball_next_pixel	<= 500;
-					ball_next_line 	<= to_integer(last_C_V) + 60;
+					ball_next_pixel	<= 320;
+					if bottom = '0' then
+						ball_next_line 	<= to_integer(last_C_V) + 60;
+					elsif bottom = '1' then
+						ball_next_line 	<= to_integer(last_C_V) + 300;
+					else
+						ball_next_line 	<= to_integer(last_C_V) + 300;
+					end if;
 					ball_next_x_vel 	<= 0;
 					ball_next_y_vel 	<= 0;
 					next_score_1		<= score_1;
@@ -293,11 +311,17 @@ begin
 			when Waiting =>
 				next_score_1 <= score_1;
 				next_score_2 <= score_2;
+				next_direction <= current_direction;
 				-- If New-Ball released
 				if KEY(1) = '1' then
 					ball_next_state <= Moving;
-					ball_next_x_vel <= -5;
-					ball_next_y_vel <= 0;
+					if current_direction = 0 then 
+						ball_next_x_vel <= -5;
+						ball_next_y_vel <= 0;
+					else
+						ball_next_x_vel <= 5;
+						ball_next_y_vel <= 0;
+					end if;
 					
 				-- If New-Ball still pressed
 				else
@@ -321,16 +345,25 @@ begin
 					ball_next_y_vel	<= 0;
 					next_score_1 <= 0;
 					next_score_2 <= 0;
+					next_direction <= current_direction;
+
 				
 				-- If New-Ball pressed
 				elsif KEY(1) = '0' then
 					ball_next_state	<= Waiting;
 					ball_next_pixel 	<= 320;
-					ball_next_line 	<= to_integer(last_C_V) + 60;
+					if bottom = '0' then
+						ball_next_line 	<= to_integer(last_C_V) + 60;
+					elsif bottom = '1' then
+						ball_next_line 	<= to_integer(last_C_V) + 300;
+					else
+						ball_next_line 	<= to_integer(last_C_V) + 300;
+					end if;
 					ball_next_x_vel 	<= 0;
 					ball_next_y_vel 	<= 0;
 					next_score_1 <= score_1;
 					next_score_2 <= score_2;
+					next_direction <= current_direction;
 		
 				-- Normal Behavior
 				else
@@ -342,6 +375,7 @@ begin
 						ball_next_x_vel	<= 0;
 						ball_next_y_vel	<= 0;
 						next_score_1		<= score_1;
+						next_direction <= 0;
 						if score_2 < 5 then
 							next_score_2 <= score_2 + 1;
 						else
@@ -356,6 +390,7 @@ begin
 						ball_next_x_vel	<= 0;
 						ball_next_y_vel	<= 0;
 						next_score_2 		<= score_2;
+						next_direction <= 1;
 						if score_1 < 5 then
 							next_score_1 <= score_1 + 1;
 						else
@@ -367,6 +402,7 @@ begin
 							(ball_current_line - ball_current_y_vel >= player_1 - 5) and 	-- Top of paddle check
 							(ball_current_line - ball_current_y_vel <= player_1 + 45) and
 							(ball_current_x_vel < 0) then
+							next_direction <= current_direction;
 							-- If section 1
 							if (ball_current_line - ball_current_y_vel < player_1 + 8) then
 								ball_next_x_vel <= 3;
@@ -433,6 +469,7 @@ begin
 							(ball_current_line - ball_current_y_vel >= player_2 - 5) and 	-- Top of paddle check
 							(ball_current_line - ball_current_y_vel <= player_2 + 45) and
 							(ball_current_x_vel > 0) then
+							next_direction <= current_direction;
 							-- If section 1
 							if (ball_current_line - ball_current_y_vel < player_2 + 8) then
 								ball_next_x_vel <= -3;
@@ -505,6 +542,7 @@ begin
 						ball_next_y_vel 	<= ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 					-- If going to hit right wall
 					elsif ((ball_current_pixel - ball_radius - ball_current_x_vel) <= Border_Line_Right) and 
@@ -517,6 +555,7 @@ begin
 						ball_next_y_vel	<= ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 					-- If going to hit top wall
 					elsif (ball_current_line - ball_radius - ball_current_y_vel) <= (Border_Line_Top + Border_Line_Thickness) then
@@ -527,6 +566,7 @@ begin
 						ball_next_y_vel	<= 0 - ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 					-- If going to hit bottom wall
 					elsif (ball_current_line + ball_radius - ball_current_y_vel) >= Border_Line_Bottom then
@@ -537,6 +577,7 @@ begin
 						ball_next_y_vel	<= 0 - ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 						
 					-- If traveling horizontally right and going to hit obstacle 1
@@ -553,6 +594,7 @@ begin
 						ball_next_y_vel	<= ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 					-- If traveling horizontally right and going to hit center obstacle
 					elsif ((ball_current_y_vel = 0) and (ball_current_x_vel > 0)) and 
@@ -568,6 +610,7 @@ begin
 						ball_next_y_vel	<= ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 					-- If traveling horizontally right and going to hit obstable 5
 					elsif ((ball_current_y_vel = 0) and (ball_current_x_vel > 0)) and 
@@ -583,6 +626,7 @@ begin
 						ball_next_y_vel	<= ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 					-- If traveling horizontally left and going to hit obstacle 4
 					elsif ((ball_current_y_vel = 0) and (ball_current_x_vel < 0)) and 
@@ -598,6 +642,7 @@ begin
 						ball_next_y_vel	<= ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 					-- If traveling horizontally left and going to hit center obstacle
 					elsif ((ball_current_y_vel = 0) and (ball_current_x_vel < 0)) and 
@@ -613,6 +658,7 @@ begin
 						ball_next_y_vel	<= ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 						
 					-- If traveling horizontally left and going to hit obstable 8
 					elsif ((ball_current_y_vel = 0) and (ball_current_x_vel < 0)) and 
@@ -628,6 +674,7 @@ begin
 						ball_next_y_vel	<= ball_current_y_vel;
 						next_score_1 <= score_1;
 						next_score_2 <= score_2;
+						next_direction <= current_direction;
 					
 					-- Object 1 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -647,6 +694,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -665,6 +713,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -683,6 +732,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -701,6 +751,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 						
 					-- Object 2 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -720,6 +771,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -738,6 +790,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -756,6 +809,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -774,6 +828,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 					
 					-- Object 3 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -793,6 +848,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -811,6 +867,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -829,6 +886,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -847,6 +905,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 					
 					-- Object 4 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -866,6 +925,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -884,6 +944,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -902,6 +963,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -920,6 +982,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 					
 					-- Object 5 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -939,6 +1002,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -957,6 +1021,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -975,6 +1040,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -993,6 +1059,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 					
 					-- Object 6 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -1012,6 +1079,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -1030,6 +1098,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -1048,6 +1117,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -1066,6 +1136,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 					
 					-- Object 7 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -1085,6 +1156,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -1103,6 +1175,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -1121,6 +1194,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -1139,6 +1213,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 					
 					-- Object 8 Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -1158,6 +1233,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -1176,6 +1252,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -1194,6 +1271,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -1212,6 +1290,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- Center Object Collisions ------------------------------------------------------------------------------
 					-- If traveling upwards
@@ -1231,6 +1310,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling upwards
 					elsif (ball_current_y_vel > 0) and 
@@ -1249,6 +1329,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -1267,6 +1348,7 @@ begin
 							ball_next_y_vel 	<= ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- If traveling downwards
 					elsif (ball_current_y_vel < 0) and 
@@ -1285,6 +1367,7 @@ begin
 							ball_next_y_vel	<= -ball_current_y_vel;
 							next_score_1 <= score_1;
 							next_score_2 <= score_2;
+							next_direction <= current_direction;
 							
 					-- Update ball on last pixel of last Vert C data
 					elsif (lin_count = LAST_C_V) and (VGA_current_state = D) and (pix_count = 0) then
@@ -1295,6 +1378,7 @@ begin
 						ball_next_y_vel 	<= ball_current_y_vel;
 						next_score_1 		<= score_1;
 						next_score_2 		<= score_2;
+						next_direction <= current_direction;
 						
 					-- Otherwise, no changes
 					else
@@ -1305,6 +1389,7 @@ begin
 						ball_next_y_vel	<= ball_current_y_vel;
 						next_score_1 		<= score_1;
 						next_score_2 		<= score_2;
+						next_direction <= current_direction;
 						
 					end if;				
 				end if;
@@ -1312,9 +1397,15 @@ begin
 			when Scored =>
 				next_score_1 <= score_1;
 				next_score_2 <= score_2;
+				next_direction <= current_direction;
 				-- If new-ball
 				if KEY(1) = '0' then
-					ball_next_state 	<= Waiting;
+					if (score_1 = 5) or (score_2 = 5) then
+						ball_next_state <= Scored;
+						ball_next_pixel <= 0;
+					else
+						ball_next_state 	<= Waiting;
+					end if;
 					ball_next_pixel	<= 320;
 					ball_next_line 	<= to_integer(last_C_V) + 60;
 					ball_next_x_vel 	<= 0;
